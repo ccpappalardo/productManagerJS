@@ -1,0 +1,29 @@
+[
+	{
+		"title": "Yerba",
+		"description": "Yerba Rosamonte 500g",
+		"price": 750,
+		"thumbnail": "https://d3ugyf2ht6aenh.cloudfront.net/stores/805/409/products/suave-plus1-16a2f6270bbd451a1b16708697687286-640-0.jpg",
+		"stock": 10,
+		"code": 556,
+		"id": 1
+	},
+	{
+		"title": "Yerba",
+		"description": "Yerba Rosamonte 1kg",
+		"price": 750,
+		"thumbnail": "https://www.google.com/aclk?sa=l&ai=DChcSEwjWl7ey8uv-AhVjLdQBHY3KBuAYABAHGgJvYQ&sig=AOD64_24HSgin7llbyo-MFaKpHmZ0r9fpg&adurl&ctype=5&ved=2ahUKEwiGz6Wy8uv-AhWYrJUCHYlZDJoQwg96BAgBEFM",
+		"stock": 7,
+		"code": 662,
+		"id": 2
+	},
+	{
+		"title": "Harina",
+		"description": "Harina Pureza 0000 1kg",
+		"price": 450,
+		"thumbnail": "https://www.google.com/aclk?sa=l&ai=DChcSEwj_t6G98uv-AhWlmUwKHSiyCWAYABAFGgJvYQ&sig=AOD64_1nlRTEbVNVU9mourIewMCZHzheaA&adurl&ctype=5&ved=2ahUKEwiB-4-98uv-AhWNqZUCHR8HAo0Qvhd6BAgBEHg",
+		"stock": 2,
+		"code": 554,
+		"id": 3
+	}
+]
