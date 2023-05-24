@@ -33,7 +33,14 @@ export default class ManagerCarts {
       return cart.id == carritoId;
     });
 
-    return cart ? cart : "Carrito no encontrado";
+    if(cart){
+      return cart
+    }
+    else {
+      const mensaje = "Carrito No encontrado";
+      throw new Error(mensaje);
+    }
+     
   };
 
   //Agrego a un carrito especifico un producto especifico

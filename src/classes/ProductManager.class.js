@@ -57,8 +57,14 @@ export default class ProductManager{
         const producto = this.products.find((product)=>{
             return product.id==productoId
         });
-       
-        return producto ? producto : "Producto no encontrado";
+        if(producto){
+            return producto
+          }
+          else {
+            const mensaje = "Carrito No encontrado";
+            throw new Error(mensaje);
+          }
+        //return producto ? producto : "Producto no encontrado";
     }
 
    //Actualizo producto por el id, propiedad y valor que le seteo

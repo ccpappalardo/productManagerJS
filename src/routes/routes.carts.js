@@ -8,8 +8,14 @@ const managerCart = new ManagerCarts();
 
 router.get("/:id", async (req, res) => {
     const id = req.params.id;
-    const cart = await managerCart.getCartById(id);
-    res.send(cart);
+    try{
+      const cart = await managerCart.getCartById(id);
+      res.send(cart);
+    }catch (error) {
+      console.error(error);
+      res.status(400).send(error.message); // Envía el mensaje de error al cliente de Postman
+    }
+    
   });
 
 

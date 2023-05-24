@@ -13,8 +13,14 @@ router.get('/', async (req,res)=>{
 
 router.get('/:id', async (req,res)=>{
     const id=req.params.id;
-    const productoBuscado= await productosManager.getProductById(id);
-    res.send({productoBuscado});
+
+    try{
+      const productoBuscado= await productosManager.getProductById(id);
+      res.send({productoBuscado});
+    }catch (error) {
+      console.error(error);
+      res.status(400).send(error.message); // Envía el mensaje de error al cliente de Postman
+    }    
 })
   
 
@@ -30,7 +36,8 @@ router.put("/:id", async (req, res) => {
     const description = req.body.description;
     console.log(req.body);
     productosManager.updateProduct(productId,"description",description);
-     res.send({ status: "success" });
+    res.send({ status: "success" });
+    
   });
 
   
