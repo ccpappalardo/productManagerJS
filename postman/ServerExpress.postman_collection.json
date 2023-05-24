@@ -1,0 +1,245 @@
+{
+	"info": {
+		"_postman_id": "1b8c4eab-6cdc-46e6-b9da-a267ed3af769",
+		"name": "ServerExpress",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "16835092",
+		"_collection_link": "https://galactic-comet-677597.postman.co/workspace/Team-Workspace~d5795839-c1b7-403f-81c1-5ceb58ecdb20/collection/16835092-1b8c4eab-6cdc-46e6-b9da-a267ed3af769?action=share&creator=16835092&source=collection_link"
+	},
+	"item": [
+		{
+			"name": "products",
+			"item": [
+				{
+					"name": "/api/products",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/products/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"products",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/api/products/id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/products/6c415727-01fc-4c0d-a678-894da2a9d9ae",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"products",
+								"6c415727-01fc-4c0d-a678-894da2a9d9ae"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/api/products",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"title\": \"Yerba\",\r\n\t\"description\": \"Yerba Rosamonte 500g\",\r\n\t\"code\": 556,\r\n\t\"price\": 750,\r\n\t\"status\":true,\r\n\t\"stock\": 10,\r\n\t\"thumbnail\": [\"yerba.jpg\",\"https://d3ugyf2ht6aenh.cloudfront.net/stores/805/409/products/suave-plus1-16a2f6270bbd451a1b16708697687286-640-0.jpg\"],\r\n\t\"category\": \"almacen\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/api/products/",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"products",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/api/products/",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/products/aee5686e-1b2e-4ca0-99ac-8d3657a54db1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"products",
+								"aee5686e-1b2e-4ca0-99ac-8d3657a54db1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/api/products/",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/products/aee5686e-1b2e-4ca0-99ac-8d3657a54db1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"products",
+								"aee5686e-1b2e-4ca0-99ac-8d3657a54db1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "carts",
+			"item": [
+				{
+					"name": "/api/carts",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/carts",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"carts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/api/carts/id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/carts",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"carts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/api/carts",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/api/carts",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"carts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/api/carts/cid/product/pid",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/api/carts/:cid/product/:pid",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"carts",
+								":cid",
+								"product",
+								":pid"
+							],
+							"variable": [
+								{
+									"key": "cid",
+									"value": null
+								},
+								{
+									"key": "pid",
+									"value": null
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
