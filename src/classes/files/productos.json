@@ -1,29 +1,30 @@
 [
 	{
-		"title": "Yerba",
-		"description": "Yerba Rosamonte 500g",
-		"price": 750,
-		"thumbnail": "https://d3ugyf2ht6aenh.cloudfront.net/stores/805/409/products/suave-plus1-16a2f6270bbd451a1b16708697687286-640-0.jpg",
-		"stock": 10,
-		"code": 556,
-		"id": 1
-	},
-	{
-		"title": "Yerba",
-		"description": "Yerba Rosamonte 1kg",
-		"price": 750,
-		"thumbnail": "https://www.google.com/aclk?sa=l&ai=DChcSEwjWl7ey8uv-AhVjLdQBHY3KBuAYABAHGgJvYQ&sig=AOD64_24HSgin7llbyo-MFaKpHmZ0r9fpg&adurl&ctype=5&ved=2ahUKEwiGz6Wy8uv-AhWYrJUCHYlZDJoQwg96BAgBEFM",
-		"stock": 7,
+		"title": "Azucar",
 		"code": 662,
-		"id": 2
+		"price": 750,
+		"status": true,
+		"stock": 7,
+		"thumbnail": [
+			"azucar.jpg",
+			"https://www.conradomarket.com.ar/images/000000000000100164048ALMACEN-Azucar-Ledesma-x-1-kg1.jpg"
+		],
+		"category": "almacen",
+		"id": "28cfda2e-518f-41aa-be4a-89845fc93921",
+		"description": "Otra descripcion prueba"
 	},
 	{
 		"title": "Harina",
 		"description": "Harina Pureza 0000 1kg",
-		"price": 450,
-		"thumbnail": "https://www.google.com/aclk?sa=l&ai=DChcSEwj_t6G98uv-AhWlmUwKHSiyCWAYABAFGgJvYQ&sig=AOD64_1nlRTEbVNVU9mourIewMCZHzheaA&adurl&ctype=5&ved=2ahUKEwiB-4-98uv-AhWNqZUCHR8HAo0Qvhd6BAgBEHg",
-		"stock": 2,
 		"code": 554,
-		"id": 3
+		"price": 450,
+		"status": true,
+		"stock": 2,
+		"thumbnail": [
+			"harina.jpg",
+			"https://www.google.com/aclk?sa=l&ai=DChcSEwj_t6G98uv-AhWlmUwKHSiyCWAYABAFGgJvYQ&sig=AOD64_1nlRTEbVNVU9mourIewMCZHzheaA&adurl&ctype=5&ved=2ahUKEwiB-4-98uv-AhWNqZUCHR8HAo0Qvhd6BAgBEHg"
+		],
+		"category": "almacen",
+		"id": "6c415727-01fc-4c0d-a678-894da2a9d9ae"
 	}
 ]
