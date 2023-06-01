@@ -1,8 +1,8 @@
 import { Router } from "express";
 import ProductManager from '../classes/ProductManager.class.js'
+import socketServer, { productManager } from "../app.js";
 
 const router= Router();
-
 
 const productosManager=new ProductManager()
 
@@ -26,7 +26,8 @@ router.get('/:id', async (req,res)=>{
 
 router.post("/", async (req, res) => {
     const product = req.body;
-    productosManager.addProduct(product);
+    const nuevoProducto=productosManager.addProduct(product);
+    socketServer.emit('nuevoProducto', nuevoProducto);
     res.send({ status: "success" });
   });
 
@@ -35,7 +36,8 @@ router.put("/:id", async (req, res) => {
     const productId = req.params.id;
     const description = req.body.description;
     console.log(req.body);
-    productosManager.updateProduct(productId,"description",description);
+    const productoActualizado=productosManager.updateProduct(productId,"description",description);
+    socketServer.emit('actualizarProducto', productoActualizado);
     res.send({ status: "success" });
     
   });
@@ -43,7 +45,8 @@ router.put("/:id", async (req, res) => {
   
 router.delete("/:id", async (req, res) => {
     const productId = req.params.id; 
-    productosManager.deleteProduct(productId);
+    const productoEliminado=productosManager.deleteProduct(productId);
+    socketServer.emit('eliminarProducto', productoEliminado);
     res.send({ status: "success" });
   }); 
 

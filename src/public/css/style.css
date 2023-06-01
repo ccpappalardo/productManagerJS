@@ -1,0 +1,37 @@
+body {
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 50px;
+  background-color: #fff;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.table th {
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 12px 15px;
+  text-align: left;
+  text-transform: uppercase;
+}
+.table td {
+  font-size: 0.9rem;
+  padding: 12px 15px;
+  text-align: left;
+}
+.table td:first-child {
+  font-weight: 600;
+}
+.table td:nth-child(3) {
+  font-weight: 600;
+}
+.table td:last-child {
+  text-align: left;
+}
