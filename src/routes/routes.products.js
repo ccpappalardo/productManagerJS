@@ -1,5 +1,6 @@
 import { Router } from "express";
-import ProductManager from '../classes/ProductManager.class.js'
+//import ProductManager from '../classes/ProductManager.class.js'
+import ProductManager from "../../daos/mongodb/ProductManager.class.js";
 import socketServer, { productManager } from "../app.js";
 
 const router= Router();
@@ -27,16 +28,16 @@ router.get('/:id', async (req,res)=>{
 router.post("/", async (req, res) => {
     const product = req.body;
     const nuevoProducto=productosManager.addProduct(product);
-    socketServer.emit('nuevoProducto', nuevoProducto);
+    req.socketServer.sockets.emit('nuevoProducto', nuevoProducto);
     res.send({ status: "success" });
   });
 
  
 router.put("/:id", async (req, res) => {
     const productId = req.params.id;
-    const description = req.body.description;
+    const producto = req.body.description;
     console.log(req.body);
-    const productoActualizado=productosManager.updateProduct(productId,"description",description);
+    const productoActualizado=productosManager.updateProduct(productId,producto);
     socketServer.emit('actualizarProducto', productoActualizado);
     res.send({ status: "success" });
     

@@ -8,7 +8,6 @@ function createChild(product) {
                 <td>${product.description}</td>
                 <td>$${product.price}</td>
                 <td>${product.code}</td>
-                <td>${product.stock}</td>
               `
  
   const nuevoElemento = document.createElement('tr');
