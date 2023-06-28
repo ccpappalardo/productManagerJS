@@ -20,8 +20,7 @@ export default class ProductManager{
     //sino devuelve un array vacio
     getProducts= async(limite=10, page=1,sort=0, filtro=null, filtroVal=null)=>{
         try{
-
-        //let result=await productsModel.find().lean();
+ 
         let whereOptions={};
 
         if(filtro!="" && filtroVal!=""){

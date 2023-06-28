@@ -86,17 +86,10 @@ export default class ManagerCarts {
  
 
 updateAllProductsFromCart = async (carritoId,arrayProductos) => {
-
   try{
     const cart=await this.getCartById(carritoId);
     cart.products=arrayProductos;
     await cart.save();
-    /*
-    await Test.updateMany({ _id: carritoId }, { $set: { products: arrayProductos } });
-    let result=await product.updateMany(
-        {$set: arrayProductos}
-    );
-    return result */
     }catch(e){
         console.log(e);
         return e; 
