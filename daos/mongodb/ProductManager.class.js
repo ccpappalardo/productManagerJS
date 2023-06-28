@@ -18,15 +18,49 @@ export default class ProductManager{
    
     //Lee los productos del archivo si es que existe los devuelve en formato de array, 
     //sino devuelve un array vacio
-    getProducts= async(limite)=>{
+    getProducts= async(limite=10, page=1,sort=0, filtro=null, filtroVal=null)=>{
         try{
-        let result=await productsModel.find().lean();
+
+        //let result=await productsModel.find().lean();
+        let whereOptions={};
+
+        if(filtro!="" && filtroVal!=""){
+            whereOptions= {[filtro]: filtroVal};
+        }
+        let result=await productsModel.paginate(
+            whereOptions,
+            {limit: limite,page:page,sort:{price: sort}}
+        );
+
         return result
         }catch(e){
             console.log(e);
             return e;
         }
     } 
+
+    
+    //Lee los productos del archivo si es que existe los devuelve en formato de array, 
+    //sino devuelve un array vacio
+    getProductsPaginados= async(limite=10, page=1,sort=0, filtro=null, filtroVal=null)=>{
+        try{
+        let whereOptions={};
+        
+        if(filtro!="" && filtroVal!=""){
+            whereOptions= {[filtro]: filtroVal};
+        }
+        let result=await productsModel.paginate(
+            whereOptions,
+            {limit: limite,page:page,sort:{price: sort, _id:-1}, lean:true}
+        );
+
+        return result
+        }catch(e){
+            console.log(e);
+            return e;
+        }
+    } 
+ 
 
     
    //Recibe un id de producto y lo devuelve en formato de objeto

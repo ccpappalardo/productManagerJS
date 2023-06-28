@@ -1,5 +1,4 @@
 import { Router } from "express";
-//import ManagerCarts from '../classes/CartManager.class.js'
 import ManagerCarts from "../../daos/mongodb/CartManager.class.js";
 
 const router= Router();
@@ -39,5 +38,37 @@ router.post("/:cid/products/:pid", async (req, res) => {
   await managerCart.addProductInCart(cartId, productId);
   res.send({ status: "success" });
 }); 
+
+router.delete("/:cid/products/:pid", async (req, res) => {
+  const cartId = req.params.cid;
+  const productId = req.params.pid;
+
+  await managerCart.deleteProductFromCart(cartId, productId);
+  res.send({ status: "success" });
+}); 
  
+router.delete("/:cid", async (req, res) => {
+  const cartId = req.params.cid; 
+  await managerCart.deleteAllProductsFromCart(cartId);
+  res.send({ status: "success" });
+}); 
+
+router.put("/:id", async (req, res) => {
+  const cartId = req.params.id;
+  const productos = req.body;
+  console.log(productos)
+  const productoActualizado=managerCart.updateAllProductsFromCart(cartId,productos);
+  res.send({productoActualizado});
+  
+});
+
+router.put("/:cid/products/:pid", async (req, res) => { 
+   const cartId = req.params.cid;
+   const productId = req.params.pid;
+   const quantity = req.body.quantity;
+   const productoActualizado=managerCart.updateProduct(cartId,productId,quantity); 
+   res.send({ status: "success" });
+   
+ });
+
 export default router;

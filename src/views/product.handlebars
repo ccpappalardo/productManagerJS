@@ -1,0 +1,43 @@
+<div class="container">
+  <h2>Detalle del Producto - {{this.title}}</h2>
+  <table class="table">
+    <thead>
+        <th>Titulo</th>
+        <th>Descripcion</th>
+        <th>Precio</th>
+        <th>Categoría</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+     
+        <tr>
+          <td>{{this.title}}</td>
+          <td>{{this.description}}</td>
+          <td>${{this.price}}</td>
+          <td>{{this.category}}</td>
+          <td>
+            <button id={{this._id}} onclick="addProductToCart(this)">Agregar al Carrito</button>
+          </td>
+        </tr>
+    
+    </tbody>
+  </table>
+</div>
+
+
+<script>
+  async function addProductToCart(button) {
+    let productId = button.id;
+
+    try {     
+      const response = await fetch('http://localhost:8080/api/carts/649c534e8feb3949f648266b/products/' + productId, {
+        method: 'post'
+      });
+    } 
+    catch(err) {
+      console.error(`Error: ${err}`);
+    }
+
+  }
+</script>

@@ -8,7 +8,14 @@ const router= Router();
 const productosManager=new ProductManager()
 
 router.get('/', async (req,res)=>{
-    const productos= await productosManager.getProducts(req.query.limit);
+    let limit=Number(req.query.limit);
+    let page=Number(req.query.page); //pagina
+    let sort=Number(req.query.sort); //ordenamiento   
+    let filtro=req.query.filtro 
+    let filtroVal=req.query.filtroVal
+    const productos= await productManager.getProducts(limit,page,sort, filtro, filtroVal);
+
+
     res.send({productos});
 })
 

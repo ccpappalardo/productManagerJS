@@ -1,3 +1,4 @@
+{{#if isValid}}
 <div class="container">
   <table class="table">
     <thead>
@@ -5,17 +6,40 @@
         <th>Descripcion</th>
         <th>Precio</th>
         <th>Codigo</th>
+        <th></th>
       </tr>
     </thead>
     <tbody>
-      {{#each products}}
+      {{#each docs}}
         <tr>
           <td>{{this.title}}</td>
           <td>{{this.description}}</td>
           <td>${{this.price}}</td>
-          <td>{{this.code}}</td>
+          <td>{{this.code}}</td>            
+          <td>
+          <a href="products/{{this.id}}">Ver</a> 
+          </td>
         </tr>
       {{/each}}
     </tbody>
   </table>
 </div>
+
+<br/>
+<div>
+    {{#if hasPrevPage}}
+        <a href={{this.prevLink}}><< Anterior</a>
+    {{/if}}
+    &nbsp;
+    {{this.page}}
+    &nbsp;
+     {{#if hasNextPage}}
+        <a href={{this.nextLink}}>Siguiente >></a>
+    {{/if}} 
+</div>
+{{else}}
+<h1>No hay productos para mostrar</h1>
+{{/if}}
+
+<script src="/js/index.js"></script>
+<script src="/socket.io/socket.io.js"></script>
