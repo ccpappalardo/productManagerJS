@@ -9,6 +9,9 @@ import routerProductos from './routes/routes.products.js'
 import routerMessages from './routes/routes.messages.js' 
 import ProductManager from '../daos/mongodb/ProductManager.class.js';
 import MessagesManager from '../daos/mongodb/MessagesManager.class.js';
+import routerSession from './routes/session.router.js';
+import session from "express-session";
+import MongoStore from "connect-mongo";
 
 export const productManager = new ProductManager();
 export const messagesManager = new MessagesManager();
@@ -19,6 +22,18 @@ app.use(express.static(__dirname + '/public'));
 app.use(express.json()); 
 app.use(express.urlencoded({ extended: true }));
 
+//configuración de session - mongoDB
+app.use(
+  session({
+    store: new MongoStore({
+      mongoUrl:
+        "mongodb+srv://ccpappalardo:xSI4tapwfkxSAbeC@cluster0.gcl8y5w.mongodb.net/ecommerce?retryWrites=true&w=majority",
+    }),
+    secret: "passSecret",
+    resave: true,
+    saveUninitialized: false,
+  })
+);
 // configuracion de handlebars 
  
 app.engine("handlebars", handlebars.engine());
@@ -66,6 +81,8 @@ app.use((req,res,next)=>{
 app.use('/api/products/',routerProductos);
 app.use('/api/carts/',routerCart);
 app.use('/api/messages/',routerMessages);
+app.use('/api/sessions',routerSession);
 app.use('/',routerViews);
+
 
 export default socketServer;

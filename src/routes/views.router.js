@@ -3,20 +3,21 @@ import ProductManager from "../../daos/mongodb/ProductManager.class.js";
 import ManagerCarts from "../../daos/mongodb/CartManager.class.js";
 import MessagesManager from "../../daos/mongodb/MessagesManager.class.js" 
 
+
  
 const router= Router();
 
 const productosManager=new ProductManager()
 const messageManager=new MessagesManager()
 const managerCart = new ManagerCarts();
-
+/*
 router.get('/', async (req,res)=>{
     const productos= await productosManager.getProducts(req.query.limit);
     res.render('home', {
       products: productos,
       style:"style.css"
     })
-})
+})*/
 
 router.get('/products',async (req,res)=>{
   let page = req.query.page;
@@ -61,6 +62,21 @@ router.get('/realtimeproducts', async (req, res) => {
       res.render('chat', { messages: messages, style: "style.css", title: "Mensajes" })
 
   });
+
+
+  router.get('/register', (req, res) => {
+    res.render('register');
+})
+
+router.get('/login', (req, res) => {
+    res.render('login');
+})
+
+router.get('/', (req, res) => {
+    res.render('profile', {
+        user: req.session.user
+    });
+})
  
 
 export default router;
