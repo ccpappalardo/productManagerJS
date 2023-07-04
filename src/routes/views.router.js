@@ -3,7 +3,6 @@ import ProductManager from "../../daos/mongodb/ProductManager.class.js";
 import ManagerCarts from "../../daos/mongodb/CartManager.class.js";
 import MessagesManager from "../../daos/mongodb/MessagesManager.class.js" 
 
-
  
 const router= Router();
 
@@ -19,6 +18,16 @@ router.get('/', async (req,res)=>{
     })
 })*/
 
+ 
+router.get('/', async (req,res)=>{
+    const productos= await productosManager.getProducts(req.query.limit);
+    res.render('register')
+ /*   res.render('home', {
+      products: productos,
+      style:"style.css"
+    })*/
+})
+
 router.get('/products',async (req,res)=>{
   let page = req.query.page;
   let limite=req.query.limit;
@@ -27,7 +36,9 @@ router.get('/products',async (req,res)=>{
   result.prevLink = result.hasPrevPage?`http://localhost:8080/products?page=${result.prevPage}&limit=${result.limit}`:'';
   result.nextLink = result.hasNextPage?`http://localhost:8080/products?page=${result.nextPage}&limit=${result.limit}`:'';
   result.isValid= !(page<=0||page>result.totalPages)
-  res.render('home',result) 
+  //console.log(result)
+  result.user=req.session.user
+  res.render('home',result);
 })
 
 router.get('/products/:id',async (req,res)=>{ 
@@ -70,6 +81,11 @@ router.get('/realtimeproducts', async (req, res) => {
 
 router.get('/login', (req, res) => {
     res.render('login');
+})
+
+
+router.get('/logout', (req, res) => {
+  res.redirect('/api/sessions/logout')
 })
 
 router.get('/', (req, res) => {

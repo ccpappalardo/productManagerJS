@@ -36,9 +36,11 @@ router.post("/register", async (req, res) => {
 router.post("/login", async (req, res) => {
   const { email, password } = req.body;
   console.log(email, password)
-  const user = await managerUsers.getUserByEmailPass({ email: email, password, password})
+  
+  const user = await managerUsers.getUserByEmailPass(email,password);
   // userModel.findOne({ email: email, password: password });
   console.log(user)
+  
   if (!user) return res.redirect('/api/login')
   req.session.user = {
     name: user.first_name + user.last_name,
@@ -46,6 +48,18 @@ router.post("/login", async (req, res) => {
     age: user.age,
   };
   res.send({ status: "success", message: req.session.user });
+  
 });
+
+router.get('/logout', (req, res) => {
+  req.session.destroy(err => {
+    if (err) {
+      return res.json({ status: 'Logout ERROR', body: err })
+    }
+    res.send('Logout ok!')
+    res.redirect('/api/login')
+  })
+ })
+ 
 
 export default router
