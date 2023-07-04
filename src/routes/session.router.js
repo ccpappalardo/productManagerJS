@@ -7,7 +7,7 @@ const managerUsers = new UserManager();
 
 router.post("/register", async (req, res) => {
   const { first_name, last_name, email, age, password } = req.body;
-  const exist = await managerUsers.getUserById({ email })
+  const exist = await managerUsers.getUserById(email)
   // userModel.findOne({ email });
 
   if (exist)
@@ -48,18 +48,15 @@ router.post("/login", async (req, res) => {
         rol: "user"
       };
     }else{
-
         req.session.user = {
         name: "Admin Coder",
         email: "adminCoder@coder.com",
         password: "adminCod3r123",
         rol: "admin"
       };
+      
     }
     res.send({ status: "success", message: req.session.user });
-  
-  // userModel.findOne({ email: email, password: password });
-   
   
 });
 

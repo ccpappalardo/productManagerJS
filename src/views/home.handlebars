@@ -1,11 +1,11 @@
 
 <div class="container">
   <div>
-    <h1>Bienvenido {{user.role}}</h1>
+    <h1>Bienvenido {{user.rol}}</h1>
     <p>{{user.name}}</p>
     <p>{{user.email}}</p>
     <p>{{user.age}}</p>
-    <a href="/api/sessions/logout"><button>Salir</button></a>
+    <button id="logout" name="logout">Salir</button>
 </div>
 {{#if isValid}}
   <table class="table">
@@ -49,5 +49,18 @@
 <h1>No hay productos para mostrar</h1>
 {{/if}}
 
+<h4 id="mensaje"></h4>
+
 <script src="/js/index.js"></script>
 <script src="/socket.io/socket.io.js"></script>
+
+<script>
+ const btn = document.getElementById('logout');
+  btn.addEventListener("click", (evt) => {
+    fetch('http://localhost:8080/api/sessions/logout', {method: 'post'})
+    .then( res => {
+      return window.location.replace('/login')
+    })
+  })
+ 
+</script>
