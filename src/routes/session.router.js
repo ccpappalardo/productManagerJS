@@ -17,31 +17,7 @@ router.get("/failregister",async (req, res) => {
     console.log("Fallo la autenticación");
     res.send({error:"Fallo la autenticación"});
 });
-
-/*
-
-router.post("/register", async (req, res) => {
-    
-  const { first_name, last_name, email, age, password } = req.body;
-  const exist = await managerUsers.getUserById(email)
-
-  if (exist)
-    return res
-      .status(400)
-      .send({ status: "error", message: "usuario ya registrado" });
-  let result = await managerUsers.addUser({
-    first_name,
-    last_name,
-    email,
-    age,
-    password: createHash(password),
-  });
  
-  res.send({ status: "success", message: "usuario  registrado" });
-});
-
-*/
-
 router.post("/login", async (req, res) => {
   const { email, password } = req.body;
   console.log(email, password)
@@ -89,7 +65,6 @@ router.post('/restartPassword',async(req,res)=>{
   if(!user) return res.status(404).send({status:"error",error:"El usuario no se encuentra registrado"});
   const newHashedPassword = createHash(password);
   await managerUsers.updatePassword(user._id,newHashedPassword);
-  //await userModel.updateOne({_id:user._id},{$set:{password:newHashedPassword}});
   res.send({status:"success",message:"Contraseña restaurada"});
 })
  

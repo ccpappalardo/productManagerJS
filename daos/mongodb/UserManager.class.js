@@ -17,7 +17,7 @@ export default class UserManager{
     }
    
        
-   //Recibe un id de user y lo devuelve en formato de objeto
+   //Recibe un email y lo devuelve en formato de objeto
     getUserById = async (email) => {
         try{
         let result= await userModel.findOne({email: email});
