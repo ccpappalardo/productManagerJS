@@ -18,10 +18,14 @@ router.get('/', async (req,res)=>{
     })
 })*/
 
- 
+
+
 router.get('/', async (req,res)=>{
     const productos= await productosManager.getProducts(req.query.limit);
-    res.render('register')
+    res.render('profile', {
+      user: req.session.user
+    });
+    //res.render('register')
  /*   res.render('home', {
       products: productos,
       style:"style.css"
@@ -92,6 +96,10 @@ router.get('/', (req, res) => {
     res.render('profile', {
         user: req.session.user
     });
+})
+
+router.get('/resetPassword',(req,res)=>{
+  res.render('resetPassword');
 })
  
 

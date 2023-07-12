@@ -12,6 +12,8 @@ import MessagesManager from '../daos/mongodb/MessagesManager.class.js';
 import routerSession from './routes/session.router.js';
 import session from "express-session";
 import MongoStore from "connect-mongo";
+import { intializePassport } from "./config/passport.config.js";
+import passport from "passport";
 
 export const productManager = new ProductManager();
 export const messagesManager = new MessagesManager();
@@ -21,6 +23,9 @@ const app=express();
 app.use(express.static(__dirname + '/public'));
 app.use(express.json()); 
 app.use(express.urlencoded({ extended: true }));
+
+//Inicializo Passport
+intializePassport()
 
 //configuración de session - mongoDB
 app.use(
@@ -34,6 +39,12 @@ app.use(
     saveUninitialized: false,
   })
 );
+
+//uso passport
+app.use(passport.initialize())
+app.use(passport.session())
+
+
 // configuracion de handlebars 
  
 app.engine("handlebars", handlebars.engine());

@@ -28,6 +28,18 @@ export default class UserManager{
         }
     }
 
+    //Recibe un id de user y lo devuelve en formato de objeto
+    getUser = async (id) => {
+        try{
+        let result= await userModel.findOne({_id: id});
+        return result
+        }catch(e){
+            console.log(e);
+            return e; 
+        }
+    }
+ 
+
       //Recibe un id de user y lo devuelve en formato de objeto
       getUserByEmailPass = async (email,password) => {
         try{
@@ -37,6 +49,20 @@ export default class UserManager{
             console.log(e);
             return e; 
         }
+    }
+
+    updatePassword = async (user,password) => {
+        try{
+            let result=await userModel.updateOne(
+                {_id: user},
+                {$set: {password:password}}
+            );
+          
+            return result
+            }catch(e){
+                console.log(e);
+                return e; 
+            }
     }
  
    
