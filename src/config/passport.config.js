@@ -1,9 +1,10 @@
 import passport from "passport";
 import GithubStrategy from "passport-github2"; 
 import UserManager from "../../daos/mongodb/UserManager.class.js";
-import LocalStategy from "passport-local"
-import { createHash } from "../utils.js";
+import local from "passport-local"
+import { createHash, validatePassword } from "../utils.js";
 
+const LocalStrategy=local.Strategy;
 
 const managerUsers = new UserManager();
 
@@ -11,9 +12,9 @@ export const intializePassport = () => {
   passport.use("github",
     new GithubStrategy(
       {
-        clientID: "",
-        clientSecret: "",
-        callbackURL: "",
+        clientID: "Iv1.a3089b6e9aef8445",
+        clientSecret: "3559a68a6044c7ae0e7822aa0940479e51c08527",
+        callbackURL: "http://localhost:8080/api/sessions/githubcallback",
       },
       async (accessToken, refreshToken, profile, done) => {
         let emailgithub=profile._json.email;
@@ -39,8 +40,9 @@ export const intializePassport = () => {
     )
   );
 
+  //Estrategia Local para Registracións
   passport.use("register",
-  new LocalStategy(
+  new LocalStrategy(
     {passReqToCallback:true, usernameField: 'email'}, async(req, username, password, done)=>{
       const {first_name, last_name, email, age}= req.body;
       console.log(email);
@@ -66,7 +68,42 @@ export const intializePassport = () => {
     }
   )
 );
+ 
 
+//Estrategia Local para el Login
+  passport.use("login",
+  new LocalStrategy(
+    {passReqToCallback:true, usernameField: 'email'}, async(req, username, password, done)=>{
+          console.log(username,password);
+          try{
+          let user=await managerUsers.getUserById(username);
+          //Controlo si el Usuario es el Admin de coder
+          /*if(username=='adminCoder@coder.com'){
+            req.session.user = {
+            name: "Admin Coder",
+            email: "adminCoder@coder.com",
+            password: "adminCod3r123",
+            rol: "admin"
+            };
+            return done(null, user);
+         
+          }else{*/
+             //Si es user común - controlo pass 
+          if(user){
+            if(!validatePassword(password, user)){
+              console.log("Contraseña incorrecta");
+              return done(null, false);
+            }else{
+            console.log("Se loguea correctamente");
+            return done(null, user);
+            }
+        } 
+      }catch(error){
+      return done("Error al obtener el usuario "+error);
+      }
+    }
+  )
+  );
 
   passport.serializeUser((user, done) => {
     done(null, user._id);

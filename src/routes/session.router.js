@@ -18,34 +18,23 @@ router.get("/failregister",async (req, res) => {
     res.send({error:"Fallo la autenticación"});
 });
  
-router.post("/login", async (req, res) => {
-  const { email, password } = req.body;
-  console.log(email, password)
-  let user
- // console.log(email!='adminCoder@coder.com')
-    if(email!='adminCoder@coder.com')
-    { user = await managerUsers.getUserById(email); 
-      if (!user) return res.redirect('/api/login')
-      if(!validatePassword(password, user)) return res.redirect('api/login')
-      
-      req.session.user = {
-        name: user.first_name + user.last_name,
-        email: user.email,
-        age: user.age,
-        rol: "user"
-      };
-    }else{
-        req.session.user = {
-        name: "Admin Coder",
-        email: "adminCoder@coder.com",
-        password: "adminCod3r123",
-        rol: "admin"
-      };
-      
-    }
-    res.send({ status: "success", message: req.session.user });
-  
+router.post("/login", passport.authenticate('login',{failureRedirect:'/faillogin'}), async (req, res) => {
+  if (!req.user) return res.status(400).send({status:"error", message:"Invalid credentials"})
+  req.session.user = {
+      name: req.user.name,
+      email: req.user.email,
+      age: req.user.age,
+      role: req.user.role
+  };
+  return res.send({ status: "success", payload:req.user });
 });
+
+
+router.get("/faillogin",async (req, res) => {
+  console.log("Fallo la autenticación del login");
+  res.send({error:"Fallo la autenticación del login"});
+});
+
 
 router.get('/logout', (req, res) => {
   req.session.destroy(err => {
