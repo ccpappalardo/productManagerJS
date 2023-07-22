@@ -10,15 +10,20 @@ import routerMessages from './routes/routes.messages.js'
 import ProductManager from '../daos/mongodb/ProductManager.class.js';
 import MessagesManager from '../daos/mongodb/MessagesManager.class.js';
 import routerSession from './routes/session.router.js';
-import session from "express-session";
-import MongoStore from "connect-mongo";
-import { intializePassport } from "./config/passport.config.js";
+import { initializePassportJWT } from "./config/jwt.passport.js";
+import { intializePassport } from "./config/local.passport.js";
+import { initializePassportGithub }  from "./config/github.passport.js"; 
 import passport from "passport";
+import mongoose from "mongoose";
+import cookieParser from "cookie-parser";
 
 export const productManager = new ProductManager();
 export const messagesManager = new MessagesManager();
 
 const app=express();
+const connection = mongoose.connect(
+  "mongodb+srv://ccpappalardo:xSI4tapwfkxSAbeC@cluster0.gcl8y5w.mongodb.net/ecommerce?retryWrites=true&w=majority"
+);
 
 app.use(express.static(__dirname + '/public'));
 app.use(express.json()); 
@@ -26,8 +31,17 @@ app.use(express.urlencoded({ extended: true }));
 
 //Inicializo Passport
 intializePassport()
+//uso passport
+app.use(passport.initialize())
+initializePassportJWT();
+//cookieParser
+app.use(cookieParser());
+initializePassportGithub();
 
+//No usamos más la session porque utilizamos JWT
+//app.use(passport.session())
 //configuración de session - mongoDB
+/*
 app.use(
   session({
     store: new MongoStore({
@@ -38,12 +52,8 @@ app.use(
     resave: true,
     saveUninitialized: false,
   })
-);
-
-//uso passport
-app.use(passport.initialize())
-app.use(passport.session())
-
+);*/
+ 
 
 // configuracion de handlebars 
  

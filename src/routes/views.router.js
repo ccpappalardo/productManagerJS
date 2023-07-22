@@ -2,6 +2,7 @@ import { Router } from "express";
 import ProductManager from "../../daos/mongodb/ProductManager.class.js";
 import ManagerCarts from "../../daos/mongodb/CartManager.class.js";
 import MessagesManager from "../../daos/mongodb/MessagesManager.class.js" 
+import passport from 'passport';
 
  
 const router= Router();
@@ -20,30 +21,36 @@ router.get('/', async (req,res)=>{
 
 
 
-router.get('/', async (req,res)=>{
+/*router.get('/', async (req,res)=>{
     const productos= await productosManager.getProducts(req.query.limit);
     res.render('profile', {
       user: req.session.user
     });
-    //res.render('register')
- /*   res.render('home', {
-      products: productos,
-      style:"style.css"
-    })*/
+})*/
+
+router.get('/', passport.authenticate('jwt', {session: false}), async (req, res) => {
+  //const productos= await productosManager.getProducts(req.query.limit);
+  res.render('profile', {
+      user: req.user
+  });
 })
 
-router.get('/products',async (req,res)=>{
+
+router.get('/products', passport.authenticate('jwt', {session: false}),async (req,res)=>{
+  let user=req.user;
   let page = req.query.page;
   let limite=req.query.limit;
-  let result= await productosManager.getProductsPaginados(limite,page);
+  let products = await productosManager.getProductsPaginados(limite,page);
   //limite=5; //Se lo seteo porque tengo pocos productos
-  result.prevLink = result.hasPrevPage?`http://localhost:8080/products?page=${result.prevPage}&limit=${result.limit}`:'';
-  result.nextLink = result.hasNextPage?`http://localhost:8080/products?page=${result.nextPage}&limit=${result.limit}`:'';
-  result.isValid= !(page<=0||page>result.totalPages)
-  //console.log(result)
-  result.user=req.session.user
-  res.render('home',result);
-})
+  products.prevLink = products.hasPrevPage?`http://localhost:8080/products?page=${products.prevPage}&limit=${products.limit}`:'';
+  products.nextLink = products.hasNextPage?`http://localhost:8080/products?page=${products.nextPage}&limit=${products.limit}`:'';
+
+  res.render('home', {
+    title: "productos",
+    products: products,
+    user: user
+  });
+})  
 
 router.get('/products/:id',async (req,res)=>{ 
   const id = req.params.id;
@@ -51,7 +58,11 @@ router.get('/products/:id',async (req,res)=>{
   res.render('product',result) 
 })
 
-
+/*
+router.get('*', async(res,send)=>{
+  res.status(404).send("No existe la pagina");
+})
+*/
 router.get('/carts/:id',async (req,res)=>{ 
     const id = req.params.id;
   try{
@@ -88,13 +99,14 @@ router.get('/login', (req, res) => {
 })
 
 
-router.get('/logout', (req, res) => {
-  res.redirect('/api/sessions/logout')
+router.get('/current', (req, res) => {
+  res.redirect('/api/sessions/current')
 })
+ 
 
-router.get('/', (req, res) => {
+router.get('/', passport.authenticate("jwt",{session: false}), (req, res) => {
     res.render('profile', {
-        user: req.session.user
+        user: req.user
     });
 })
 

@@ -1,13 +1,14 @@
 
 <div class="container">
   <div>
-    <h1>Bienvenido {{user.rol}}</h1>
+    <h1>Bienvenido asdsad {{user.rol}}</h1>
     <p>{{user.name}}</p>
     <p>{{user.email}}</p>
     <p>{{user.age}}</p>
-    <button id="logout" name="logout">Salir</button>
+    <button id="logout-btn" name="logout-btn">Salir</button>
 </div>
-{{#if isValid}}
+ 
+{{#if products.docs.length}}
   <table class="table">
     <thead>
         <th>Titulo</th>
@@ -18,7 +19,9 @@
       </tr>
     </thead>
     <tbody>
-      {{#each docs}}
+
+      {{#each products.docs}}
+         
         <tr>
           <td>{{this.title}}</td>
           <td>{{this.description}}</td>
@@ -27,7 +30,7 @@
           <td>
           <a href="products/{{this.id}}">Ver</a> 
           </td>
-        </tr>
+        </tr>         
       {{/each}}
     </tbody>
   </table>
@@ -35,7 +38,7 @@
 
 <br/>
 <div>
-{{#if hasPrevPage}}
+    {{#if hasPrevPage}}
         <a href={{this.prevLink}}><< Anterior</a>
     {{/if}}
     &nbsp;
@@ -54,13 +57,28 @@
 <script src="/js/index.js"></script>
 <script src="/socket.io/socket.io.js"></script>
 
-<script>
- const btn = document.getElementById('logout');
-  btn.addEventListener("click", (evt) => {
+
+
+  <script>
+  let logoutButton = document.getElementById("logout-btn")
+
+  logoutButton.addEventListener("click", (evt) => {
     fetch('http://localhost:8080/api/sessions/logout', {method: 'post'})
     .then( res => {
       return window.location.replace('/login')
     })
   })
+
+  /*
+ const btn = document.getElementById('logout');
+  btn.addEventListener("click", (evt) => {
+    fetch('http://localhost:8080/api/sessions/logout', {method: 'post'})
+    .then( res => {
+      console.log("se deslogueo desde")
+      //return window.location.replace('/login')
+    })
+  })*/
  
 </script>
+
+

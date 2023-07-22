@@ -20,6 +20,7 @@ export default class UserManager{
    //Recibe un email y lo devuelve en formato de objeto
     getUserById = async (email) => {
         try{
+        //let result= await userModel.findOne({email: email}).populate('carts.cart');
         let result= await userModel.findOne({email: email});
         return result
         }catch(e){
@@ -31,6 +32,7 @@ export default class UserManager{
     //Recibe un id de user y lo devuelve en formato de objeto
     getUser = async (id) => {
         try{
+        //let result= await userModel.findOne({_id: id}).populate('carts.cart');
         let result= await userModel.findOne({_id: id});
         return result
         }catch(e){
@@ -43,6 +45,7 @@ export default class UserManager{
       //Recibe un id de user y lo devuelve en formato de objeto
       getUserByEmailPass = async (email,password) => {
         try{
+        //let result=await userModel.findOne({email: email, password:password}).populate('carts.cart');
         let result=await userModel.findOne({email: email, password:password});
         return result
         }catch(e){
