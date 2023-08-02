@@ -1,9 +1,9 @@
 import passport from "passport";
-import GithubStrategy from "passport-github2"; 
-import UserManager from "../../daos/mongodb/UserManager.class.js";
+import UserManager from "../daos/mongodb/managers/UserManager.class.js";
 import local from "passport-local"
 import { createHash, validatePassword } from "../utils.js";
-import ManagerCarts from "../../daos/mongodb/CartManager.class.js"; 
+import ManagerCarts from "../daos/mongodb/managers/CartManager.class.js"; 
+import config from "../config.js";
 
 const LocalStrategy=local.Strategy;
 
@@ -53,13 +53,16 @@ export const intializePassport = () => {
           try{
         
           //Controlo si el Usuario es el Admin de coder
-          if(username=='adminCoder@coder.com'){
+          //if(username=='adminCoder@coder.com'){
+            if(username==config.ADMIN_NAME){
             let user = {
             first_name: "Admin",
             last_name: "Coder",
             age: "25",
-            email: "adminCoder@coder.com",
-            password: "adminCod3r123",
+            //email: "adminCoder@coder.com",
+            email: config.ADMIN_NAME,
+            //password: "adminCod3r123",
+            password: config.ADMIN_PASSWORD,
             rol: "admin"
             };
             return done(null, user,  {message: "Usted se ha logueado como Coder Admin!"});

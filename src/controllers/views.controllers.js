@@ -1,42 +1,21 @@
-import { Router } from "express"; 
-import ProductManager from "../daos/mongodb/managers/ProductManager.class.js";
+ import ProductManager from "../daos/mongodb/managers/ProductManager.class.js";
 import ManagerCarts from "../daos/mongodb/managers/CartManager.class.js";
 import MessagesManager from "../daos/mongodb/managers/MessagesManager.class.js" 
-import passport from 'passport';
 
- 
-const router= Router();
-
+  
 const productosManager=new ProductManager()
 const messageManager=new MessagesManager()
 const managerCart = new ManagerCarts();
-/*
-router.get('/', async (req,res)=>{
-    const productos= await productosManager.getProducts(req.query.limit);
-    res.render('home', {
-      products: productos,
-      style:"style.css"
-    })
-})*/
-
-
-
-/*router.get('/', async (req,res)=>{
-    const productos= await productosManager.getProducts(req.query.limit);
-    res.render('profile', {
-      user: req.session.user
-    });
-})*/
-
-router.get('/', passport.authenticate('jwt', {session: false}), async (req, res) => {
+ 
+const getHome=async (req, res) => {
   //const productos= await productosManager.getProducts(req.query.limit);
   res.render('profile', {
       user: req.user
   });
-})
+}
 
 
-router.get('/products', passport.authenticate('jwt', {session: false}),async (req,res)=>{
+const getProducts=async (req,res)=>{
   let user=req.user;
   let page = req.query.page;
   let limite=req.query.limit;
@@ -50,20 +29,15 @@ router.get('/products', passport.authenticate('jwt', {session: false}),async (re
     products: products,
     user: user
   });
-})  
-
-router.get('/products/:id',async (req,res)=>{ 
+}
+ 
+const getProduct=async (req,res)=>{ 
   const id = req.params.id;
   let result = await productosManager.getProductById(id)
   res.render('product',result) 
-})
-
-/*
-router.get('*', async(res,send)=>{
-  res.status(404).send("No existe la pagina");
-})
-*/
-router.get('/carts/:id',async (req,res)=>{ 
+}
+ 
+const getCart=async (req,res)=>{ 
     const id = req.params.id;
   try{
     const cart = await managerCart.getAllProductsFromCart(id);
@@ -72,47 +46,52 @@ router.get('/carts/:id',async (req,res)=>{
     console.error(error);
     res.status(400).send(error.message); // Envía el mensaje de error al cliente de Postman
   }
+}
 
-})
- 
- 
-router.get('/realtimeproducts', async (req, res) => {
+const getRealTimeProducts=async (req, res) => {
     const productos= await productosManager.getProducts(req.query.limit);
       res.render('realTimeProducts', { products: productos, style: "style.css", title: "Productos" })
-
-  });
+  }
  
 
-  router.get('/chat', async (req, res) => {
+const getChat=async (req, res) => {
     const messages= await messageManager.getMessages();
       res.render('chat', { messages: messages, style: "style.css", title: "Mensajes" })
+  }
 
-  });
-
-
-  router.get('/register', (req, res) => {
+const getRegister=async (req, res) => {
     res.render('register');
-})
+}
 
-router.get('/login', (req, res) => {
+const getLogin= async(req, res) => {
     res.render('login');
-})
+}
 
-
-router.get('/current', (req, res) => {
+const getCurrent= async (req, res) => {
   res.redirect('/api/sessions/current')
-})
+}
  
-
-router.get('/', passport.authenticate("jwt",{session: false}), (req, res) => {
+const getProfile=async (req, res) => {
     res.render('profile', {
         user: req.user
     });
-})
+}
 
-router.get('/resetPassword',(req,res)=>{
+const resetPassword=(req,res)=>{
   res.render('resetPassword');
-})
+}
  
 
-export default router;
+export default {
+    getHome,
+    getProducts,
+    getProduct,
+    getCart,
+    getRealTimeProducts,
+    getChat,
+    getRegister,
+    getLogin,
+    getCurrent,
+    getProfile,
+    resetPassword
+}

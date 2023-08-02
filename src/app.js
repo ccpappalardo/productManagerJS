@@ -3,12 +3,12 @@ import express from 'express';
 import handlebars from 'express-handlebars'
 import __dirname from './utils.js';
 import { Server } from "socket.io";
-import routerCart from './routes/routes.carts.js' 
+import routerCart from './routes/carts.router.js' 
 import routerViews from './routes/views.router.js' 
-import routerProductos from './routes/routes.products.js'
-import routerMessages from './routes/routes.messages.js' 
-import ProductManager from '../daos/mongodb/ProductManager.class.js';
-import MessagesManager from '../daos/mongodb/MessagesManager.class.js';
+import routerProductos from './routes/products.router.js'
+import routerMessages from './routes/messages.router.js' 
+import ProductManager from './daos/mongodb/managers/ProductManager.class.js';
+import MessagesManager from './daos/mongodb/managers/MessagesManager.class.js';
 import routerSession from './routes/session.router.js';
 import { initializePassportJWT } from "./config/jwt.passport.js";
 import { intializePassport } from "./config/local.passport.js";
@@ -16,14 +16,19 @@ import { initializePassportGithub }  from "./config/github.passport.js";
 import passport from "passport";
 import mongoose from "mongoose";
 import cookieParser from "cookie-parser";
+import config from "./config.js";
+
+
 
 export const productManager = new ProductManager();
 export const messagesManager = new MessagesManager();
 
 const app=express();
+
+
 const connection = mongoose.connect(
-  "mongodb+srv://ccpappalardo:xSI4tapwfkxSAbeC@cluster0.gcl8y5w.mongodb.net/ecommerce?retryWrites=true&w=majority"
-);
+  config.MONGO_URL
+); 
 
 app.use(express.static(__dirname + '/public'));
 app.use(express.json()); 
@@ -36,34 +41,18 @@ app.use(passport.initialize())
 initializePassportJWT();
 //cookieParser
 app.use(cookieParser());
-initializePassportGithub();
-
-//No usamos más la session porque utilizamos JWT
-//app.use(passport.session())
-//configuración de session - mongoDB
-/*
-app.use(
-  session({
-    store: new MongoStore({
-      mongoUrl:
-        "mongodb+srv://ccpappalardo:xSI4tapwfkxSAbeC@cluster0.gcl8y5w.mongodb.net/ecommerce?retryWrites=true&w=majority",
-    }),
-    secret: "passSecret",
-    resave: true,
-    saveUninitialized: false,
-  })
-);*/
- 
-
+initializePassportGithub(); 
 // configuracion de handlebars 
  
 app.engine("handlebars", handlebars.engine());
 app.set("views", __dirname + "/views");
 app.set("view engine", "handlebars");
 
-const expressServer=app.listen(8080,()=>{
-    console.log("Servidor en Express - Listo")
+
+const expressServer=app.listen(config.PORT,()=>{
+  console.log("Servidor en Express - Listo - en puerto "+config.PORT)
 })
+ 
 
 //socket server io
 const socketServer = new Server(expressServer);

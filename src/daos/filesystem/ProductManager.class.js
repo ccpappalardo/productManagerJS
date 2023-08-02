@@ -1,6 +1,6 @@
 import fs from 'fs'
 import {v4 as uuidV4} from 'uuid'
-const path='src/classes/files/productos.json';//Clase para gestionar un conjunto de Productos
+const path='src/files/productos.json';//Clase para gestionar un conjunto de Productos
 
 export default class ProductManager{
     

@@ -1,6 +1,6 @@
 import fs from "fs";
 import { v4 as uuidV4 } from "uuid";
-const path = "src/classes/files/carts.json";
+const path = "src/files/carts.json";
 
 export default class ManagerCarts {
 

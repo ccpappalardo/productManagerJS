@@ -1,5 +1,5 @@
 import mongoose from "mongoose" 
-import { productsModel } from "./models/products.model.js"
+import { productsModel } from "../models/products.model.js"
 export default class ProductManager{
     
     connection=mongoose.connect('mongodb+srv://ccpappalardo:xSI4tapwfkxSAbeC@cluster0.gcl8y5w.mongodb.net/ecommerce?retryWrites=true&w=majority');

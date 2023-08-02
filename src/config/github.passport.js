@@ -1,8 +1,9 @@
 import passport from "passport";
 import GithubStrategy from "passport-github2"; 
 import { createHash } from "../utils.js";
-import UserManager from "../../daos/mongodb/UserManager.class.js";
-import ManagerCarts from "../../daos/mongodb/CartManager.class.js";
+import UserManager from "../daos/mongodb/managers/UserManager.class.js";
+import ManagerCarts from "../daos/mongodb/managers/CartManager.class.js";
+import config from "../config.js";
  
 const managerUsers = new UserManager();
 const managerCarts=new ManagerCarts();
@@ -10,9 +11,12 @@ export const initializePassportGithub = () => {
   passport.use("github",
     new GithubStrategy(
       {
-        clientID: "Iv1.a3089b6e9aef8445", 
-        clientSecret: "3559a68a6044c7ae0e7822aa0940479e51c08527", 
-        callbackURL: "http://localhost:8080/api/sessions/githubcallback",
+       // clientID: "Iv1.a3089b6e9aef8445", 
+        //clientSecret: "3559a68a6044c7ae0e7822aa0940479e51c08527",
+        //callbackURL: "http://localhost:8080/api/sessions/githubcallback",
+        clientID: config.GITHUB_CLIENT_ID,  
+        clientSecret: config.GITHUB_CLIENT_SECRET,        
+        callbackURL: config.GITHUB_CALLBACK,
       },
       async (accessToken, refreshToken, profile, done) => {
         let emailgithub=profile._json.email;

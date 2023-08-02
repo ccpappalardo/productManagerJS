@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { messagesModel } from "./models/messages.model.js";
+import { messagesModel } from "../models/messages.model.js";
 
 export default class ManagerCarts {
 
