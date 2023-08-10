@@ -1,8 +1,9 @@
 import mongoose from "mongoose" 
 import { productsModel } from "../models/products.model.js"
-export default class ProductManager{
+import config from "../../../config.js";
+export default class ProductDAO{
     
-    connection=mongoose.connect('mongodb+srv://ccpappalardo:xSI4tapwfkxSAbeC@cluster0.gcl8y5w.mongodb.net/ecommerce?retryWrites=true&w=majority');
+    connection=mongoose.connect(config.MONGO_URL);
 
      
     //funcion para agregar productos al archivo
@@ -18,7 +19,7 @@ export default class ProductManager{
    
     //Lee los productos del archivo si es que existe los devuelve en formato de array, 
     //sino devuelve un array vacio
-    getProducts= async(limite=10, page=1,sort=0, filtro=null, filtroVal=null)=>{
+    getProducts= async(limite=5, page=1,sort=0, filtro=null, filtroVal=null)=>{
         try{
  
         let whereOptions={};

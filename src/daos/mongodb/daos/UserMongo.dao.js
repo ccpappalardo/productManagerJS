@@ -1,14 +1,16 @@
 import mongoose from "mongoose" 
 import { userModel } from "../models/users.model.js";
+import config from "../../../config.js";
 
-export default class UserManager{
+export default class UserDAO{
     
-    connection=mongoose.connect('mongodb+srv://ccpappalardo:xSI4tapwfkxSAbeC@cluster0.gcl8y5w.mongodb.net/ecommerce?retryWrites=true&w=majority');
+    connection=mongoose.connect(config.MONGO_URL);
 
         //funcion para agregar user 
     addUser= async (user) => {
         try{
         let result=await userModel.create(user);
+        console.log(result+"log desde dao")
         return result
         }catch(e){
             console.log(e);

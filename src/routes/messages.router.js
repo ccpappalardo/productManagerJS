@@ -1,8 +1,13 @@
 import { Router } from "express"; 
-import messagesController from "../controllers/messages.controller.js";
+import MessagesController from "../controllers/messages.controller.js";
 
 const router= Router();
-
-router.get('/', messagesController.getMessages)
+const messagesController=new MessagesController() 
+ 
+router.get("/", async(req,res)=>{
+    let messages=await messagesController.getMessagesController();
+ 
+    res.send(messages); 
+  }); 
 
 export default router;

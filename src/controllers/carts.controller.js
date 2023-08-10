@@ -1,83 +1,62 @@
 
-import ManagerCarts from "../daos/mongodb/managers/CartManager.class.js";
-const managerCart = new ManagerCarts();
- 
+import CartService from "../services/carts.service.js"
 
-const getCarts = async(req,res)=>{
-    const carts = await managerCart.getCarts();
-    res.send(carts);
+export default class CartController{
+
+  constructor(){
+    this.cartService=new CartService()
+  }
+
+async createCartController(){
+  const result=await this.cartService.createCartService();
+  return result;
+}
+
+async getCartByIdController(id) {
+  if (!id) {
+    return {
+      error: "debes especificar un id",
+    };
+  }
+  console.log(id);
+  const result = await this.cartService.getCartById(id);
+  return result;
+}
+
+async getCartsController(){
+  const carts = await this.cartService.getCartsService();
+  return carts;
 } 
-
-const getCartById = async(req,res)=>{
- 
-  const id = req.params.id;
-  try{
-    const cart = await managerCart.getCartById(id);
-    res.send(cart);
-    return await cart;
-  }catch (error) {
-    console.error(error);
-    res.status(400).send(error.message); // Envía el mensaje de error al cliente de Postman
-  }
+async addProductInCartController(cartId,productId){
+  const carts = await this.cartService.addProductInCartService(cartId, productId);
+  return carts
 }
 
-const addCart = async(req,res)=>{
-  await managerCart.addCart();
-  res.send({ status: "success" });
+async deleteProductFromCartController(cartId,productId){
+    const cart = await this.cartService.deleteProductFromCartService(cartId, productId);
+    return cart
 }
 
+async deleteAllProductsFromCartController(cartId){
 
-const addProductInCart = async(req,res)=>{
-  try{
-    const cartId = req.params.cid;
-    const productId = req.params.pid;
-    await managerCart.addProductInCart(cartId, productId);
-    res.send({ status: "success" });
-  }catch(error){
-    res.status(400).send({status: "failure", details: error.message})
-  }
+  const cart = await this.cartService.deleteAllProductsFromCartService(cartId); 
+   return cart;
 }
 
-const deleteProductFromCart = async(req,res)=>{
-    try{
-      const cartId = req.params.cid;
-      const productId = req.params.pid;
-      await managerCart.deleteProductFromCart(cartId, productId);
-      res.send({ status: "success" });
-    }catch(error){
-      res.status(400).send({status: "failure", details: error.message})
-    }
-}
-
-const deleteAllProductsFromCart = async(req,res)=>{
-  const cartId = req.params.cid;
-  await managerCart.deleteAllProductsFromCart(cartId);
-  res.send({ status: "success" });
-}
-
-const updateAllProductsFromCart = async(req,res)=>{
-  let cartId = req.params.id
-  let productos = req.body;
-  const productoActualizado= await managerCart.updateAllProductsFromCart(cartId,productos);
-  res.send({productoActualizado});
-}
-
-const updateProduct = async(req,res)=>{
+async updateProductFromCartController(req){
   const cartId = req.params.cid;
   const productId = req.params.pid;
   const quantity = req.body.quantity;
-  const productoActualizado=updateProduct(cartId,productId,quantity); 
-  res.send({productoActualizado});
+  const cart = await this.cartService.updateProductFromCartService(cartId, productId,quantity);
+  return cart
 }
 
+async updateAllProductsFromCartController(req){
+  let cartId = req.params.cid
+  let productos = req.body;
+  console.log(productos)
+  const productoActualizado= await this.cartService.updateAllProductsFromCartService(cartId,productos);
+  return productoActualizado 
+}
 
-export default {
-  getCarts,
-  getCartById,
-  addCart,
-  addProductInCart,
-  deleteProductFromCart,
-  deleteAllProductsFromCart,
-  updateAllProductsFromCart,
-  updateProduct
 }

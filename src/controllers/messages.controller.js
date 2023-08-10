@@ -1,12 +1,17 @@
-import ManagerMessages from "../daos/mongodb/managers/MessagesManager.class.js";
+import MessagesService from "../services/messages.service.js"
 
-const managerMessages = new ManagerMessages();
 
-const getMessages = async(req,res)=>{
-    const messages = await managerMessages.getMessages();
-    res.send(messages);
+export default class MessagesController{
+
+  constructor(){
+    this.messagesService=new MessagesService()
   }
 
-  export default {
-    getMessages,
-  }
+
+  async getMessagesController(){
+    const messages = await this.messagesService.getMessagesService();
+    return messages;
+  } 
+
+
+}

@@ -1,10 +1,11 @@
 import mongoose from "mongoose";
 import { messagesModel } from "../models/messages.model.js";
+import config from "../../../config.js";
 
-export default class ManagerCarts {
+export default class MessagesDAO {
 
   
-  connection=mongoose.connect('mongodb+srv://ccpappalardo:xSI4tapwfkxSAbeC@cluster0.gcl8y5w.mongodb.net/ecommerce?retryWrites=true&w=majority');
+  connection=mongoose.connect(config.MONGO_URL);
   //Lee los carritos del archivo si es que existe los devuelve en formato de array, 
     //sino devuelve un array vacio
   getMessages = async () => {

@@ -1,15 +1,19 @@
 import { Router } from "express"; 
-import ProductManager from "../daos/mongodb/managers/ProductManager.class.js";
-import ManagerCarts from "../daos/mongodb/managers/CartManager.class.js";
-import MessagesManager from "../daos/mongodb/managers/MessagesManager.class.js" 
+//import ProductManager from "../daos/mongodb/daos/ProductMongo.dao.js";
+import ProductController from "../controllers/products.controller.js";
+import ViewsController from "../controllers/views.controllers.js"
+import ManagerCarts from "../daos/mongodb/daos/CartMongo.dao.js";
+import MessagesManager from "../daos/mongodb/daos/MessagesManager.dao.js" 
 import passport from 'passport';
 
  
 const router= Router();
 
-const productosManager=new ProductManager()
+//const productosManager=new ProductManager()
+const productController=new ProductController();
 const messageManager=new MessagesManager()
 const managerCart = new ManagerCarts();
+const viewController=new ViewsController();
 /*
 router.get('/', async (req,res)=>{
     const productos= await productosManager.getProducts(req.query.limit);
@@ -38,13 +42,8 @@ router.get('/', passport.authenticate('jwt', {session: false}), async (req, res)
 
 router.get('/products', passport.authenticate('jwt', {session: false}),async (req,res)=>{
   let user=req.user;
-  let page = req.query.page;
-  let limite=req.query.limit;
-  let products = await productosManager.getProductsPaginados(limite,page);
-  //limite=5; //Se lo seteo porque tengo pocos productos
-  products.prevLink = products.hasPrevPage?`http://localhost:8080/products?page=${products.prevPage}&limit=${products.limit}`:'';
-  products.nextLink = products.hasNextPage?`http://localhost:8080/products?page=${products.nextPage}&limit=${products.limit}`:'';
-
+  let products= await viewController.getProductsPaginadosController(req,res)
+  
   res.render('home', {
     title: "productos",
     products: products,
@@ -54,7 +53,9 @@ router.get('/products', passport.authenticate('jwt', {session: false}),async (re
 
 router.get('/products/:id',async (req,res)=>{ 
   const id = req.params.id;
-  let result = await productosManager.getProductById(id)
+let result=await viewController.getProductByIdController(id);
+  //let result =  await productController.getProductByIdController(id);  
+  //let result = await productosManager.getProductById(id)
   res.render('product',result) 
 })
 

@@ -1,12 +1,13 @@
 import mongoose from "mongoose";
 import { cartModel } from "../models/carts.model.js";
-import ProductManager from "./ProductManager.class.js";
+import ProductDAO from "./ProductMongo.dao.js";
+import config from "../../../config.js";
 
-export default class ManagerCarts {
-
+export default class ManagerDAO {
   
-  connection=mongoose.connect('mongodb+srv://ccpappalardo:xSI4tapwfkxSAbeC@cluster0.gcl8y5w.mongodb.net/ecommerce?retryWrites=true&w=majority');
-  productManager=new ProductManager();
+  
+  connection=mongoose.connect(config.MONGO_URL);
+  //productDAO=new ProductDAO();
   //Lee los carritos del archivo si es que existe los devuelve en formato de array, 
     //sino devuelve un array vacio
   getCarts = async () => {
@@ -15,20 +16,27 @@ export default class ManagerCarts {
   };
 
   //funcion para agregar carritos al archivo
-  addCart = async () => {
+  async addCart(){
     const result= await cartModel.create({ products: []});
-    return result;
-  };
+    return {
+      status:"success",
+      result}
+  }
+  async getCartById(id) {
+    const cart = await cartModel.findOne({_id: id}).populate('products.product')
+    console.log(cart);
+    return cart
+  }
 
-  
+
    //Recibe un id de carrito y lo devuelve en formato de objeto
-  getCartById = async (carritoId) => {
+ /* getCartById = async (carritoId) => {
     const result=await cartModel.findOne({
       _id: carritoId
      }).populate('products.product');
 
      return result;
-  };
+  };*/
 
   
    //Recibe un id de carrito y lo devuelve en formato de objeto
@@ -42,10 +50,9 @@ export default class ManagerCarts {
 
 
   //Agrego a un carrito especifico un producto especifico
-  addProductInCart = async (carritoId, productoId) => {
-    const product=await this.productManager.getProductById(productoId);
-    const cart=await this.getCartById(carritoId);
+  addProductInCart = async (carritoId, product) => {
     
+    const cart=await this.getCartById(carritoId);    
     //const quantity -- ver de sumar si ya existe el producto
     cart.products.push({product: product, quantity: 1});
     await cart.save();
@@ -55,19 +62,27 @@ export default class ManagerCarts {
 
    //Elimino un producto especifico de un carrito
    deleteProductFromCart = async (carritoId, productoId) => {
-    const cart=await this.getCartById(carritoId);
+    const cart = await this.getCartById(carritoId)
+
+    cart.products = cart.products.filter((prod) => prod.product._id.toString() !== productoId ) 
+    await cart.save()
+    return {
+      status: 'success'
+    }
+    /*const cart=await this.getCartById(carritoId);
     cart.products.pull(productoId);
     await cart.save();
-    return;
+    return;*/
   };
 
 
   //Elimino todos los productos de un carrito en especifico
   deleteAllProductsFromCart = async (carritoId) => {
     const cart=await this.getCartById(carritoId);
+    console.log(cart+"cart en dao")
     cart.products=[];
     await cart.save();
-    return;
+    return cart;
   };
 
   //Actualizo producto por el id, propiedad y valor que le seteo

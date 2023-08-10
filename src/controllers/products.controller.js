@@ -1,75 +1,73 @@
-import ProductManager from "../daos/mongodb/managers/ProductManager.class.js";
+import ProductService from "../services/products.service.js";
 import socketServer, { productManager } from "../app.js";
 
+export default class ProductController{
+    constructor(){
+        this.productService=new ProductService();
+    }
 
-const productosManager=new ProductManager()
+    async createProductController(product){
+        const result=await this.productService.createProductService(product);
+        return result;
+    }
 
-const getProducts= async (req,res)=>{
+    async getProductsPaginadosController(req){
+        let page = req.query.page;
+        let limite=req.query.limit;
+        let products = await this.productService.getProductsPaginadosService(limite,page);
+         return products;
+    }
+    
+    async getProductsController(req){
     try{
         let limit=Number(req.query.limit);
         let page=Number(req.query.page); //pagina
         let sort=Number(req.query.sort); //ordenamiento   
         let filtro=req.query.filtro 
         let filtroVal=req.query.filtroVal
-        const productos= await productManager.getProducts(limit,page,sort, filtro, filtroVal);
-        res.send({productos});
+        const productos= await this.productService.getProductService(limit,page,sort, filtro, filtroVal);
+       return productos
     }catch(error){
         res.status(400).send({status: "error", details: "Hubo un error al traer los productos-"})
     }
 }
- 
-const getProductById= async (req,res)=>{
-    const id=req.params.id;
-    try{
-      const productoBuscado= await productosManager.getProductById(id);
-      res.send({productoBuscado});
-    }catch (error) {
-      console.error(error);
-      res.status(400).send({status: "failure", details: error.message}) // Envía el mensaje de error al cliente de Postman
-    }    
-}
-  
 
-const addProduct=async (req, res) => {
-    try{
-        const product = req.body;
-        const nuevoProducto=productosManager.addProduct(product);
-        req.socketServer.sockets.emit('nuevoProducto', nuevoProducto);
-        res.send({ status: "success" });
-    }catch(error){
-        res.status(400).send({status: "failure", details: error.message})
-    }
-  };
 
-const updateProduct= async (req, res) => {
-    try{
-        const productId = req.params.id;
-        const producto = req.body.description;
-        console.log(req.body);
-        const productoActualizado=productosManager.updateProduct(productId,producto);
-        socketServer.emit('actualizarProducto', productoActualizado);
-        res.send({ status: "success" });
-    }catch(error){
-        res.status(400).send({status: "failure", details: error.message})
+async getProductByIdController(id){
+    if(!id){
+        console.error(error);
+        res.status(400).send({status: "failure", details: error.message}) // Envía el mensaje de error al cliente de Postman
     }
+
+    const productoBuscado= await this.productService.getProductByIdService(id);
+      return productoBuscado;
     
-  };
+}
 
-const deleteProduct= async (req, res) => {
+
+async deleteProductController(productId){
     try{
-        const productId = req.params.id; 
-        const productoEliminado=productosManager.deleteProduct(productId);
+        const productoEliminado= await this.productService.deleteProductService(productId);
         socketServer.emit('eliminarProducto', productoEliminado);
-        res.send({ status: "success" });
+        return productoEliminado
     }catch(error){
         res.status(400).send({status: "failure", details: error.message})     
     }
   }
 
-  export default {
-    getProducts,
-    getProductById,
-    addProduct,
-    updateProduct,
-    deleteProduct
-  }
+  
+ 
+  async updateProductController(req){
+    
+        const productId = req.params.id;
+        const producto = req.body;
+        console.log(req.body);
+        const productoActualizado=await this.productService.updateProductService(productId,producto);
+        //productosManager.updateProduct(productId,producto);
+        socketServer.emit('actualizarProducto', productoActualizado);
+        //res.send({ status: "success" });
+     
+  };
+ 
+}
+ 

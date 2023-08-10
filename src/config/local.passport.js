@@ -1,15 +1,15 @@
 import passport from "passport";
-import UserManager from "../daos/mongodb/managers/UserManager.class.js";
 import local from "passport-local"
 import { createHash, validatePassword } from "../utils.js";
-import ManagerCarts from "../daos/mongodb/managers/CartManager.class.js"; 
+import CartService from "../services/carts.service.js";
+import SessionService from "../services/session.service.js";
 import config from "../config.js";
 
 const LocalStrategy=local.Strategy;
 
-const managerUsers = new UserManager();
-const managerCarts=new ManagerCarts();
-
+const sessionService=new SessionService();
+const cartService=new CartService();
+ 
 export const intializePassport = () => { 
   
   //Estrategia Local para Registracións
@@ -20,23 +20,22 @@ export const intializePassport = () => {
       console.log(email);
       try{
       
-      let user=await managerUsers.getUserById(email);
+      let user=await sessionService.getUserByIdService(email);
       if(user){
         console.log("El usuario ya existe");
          return done(null, false, {message: "El Usuario ingresado, ya existe!"});
       }
-      
-      const carrito=await managerCarts.addCart();
-      console.log(carrito);
+       const carrito=await cartService.createCartService();
+     
        let newUser = {
               first_name,
               last_name,
               email,
               age,
-              cart: carrito,
+              //cart: carrito,
               password: createHash(password),
             };
-      let result=await managerUsers.addUser(newUser);
+      let result=await sessionService.registerService(newUser);
       return done(null, result, {message: "Usuario Registrado con éxito!"});
       }catch(error){
       return done("Error al obtener el usuario "+error);
@@ -44,7 +43,7 @@ export const intializePassport = () => {
     }
   )
 );
-
+ 
 //Estrategia Local para el Login
   passport.use("login",
   new LocalStrategy(
@@ -69,7 +68,7 @@ export const intializePassport = () => {
           }
 
           //Si es user común - lo busco en la DB -  controlo pass 
-          let user=await managerUsers.getUserById(username);
+          let user=await sessionService.getUserByIdService(username);
           if(user){
             if(!validatePassword(password, user)){
               console.log("Contraseña incorrecta");
