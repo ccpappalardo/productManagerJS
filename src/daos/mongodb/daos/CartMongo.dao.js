@@ -18,9 +18,7 @@ export default class ManagerDAO {
   //funcion para agregar carritos al archivo
   async addCart(){
     const result= await cartModel.create({ products: []});
-    return {
-      status:"success",
-      result}
+    return result;
   }
   async getCartById(id) {
     const cart = await cartModel.findOne({_id: id}).populate('products.product')

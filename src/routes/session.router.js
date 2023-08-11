@@ -27,8 +27,8 @@ async (req, res) => {
 router.post("/login",
   passport.authenticate("login", { session: false, failureRedirect:'/faillogin'}),
   async (req, res) => {
-    const result=await sessionController.loginController(req,res)    
-    res.send({ status: "success", message: "usuario  logueado "+result });
+   await sessionController.loginController(req,res)    
+   //res.send({ status: "success", message: "usuario  logueado " });
   }
 ); 
 
@@ -70,13 +70,6 @@ async (req, res) => {
     res.send(result);
 });
  
-
-/*
-
-//ruta callback que vuelve a github 
-router.get('/githubcallback',passport.authenticate('github', {failureRedirect: '/login', session:false}),
-  sessionController.githubcallback
-)
-*/
+ 
 
 export default router

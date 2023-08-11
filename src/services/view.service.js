@@ -10,7 +10,7 @@ export default class ViewsService {
     }
 
     async getProductService(query,limit){
-        const result = await this.productsService.getProductsService(query,limit)
+        const result = await this.productsService.getProductService(query,limit)
         return result;
     }
     

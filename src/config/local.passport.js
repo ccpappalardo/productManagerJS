@@ -19,22 +19,22 @@ export const intializePassport = () => {
       const {first_name, last_name, email, age}= req.body;
       console.log(email);
       try{
-      
       let user=await sessionService.getUserByIdService(email);
       if(user){
         console.log("El usuario ya existe");
          return done(null, false, {message: "El Usuario ingresado, ya existe!"});
       }
        const carrito=await cartService.createCartService();
-     
-       let newUser = {
+      let newUser = {
               first_name,
               last_name,
               email,
               age,
-              //cart: carrito,
+              cart: carrito,
               password: createHash(password),
             };
+            
+      console.log("usuario nuevo--en passport "+newUser);
       let result=await sessionService.registerService(newUser);
       return done(null, result, {message: "Usuario Registrado con éxito!"});
       }catch(error){

@@ -29,7 +29,7 @@ export const initializePassportGithub = () => {
             last_name: profile._json.name,
             email: profile._json.email,
             age: 32,
-      //      cart: carrito,
+            cart: carrito,
             password: createHash("1234"),
           };
 

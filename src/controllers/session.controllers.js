@@ -1,6 +1,8 @@
 //import UserManager from "../daos/mongodb/daos/UserManager.class.js";
 import SessionService from "../services/session.service.js";
 import { createHash} from "../../src/utils.js";
+import jwt from 'jsonwebtoken' 
+import config from "../config.js";
 
 export default class SessionController{ 
 
@@ -25,9 +27,14 @@ async loginController(req,res){
    edad: req.user.age,
    rol: req.user.role,
    id: req.user._id
-   }
-   let result=await this.sessionService.loginService(usuario,req,res) 
-   return result;
+   } 
+   
+   let token = jwt.sign({ email: usuario.email, usuario, role:'user'}, config.JWT_SECRET, {
+    expiresIn: "24h",
+  });
+  
+  res.cookie("coderCookie", token, { httpOnly: true }).send({ status: "success", user: usuario });
+   
  } 
 
 async loginFailController(req, res) {

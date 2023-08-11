@@ -14,7 +14,7 @@ export default class ProductService {
 
     async getProductService(limit, page, sort, filtro, filtroVal){
     
-        const result=await  this.productDao.getProducts(limit, page, sort, filtro, filtroVal)
+        const result=await this.productDao.getProducts(limit, page, sort, filtro, filtroVal)
         return result;
 
     }

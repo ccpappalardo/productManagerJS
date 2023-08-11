@@ -1,18 +1,10 @@
 import { Router } from "express"; 
-//import ProductManager from "../daos/mongodb/daos/ProductMongo.dao.js";
-import ProductController from "../controllers/products.controller.js";
-import ViewsController from "../controllers/views.controllers.js"
-import ManagerCarts from "../daos/mongodb/daos/CartMongo.dao.js";
-import MessagesManager from "../daos/mongodb/daos/MessagesManager.dao.js" 
+import ViewsController from "../controllers/views.controllers.js" 
 import passport from 'passport';
 
  
 const router= Router();
-
-//const productosManager=new ProductManager()
-const productController=new ProductController();
-const messageManager=new MessagesManager()
-const managerCart = new ManagerCarts();
+  
 const viewController=new ViewsController();
 /*
 router.get('/', async (req,res)=>{
@@ -23,8 +15,7 @@ router.get('/', async (req,res)=>{
     })
 })*/
 
-
-
+ 
 /*router.get('/', async (req,res)=>{
     const productos= await productosManager.getProducts(req.query.limit);
     res.render('profile', {
@@ -53,9 +44,7 @@ router.get('/products', passport.authenticate('jwt', {session: false}),async (re
 
 router.get('/products/:id',async (req,res)=>{ 
   const id = req.params.id;
-let result=await viewController.getProductByIdController(id);
-  //let result =  await productController.getProductByIdController(id);  
-  //let result = await productosManager.getProductById(id)
+  let result=await viewController.getProductByIdController(id);
   res.render('product',result) 
 })
 
@@ -67,7 +56,7 @@ router.get('*', async(res,send)=>{
 router.get('/carts/:id',async (req,res)=>{ 
     const id = req.params.id;
   try{
-    const cart = await managerCart.getAllProductsFromCart(id);
+    const cart = await viewController.getAllProductsFromCartController(id);
     res.render('cart',cart) 
   }catch (error) {
     console.error(error);
@@ -78,14 +67,16 @@ router.get('/carts/:id',async (req,res)=>{
  
  
 router.get('/realtimeproducts', async (req, res) => {
-    const productos= await productosManager.getProducts(req.query.limit);
-      res.render('realTimeProducts', { products: productos, style: "style.css", title: "Productos" })
+    const productos=await viewController.getProductsController(req,res,req.query.limit)
+    //const productos= await productosManager.getProducts(req.query.limit);
+    res.render('realTimeProducts', { products: productos, style: "style.css", title: "Productos" })
 
   });
  
 
   router.get('/chat', async (req, res) => {
-    const messages= await messageManager.getMessages();
+    const messages= await viewController.getChatController();
+
       res.render('chat', { messages: messages, style: "style.css", title: "Mensajes" })
 
   });

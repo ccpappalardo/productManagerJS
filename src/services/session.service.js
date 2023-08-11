@@ -19,15 +19,6 @@ export default class SessionService {
         return result;
     }
 
-   async loginService(usuario,req,res){
-    let token = jwt.sign({ email: usuario.email, usuario, role:'user'}, config.JWT_SECRET, {
-        expiresIn: "24h",
-    });
-    res.cookie("coderCookie", token, { httpOnly: true })//.send({ status: "success", user: req.user });
-    // res.cookie("coderCookie", token, { httpOnly: true })
-        // .send({ status: "success", user: usuario });
-    return req.user;
-    }
 
     async getCurrentService(req,res){
         res.send(req.user);

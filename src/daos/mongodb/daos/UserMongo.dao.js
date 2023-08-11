@@ -10,7 +10,6 @@ export default class UserDAO{
     addUser= async (user) => {
         try{
         let result=await userModel.create(user);
-        console.log(result+"log desde dao")
         return result
         }catch(e){
             console.log(e);
