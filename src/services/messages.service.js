@@ -10,5 +10,11 @@ export default class MessagesService {
         const result =await this.messageDao.getMessages();
         return result;
     }
+ 
+    async addMessageService(user, message){
+        
+        await this.messageDao.create(user, message)
+    }
+
 
 }

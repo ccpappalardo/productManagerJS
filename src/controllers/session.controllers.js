@@ -2,7 +2,7 @@
 import SessionService from "../services/session.service.js";
 import { createHash} from "../../src/utils.js";
 import jwt from 'jsonwebtoken' 
-import config from "../config.js";
+import config from "../config.js"; 
 
 export default class SessionController{ 
 
@@ -20,20 +20,22 @@ async registerController(){
 
 
 async loginController(req,res){
+
   //Seteo el token
- const usuario={
+ const user={
    nombre: `${req.user.first_name} - ${req.user.last_name}`,
    email: req.user.email,
    edad: req.user.age,
-   rol: req.user.role,
-   id: req.user._id
+   role: req.user.role,
+   id: req.user._id,
+   cart: req.user.cart
    } 
    
-   let token = jwt.sign({ email: usuario.email, usuario, role:'user'}, config.JWT_SECRET, {
+   let token = jwt.sign(user, config.JWT_SECRET, {
     expiresIn: "24h",
   });
-  
-  res.cookie("coderCookie", token, { httpOnly: true }).send({ status: "success", user: usuario });
+   
+  res.cookie("coderCookie", token, { httpOnly: true }).send({ status: "success", user: user });
    
  } 
 
@@ -48,12 +50,15 @@ async registerFailController(res) {
 }
 
 async getCurrentController(req, res) {
-  await this.sessionService.getCurrentService(req,res);
+    const result=await this.sessionService.getCurrentService(req, res);
+    //res.send(req.user);
+    res.send(result);
 }
 
 
 async logoutController(res){
   await this.sessionService.logoutService(res)
+
  }
 
  
@@ -69,8 +74,9 @@ async githubcallbackController(req, res){
     nombre: `${req.user.first_name} - ${req.user.last_name}`,
     email: req.user.email,
     edad: req.user.age,
-    rol: req.user.role,
-    id: req.user._id
+    role: req.user.role,
+    id: req.user._id,
+    cart:req.user.cart
     }
     await this.sessionService.githubcallbackService(usuario,res);   
 }

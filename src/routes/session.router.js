@@ -37,9 +37,11 @@ router.get("/faillogin",async (req, res) => {
 });
  
 //current
-router.get("/current",passportCall("jwt"),authorization('user'),
+//router.get("/current",passportCall("jwt"),authorization('user'),
+router.get("/current",passportCall("jwt"),
 async (req, res) => {
-    await sessionController.getCurrentController(req,res);
+     await sessionController.getCurrentController(req,res);
+ 
 }
 );
  

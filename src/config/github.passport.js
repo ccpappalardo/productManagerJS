@@ -31,6 +31,7 @@ export const initializePassportGithub = () => {
             age: 32,
             cart: carrito,
             password: createHash("1234"),
+            role: 'user'
           };
 
           const result = await sessionService.registerService(newUser);

@@ -32,6 +32,7 @@ export const intializePassport = () => {
               age,
               cart: carrito,
               password: createHash(password),
+              role:"user"
             };
             
       console.log("usuario nuevo--en passport "+newUser);
@@ -58,11 +59,9 @@ export const intializePassport = () => {
             first_name: "Admin",
             last_name: "Coder",
             age: "25",
-            //email: "adminCoder@coder.com",
             email: config.ADMIN_NAME,
-            //password: "adminCod3r123",
             password: config.ADMIN_PASSWORD,
-            rol: "admin"
+            role: "admin"
             };
             return done(null, user,  {message: "Usted se ha logueado como Coder Admin!"});
           }

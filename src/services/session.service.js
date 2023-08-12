@@ -1,6 +1,6 @@
 import UserDAO from "../daos/mongodb/daos/UserMongo.dao.js"
-import config from "../config.js";
 import jwt from 'jsonwebtoken' 
+import userDTO from "../controllers/dtos/user.dto.js";
  
 export default class SessionService {
 
@@ -21,7 +21,11 @@ export default class SessionService {
 
 
     async getCurrentService(req,res){
-        res.send(req.user);
+            //TO DO crear el DTO y mandar la cookie req
+  //await sessionController.getCurrentController(dto).
+  //   console.log("envio usuario en servicio current "+req.user);
+    let usuario=new userDTO(req.user);
+    return usuario;
     }
 
     async logoutService(res){
@@ -33,10 +37,15 @@ export default class SessionService {
     async githubService(){
     }
     
-    async githubcallbackService(usuario,res){
-        let token = jwt.sign({ email: usuario.email, usuario, role:'user'}, "coderSecret", {
+    async githubcallbackService(user,res){
+        /*let token = jwt.sign({ email: usuario.email, usuario, role:'user'}, process.env.JWT_SECRET, {
+            expiresIn: "24h",
+        }); */
+
+        let token = jwt.sign(user, process.env.JWT_SECRET, {
             expiresIn: "24h",
         });
+
         console.log('Entro bien a githubCallback')
         //redirecciono a products si se loguea correctamente
         return res.cookie("coderCookie", token, { httpOnly: true }).redirect('/products') 

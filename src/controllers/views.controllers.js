@@ -70,7 +70,8 @@ async getRealTimeProducts(req, res) {
  
 
 async getChatController(req, res){
-    const messages= await this.viewService.getMessageService();
+    const messages= await this.viewService.getMessagesService();
+    console.log(messages)
       res.render('chat', { messages: messages, style: "style.css", title: "Mensajes" })
   }
 

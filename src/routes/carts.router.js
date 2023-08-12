@@ -1,5 +1,7 @@
 import { Router } from "express";
 import CartController from "../controllers/carts.controller.js";
+import { passportCall} from "../../src/utils.js";
+import { permiteAgregarAsuCarrito } from "./middlewares/carts.middleware.js";
 
 const router= Router();
 const cartController=new CartController() 
@@ -23,8 +25,8 @@ router.get("/", async(req,res)=>{
   //res.send({carts});
 }); 
 
-
-router.post("/:cid/products/:pid",async(req,res)=>{
+//Sólo el usuario puede agregar productos a su carrito.
+router.post("/:cid/products/:pid",passportCall("jwt"),permiteAgregarAsuCarrito,async(req,res)=>{
   try{
     const cartId = req.params.cid;
     const productId = req.params.pid;
@@ -68,5 +70,6 @@ router.put("/:cid",async (req, res) => {
   res.send(cart);
   
 });
+ 
 
 export default router;

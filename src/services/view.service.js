@@ -30,8 +30,8 @@ export default class ViewsService {
     } 
 
     
-    async getMessageService(){
-        const result = await this.messageService.getMessageService();
+    async getMessagesService(){ 
+        const result = await this.messageService.getMessagesService();
         return result;
     }
 

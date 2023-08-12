@@ -1,11 +1,13 @@
 import { Router } from "express";
 import ProductController from "../controllers/products.controller.js";
+import { passportCall } from "../utils.js";
+import { adminAuth } from "./middlewares/roles.middleware.js";
 
 let productController=new ProductController();
 
 const router= Router(); 
 
-router.post("/", async(req,res)=>{
+router.post("/", passportCall("jwt"),adminAuth, async(req,res)=>{
     try{
         const product = req.body;
         //const nuevoProducto=productosManager.addProduct(product);
@@ -30,13 +32,13 @@ router.get('/:id',async(req,res)=>{
 }) 
 
 
-router.delete('/:id',async(req,res)=>{
+router.delete('/:id', passportCall("jwt"),adminAuth,async(req,res)=>{
     let id=req.params.id;
     const product=await productController.deleteProductController(id);
     res.send({product});
 }) 
 
-router.put('/:id',async(req,res)=>{
+router.put('/:id', passportCall("jwt"),adminAuth, async(req,res)=>{
     const product=await productController.updateProductController(req);
     res.send({product});
 }) 

@@ -75,10 +75,7 @@ router.get('/realtimeproducts', async (req, res) => {
  
 
   router.get('/chat', async (req, res) => {
-    const messages= await viewController.getChatController();
-
-      res.render('chat', { messages: messages, style: "style.css", title: "Mensajes" })
-
+   await viewController.getChatController(req,res);  
   });
 
 

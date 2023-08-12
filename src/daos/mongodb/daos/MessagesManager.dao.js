@@ -19,7 +19,7 @@ export default class MessagesDAO {
   };
  
  
-   //Recibe un id de carrito y lo devuelve en formato de objeto
+   //Recibe un id de mensaje y lo devuelve en formato de objeto
   getMessageById = async (id) => {
     const result=await messagesModel.findOne({
       _id: id
