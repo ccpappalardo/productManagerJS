@@ -2,6 +2,7 @@ import { Router } from "express";
 import CartController from "../controllers/carts.controller.js";
 import { passportCall} from "../../src/utils.js";
 import { permiteAgregarAsuCarrito } from "./middlewares/carts.middleware.js";
+import { userAuth } from "./middlewares/roles.middleware.js";
 
 const router= Router();
 const cartController=new CartController() 
@@ -22,18 +23,17 @@ router.get("/", async(req,res)=>{
   let carts=await cartController.getCartsController();
   console.log("carts en router"+carts)
   res.send(carts);
-  //res.send({carts});
+
 }); 
 
 //Sólo el usuario puede agregar productos a su carrito.
-router.post("/:cid/products/:pid",passportCall("jwt"),permiteAgregarAsuCarrito,async(req,res)=>{
+router.post("/:cid/products/:pid",passportCall("jwt"),userAuth,permiteAgregarAsuCarrito,async(req,res)=>{
   try{
     const cartId = req.params.cid;
     const productId = req.params.pid;
     //await managerCart.addProductInCart(cartId, productId);
     let carts=await cartController.addProductInCartController(cartId,productId);
-    res.send(carts);
-    //res.send({ status: "success" });
+    res.send({ status: "success" });
   }catch(error){
     res.status(400).send({status: "failure", details: error.message})
   }

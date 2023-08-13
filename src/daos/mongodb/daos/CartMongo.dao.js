@@ -54,8 +54,7 @@ export default class ManagerDAO {
     //const quantity -- ver de sumar si ya existe el producto
     cart.products.push({product: product, quantity: 1});
     await cart.save();
-    return;
-    
+    return cart;
   };
 
    //Elimino un producto especifico de un carrito
