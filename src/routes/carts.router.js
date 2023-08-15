@@ -1,7 +1,7 @@
 import { Router } from "express";
 import CartController from "../controllers/carts.controller.js";
 import { passportCall} from "../../src/utils.js";
-import { permiteAgregarAsuCarrito } from "./middlewares/carts.middleware.js";
+import { chequeaPertenenciaDelCarrito } from "./middlewares/carts.middleware.js";
 import { userAuth } from "./middlewares/roles.middleware.js";
 
 const router= Router();
@@ -27,7 +27,7 @@ router.get("/", async(req,res)=>{
 }); 
 
 //Sólo el usuario puede agregar productos a su carrito.
-router.post("/:cid/products/:pid",passportCall("jwt"),userAuth,permiteAgregarAsuCarrito,async(req,res)=>{
+router.post("/:cid/products/:pid",passportCall("jwt"),userAuth,chequeaPertenenciaDelCarrito,async(req,res)=>{
   try{
     const cartId = req.params.cid;
     const productId = req.params.pid;
@@ -52,7 +52,6 @@ router.delete("/:cid/products/:pid", async (req, res) => {
 router.delete("/:cid", async (req, res) => {
   
   const cartId = req.params.cid;
-  console.log("id carrito en router"+cartId)
   let cart=await cartController.deleteAllProductsFromCartController(cartId);
   res.send(cart);
   //res.send({ status: "success" });
@@ -69,6 +68,13 @@ router.put("/:cid",async (req, res) => {
   let cart=await cartController.updateAllProductsFromCartController(req);
   res.send(cart);
   
+});
+
+//procesar compra
+router.post("/:cid/purchase",passportCall("jwt"), async (req, res) => {
+  console.log("entro a router procesar compra ")
+  let cart=await cartController.procesarCompraController(req,res);
+  res.send(cart);
 });
  
 

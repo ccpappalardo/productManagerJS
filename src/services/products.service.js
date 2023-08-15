@@ -26,7 +26,6 @@ export default class ProductService {
     }
 
     async getProductByIdService(id){
-    
         const result=await this.productDao.getProductById(id)
         return result;
 
@@ -39,7 +38,6 @@ export default class ProductService {
 
     }
 
-    
     async updateProductService(id,producto){
     
         const result=await this.productDao.updateProduct(id,producto);
@@ -47,5 +45,19 @@ export default class ProductService {
 
     }
 
+    async getProductTieneStockService(idProducto,cantidad){
+
+        const producto=await this.getProductByIdService(idProducto);
+        const result=await this.productDao.existeStock(producto,cantidad);
+        return result;
+        
+      // return result;
+    }
+
+    async getActualizarStockService(element,cantidad){
+        //console.log("actualizar stockkkkkkk -- "+element,cantidad)
+        const result=await this.productDao.actualizarStock(element,cantidad);
+        return result;
+    }
 
 }

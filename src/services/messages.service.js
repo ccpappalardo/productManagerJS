@@ -1,4 +1,4 @@
-import MessageDAO from "../daos/mongodb/daos/MessagesManager.dao.js" 
+import MessageDAO from "../daos/mongodb/daos/MessagesMongo.dao.js" 
 
 export default class MessagesService {
 

@@ -59,4 +59,9 @@ async updateAllProductsFromCartController(req){
   return productoActualizado 
 }
 
+async procesarCompraController(req,res){
+  let cartId = req.params.cid
+  const compraProcesada= await this.cartService.procesarCompraService(cartId,req,res);
+  return compraProcesada;
+}
 }

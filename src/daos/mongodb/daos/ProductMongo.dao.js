@@ -99,6 +99,38 @@ export default class ProductDAO{
             return e; 
         }
     }
+
+    //funcion para saber si hay un producto en stock
+    existeStock = async (producto,cantidad) => {
+        try{
+           // console.log(producto.stock>=cantidad)
+            return producto.stock>=cantidad? true: false;
+        }catch(e){
+            console.log(e);
+            return e;
+        }
+    }
+
+    //funcion para saber si hay un producto en stock
+    actualizarStock = async (element,cantidad) => {
+        try{
+            const nuevaCantidad=element.stock-cantidad;
+            const filter = { _id: element._id };
+            const update = { stock: nuevaCantidad };
+            console.log(nuevaCantidad);
+            console.log(filter);
+            let result = await productsModel.findOneAndUpdate(filter, update);
+        /*
+            let result=await productsModel.updateOne(
+                {_id: productoId},
+                {$set: productoActualizado}
+            );*/
+            return result
+            }catch(e){
+                console.log(e);
+                return e; 
+            }
+    }
   
    
 } 

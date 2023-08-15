@@ -87,7 +87,7 @@ async resetPasswordController(req,res){
 console.log(email, password)
  if(!email||!password) return res.status(400).send({status:"error",error:"No completo los campos del Formulario"});
   const user = await this.sessionService.getUserByIdService(email);
-  console.log("usuario en controller"+user)
+  
   //await managerUsers.getUserById(email);
   if(!user) return res.status(404).send({status:"error",error:"El usuario no se encuentra registrado"});
   

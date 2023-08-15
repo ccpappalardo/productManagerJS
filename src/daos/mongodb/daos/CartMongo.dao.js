@@ -1,13 +1,11 @@
 import mongoose from "mongoose";
 import { cartModel } from "../models/carts.model.js";
-import ProductDAO from "./ProductMongo.dao.js";
 import config from "../../../config.js";
 
-export default class ManagerDAO {
-  
+export default class CartDAO { 
   
   connection=mongoose.connect(config.MONGO_URL);
-  //productDAO=new ProductDAO();
+ 
   //Lee los carritos del archivo si es que existe los devuelve en formato de array, 
     //sino devuelve un array vacio
   getCarts = async () => {
@@ -22,20 +20,9 @@ export default class ManagerDAO {
   }
   async getCartById(id) {
     const cart = await cartModel.findOne({_id: id}).populate('products.product')
-    console.log(cart);
+    //console.log(cart);
     return cart
   }
-
-
-   //Recibe un id de carrito y lo devuelve en formato de objeto
- /* getCartById = async (carritoId) => {
-    const result=await cartModel.findOne({
-      _id: carritoId
-     }).populate('products.product');
-
-     return result;
-  };*/
-
   
    //Recibe un id de carrito y lo devuelve en formato de objeto
    getAllProductsFromCart = async (carritoId) => {
@@ -51,8 +38,13 @@ export default class ManagerDAO {
   addProductInCart = async (carritoId, product) => {
     
     const cart=await this.getCartById(carritoId);    
-    //const quantity -- ver de sumar si ya existe el producto
-    cart.products.push({product: product, quantity: 1});
+    
+    let productoExiste=cart.products.find((prod) => prod.product._id.toString() === product._id.toString() ) 
+    if(!productoExiste){
+       cart.products.push({product: product, quantity: 1});
+    }else{
+       productoExiste.quantity += 1
+    }
     await cart.save();
     return cart;
   };
@@ -65,11 +57,7 @@ export default class ManagerDAO {
     await cart.save()
     return {
       status: 'success'
-    }
-    /*const cart=await this.getCartById(carritoId);
-    cart.products.pull(productoId);
-    await cart.save();
-    return;*/
+    } 
   };
 
 
