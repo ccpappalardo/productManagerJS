@@ -2,7 +2,8 @@ import { Router } from "express";
 import { authorization, passportCall} from "../../src/utils.js"; 
 import SessionController from "../controllers/session.controllers.js";
 import passport from "passport";
-
+import CustomError from "../services/error/customerror.class.js";
+import { ErrorEnum } from "../services/enum/error.enum.js";
 
 let sessionController=new SessionController();
 
@@ -72,6 +73,24 @@ async (req, res) => {
     res.send(result);
 });
  
+
+// TO DO - Sacar luego porque está para hacer pruebas
+router.get('/:id',
+async (req, res) => {
+    
+   let  id=req.params.id;
+    console.log(id);
+    if (isNaN(id)){
+      CustomError.createError({
+          name: 'id is not a number',
+          cause: `the given id ${id} is not a number`,
+          message: 'cannot get users',
+          code: ErrorEnum.PARAM_ERROR
+      })
+    }
+    
+});
  
+
 
 export default router

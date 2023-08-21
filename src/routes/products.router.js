@@ -2,21 +2,22 @@ import { Router } from "express";
 import ProductController from "../controllers/products.controller.js";
 import { passportCall } from "../utils.js";
 import { adminAuth } from "./middlewares/roles.middleware.js";
+import { errorMiddleware } from "../services/middleware/error.middleware.js";
 
 let productController=new ProductController();
 
 const router= Router(); 
 
 router.post("/", passportCall("jwt"),adminAuth, async(req,res)=>{
-    try{
+   // try{
         const product = req.body;
-        //const nuevoProducto=productosManager.addProduct(product);
+
         const nuevoProducto=await productController.createProductController(product)
         req.socketServer.sockets.emit('nuevoProducto', nuevoProducto);
         res.send({ status: "success", nuevoProducto });
-    }catch(error){
+    /*}catch(error){
         res.status(400).send({status: "failure", details: error.message})
-    }
+    }*/
    
 });
 
@@ -43,8 +44,6 @@ router.put('/:id', passportCall("jwt"),adminAuth, async(req,res)=>{
     res.send({product});
 }) 
 
-
- 
 
 export default router;
  

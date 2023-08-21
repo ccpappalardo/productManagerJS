@@ -1,5 +1,8 @@
 import ProductService from "../services/products.service.js";
-import socketServer, { productManager } from "../app.js";
+import socketServer, { productManager } from "../app.js"; 
+import CustomError from "../services/error/customerror.class.js"; 
+import { ErrorEnum } from "../services/enum/error.enum.js";
+
 
 export default class ProductController{
     constructor(){
@@ -7,6 +10,27 @@ export default class ProductController{
     }
 
     async createProductController(product){
+
+        const {title, price}=product;
+
+        if(title=="" || !title){
+            CustomError.createError({
+                name: 'title no está completo',
+                cause: `El valor de ${title} no está definido`,
+                message: 'No está definido el titulo del producto',
+                code: ErrorEnum.PARAM_ERROR
+            })
+        }
+
+        if(price=="" || !price){
+            CustomError.createError({
+                name: 'price no está definido',
+                cause: `El valor de ${price} no está definido`,
+                message: 'No está definido el precio del producto',
+                code: ErrorEnum.PARAM_ERROR
+            })
+        }
+
         const result=await this.productService.createProductService(product);
         return result;
     }
@@ -34,6 +58,7 @@ export default class ProductController{
 
 
 async getProductByIdController(id){
+    
     if(!id){
         console.error(error);
         res.status(400).send({status: "failure", details: error.message}) // Envía el mensaje de error al cliente de Postman
@@ -68,6 +93,8 @@ async deleteProductController(productId){
         //res.send({ status: "success" });
      
   };
+
+
  
 }
  

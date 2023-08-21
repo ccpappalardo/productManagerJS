@@ -102,6 +102,10 @@ router.get('/', passport.authenticate("jwt",{session: false}), (req, res) => {
 router.get('/resetPassword',(req,res)=>{
   res.render('resetPassword');
 })
- 
+
+router.get("/mockingproducts", async (req, res) => {
+  const product=await viewController.generateMockProductsController(req);
+  res.send({product});
+});
 
 export default router;

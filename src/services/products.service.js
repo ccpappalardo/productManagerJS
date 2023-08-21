@@ -1,6 +1,5 @@
 import ProductDAO from "../daos/mongodb/daos/ProductMongo.dao.js"
 
-
 export default class ProductService {
 
     constructor(){
@@ -60,4 +59,5 @@ export default class ProductService {
         return result;
     }
 
+     
 }

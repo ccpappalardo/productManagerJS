@@ -1,4 +1,5 @@
 import ViewsService from "../services/view.service.js";
+import { getMockProduct } from "../utils.js";
 
 export default class ViewController{ 
 
@@ -96,5 +97,14 @@ async getProfile(req, res){
 async resetPassword(req,res){
   res.render('resetPassword');
 }  
+
+
+async generateMockProductsController(req){
+  let productos=[];
+  for (let i = 0; i < 100; i++) {
+    productos.push(await getMockProduct());
+  } 
+  return productos; 
+  };
  
 }
