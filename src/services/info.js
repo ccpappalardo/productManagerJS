@@ -1,7 +1,8 @@
-export const generateErrorInfo = (user)=>{
+export const generateErrorInfo = (product)=>{
     return `One or more properties were completed or invalid
     List of required properties:
-    *first_name: needs to be a String, received ${user.firstName}
-    *last_name: needs to be a String, received ${user.lastName}
-    *email: needs to be a String, received ${user.email}`
+    *price: needs to be a Number, received ${product.price}
+    *title: needs to be a String, received ${product.title}`
 }
+ 
+

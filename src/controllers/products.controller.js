@@ -11,10 +11,21 @@ export default class ProductController{
     }
 
     async createProductController(product){
-
         const {title, price}=product;
 
         if(title=="" || !title){
+            CustomError.createError({
+                name: "product creation error",
+                cause: generateErrorInfo({
+                 title,
+                 price
+                }),
+                message: "error trying to create product",
+                code: ErrorEnum.INVALID_TYPES_ERROR,
+              });
+        } 
+
+        if(price=="" || !price){
             CustomError.createError({
                 name: "product creation error",
                 cause: generateErrorInfo({
@@ -55,8 +66,8 @@ export default class ProductController{
 async getProductByIdController(id){
     
     if(!id){
-        console.error(error);
-        res.status(400).send({status: "failure", details: error.message}) // Envía el mensaje de error al cliente de Postman
+       console.error(error);
+       res.status(400).send({status: "failure", details: error.message}) // Envía el mensaje de error al cliente de Postman
     }
 
     const productoBuscado= await this.productService.getProductByIdService(id);
