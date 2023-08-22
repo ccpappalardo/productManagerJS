@@ -16,8 +16,11 @@ import { initializePassportGithub }  from "./config/github.passport.js";
 import passport from "passport";
 import mongoose from "mongoose";
 import cookieParser from "cookie-parser";
-import config from "./config.js";
-import { errorMiddleware } from './services/middleware/error.middleware.js';
+import config from "./config.js";  
+import { errorMiddleware } from "./services/middleware/error.middleware.js";
+
+ 
+
 
 
 
@@ -87,13 +90,12 @@ socketServer.on("connection", (socket) => {
 app.use((req,res,next)=>{
   req.socketServer=socketServer;
   next();
-})
-
-//app.use(errorMiddleware);
+}) 
 app.use('/api/products/',routerProductos);
 app.use('/api/carts/',routerCart);
 app.use('/api/messages/',routerMessages);
-app.use('/api/sessions',routerSession);
+app.use('/api/sessions/',routerSession);
 app.use('/',routerViews); 
+app.use(errorMiddleware)
 
 export default socketServer;

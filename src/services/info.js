@@ -1,4 +1,4 @@
-export const generateErrorInfo= (user)=>{
+export const generateErrorInfo = (user)=>{
     return `One or more properties were completed or invalid
     List of required properties:
     *first_name: needs to be a String, received ${user.firstName}

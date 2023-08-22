@@ -1,7 +1,8 @@
 import ProductService from "../services/products.service.js";
-import socketServer, { productManager } from "../app.js"; 
-import CustomError from "../services/error/customerror.class.js"; 
+import socketServer, { productManager } from "../app.js";  
 import { ErrorEnum } from "../services/enum/error.enum.js";
+import { generateErrorInfo } from "../services/info.js";
+import CustomError from "../services/Error/CustomError.class.js";
 
 
 export default class ProductController{
@@ -15,21 +16,15 @@ export default class ProductController{
 
         if(title=="" || !title){
             CustomError.createError({
-                name: 'title no está completo',
-                cause: `El valor de ${title} no está definido`,
-                message: 'No está definido el titulo del producto',
-                code: ErrorEnum.PARAM_ERROR
-            })
-        }
-
-        if(price=="" || !price){
-            CustomError.createError({
-                name: 'price no está definido',
-                cause: `El valor de ${price} no está definido`,
-                message: 'No está definido el precio del producto',
-                code: ErrorEnum.PARAM_ERROR
-            })
-        }
+                name: "product creation error",
+                cause: generateErrorInfo({
+                 title,
+                 price
+                }),
+                message: "error trying to create product",
+                code: ErrorEnum.INVALID_TYPES_ERROR,
+              });
+        } 
 
         const result=await this.productService.createProductService(product);
         return result;

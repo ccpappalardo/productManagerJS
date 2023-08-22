@@ -5,4 +5,5 @@ export default class CustomError {
       error.code = code;
       throw error;
     }
-}
+  }
+  

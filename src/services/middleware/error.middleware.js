@@ -1,7 +1,7 @@
 import { ErrorEnum } from "../enum/error.enum.js";
 
 export const errorMiddleware = (error, req, res, next) => {
-  console.log(error.cause+"en middleware");
+  console.log(error.cause);
   switch (error.code) {
     case ErrorEnum.INVALID_TYPES_ERROR:
       res.send({ status: "error", error: error.name, cause: error.cause });
