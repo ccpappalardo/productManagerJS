@@ -11,8 +11,7 @@ export default class UserDAO{
         try{
         let result=await userModel.create(user);
         return result
-        }catch(e){
-            console.log(e);
+        }catch(e){ 
             return e;
         }
     }
@@ -24,8 +23,7 @@ export default class UserDAO{
         //let result= await userModel.findOne({email: email}).populate('carts.cart');
         let result= await userModel.findOne({email: email});
         return result
-        }catch(e){
-            console.log(e);
+        }catch(e){ 
             return e; 
         }
     }
@@ -36,8 +34,7 @@ export default class UserDAO{
         //let result= await userModel.findOne({_id: id}).populate('carts.cart');
         let result= await userModel.findOne({_id: id});
         return result
-        }catch(e){
-            console.log(e);
+        }catch(e){ 
             return e; 
         }
     }
@@ -49,8 +46,7 @@ export default class UserDAO{
         //let result=await userModel.findOne({email: email, password:password}).populate('carts.cart');
         let result=await userModel.findOne({email: email, password:password});
         return result
-        }catch(e){
-            console.log(e);
+        }catch(e){ 
             return e; 
         }
     }
@@ -63,8 +59,7 @@ export default class UserDAO{
             );
           
             return result
-            }catch(e){
-                console.log(e);
+            }catch(e){ 
                 return e; 
             }
     }

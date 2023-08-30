@@ -1,10 +1,7 @@
 import { Router } from "express";
 import ProductController from "../controllers/products.controller.js";
 import { passportCall } from "../utils.js";
-import { adminAuth } from "./middlewares/roles.middleware.js"; 
-import { ErrorEnum } from "../services/enum/error.enum.js";
-import CustomError from "../services/Error/CustomError.class.js";
-import { generateErrorInfo} from "../services/info.js";
+import { adminAuth } from "./middlewares/roles.middleware.js";  
 
 let productController=new ProductController();
 

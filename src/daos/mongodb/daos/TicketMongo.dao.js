@@ -11,8 +11,7 @@ export default class TicketDAO {
         try{
             let result=await ticketsModel.create(ticket);
             return result
-            }catch(e){
-                console.log(e);
+            }catch(e){ 
                 return e;
         }
     }
@@ -22,8 +21,7 @@ export default class TicketDAO {
         try{
             let result=await ticketsModel.findOne({purchaser: username});
             return result
-            }catch(e){
-                console.log(e);
+            }catch(e){ 
                 return e; 
             }
     }

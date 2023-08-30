@@ -1,6 +1,8 @@
 import mongoose from "mongoose" 
 import { productsModel } from "../models/products.model.js"
 import config from "../../../config.js";
+import CustomError from "../../../services/Error/CustomError.class.js";
+import { generateErrorInfo } from "../../../services/info.js";
 export default class ProductDAO{
     
     connection=mongoose.connect(config.MONGO_URL);
@@ -11,9 +13,13 @@ export default class ProductDAO{
         try{
         let result=await productsModel.create(product);
         return result
-        }catch(e){
-            console.log(e);
-            return e;
+        }catch(error){
+            CustomError.createError({
+                name: "El codigo del producto está duplicado",
+                cause: generateErrorInfo(product),
+                message: "El producto no pudo ser creado",
+                code: ErrorEnum.PRODUCT_ALREADY_EXIST,
+              }); 
         }
     }
    
@@ -34,7 +40,7 @@ export default class ProductDAO{
 
         return result
         }catch(e){
-            console.log(e);
+           
             return e;
         }
     } 
@@ -55,8 +61,7 @@ export default class ProductDAO{
         );
 
         return result
-        }catch(e){
-            console.log(e);
+        }catch(e){ 
             return e;
         }
     } 
@@ -68,8 +73,7 @@ export default class ProductDAO{
         try{
         let result=await productsModel.findOne({_id: productoId});
         return result
-        }catch(e){
-            console.log(e);
+        }catch(e){ 
             return e; 
         }
     }
@@ -82,8 +86,7 @@ export default class ProductDAO{
             {$set: productoActualizado}
         );
         return result
-        }catch(e){
-            console.log(e);
+        }catch(e){ 
             return e; 
         }
     }
@@ -94,8 +97,7 @@ export default class ProductDAO{
     try{
     let result=await productsModel.deleteOne({_id: productoId});
     return result;
-    }catch(e){
-            console.log(e);
+    }catch(e){ 
             return e; 
         }
     }
@@ -103,10 +105,9 @@ export default class ProductDAO{
     //funcion para saber si hay un producto en stock
     existeStock = async (producto,cantidad) => {
         try{
-           // console.log(producto.stock>=cantidad)
+ 
             return producto.stock>=cantidad? true: false;
-        }catch(e){
-            console.log(e);
+        }catch(e){ 
             return e;
         }
     }
@@ -117,17 +118,12 @@ export default class ProductDAO{
             const nuevaCantidad=element.stock-cantidad;
             const filter = { _id: element._id };
             const update = { stock: nuevaCantidad };
-            console.log(nuevaCantidad);
-            console.log(filter);
+            //console.log(nuevaCantidad);
+            //console.log(filter);
             let result = await productsModel.findOneAndUpdate(filter, update);
-        /*
-            let result=await productsModel.updateOne(
-                {_id: productoId},
-                {$set: productoActualizado}
-            );*/
+       
             return result
-            }catch(e){
-                console.log(e);
+            }catch(e){ 
                 return e; 
             }
     }

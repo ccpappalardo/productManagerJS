@@ -18,8 +18,7 @@ import mongoose from "mongoose";
 import cookieParser from "cookie-parser";
 import config from "./config.js";  
 import { errorMiddleware } from "./services/middleware/error.middleware.js";
-
- 
+import { addLogger } from './logger.js' 
 
 
 
@@ -29,6 +28,7 @@ export const messagesManager = new MessagesManager();
 
 const app=express();
 
+app.use(addLogger);
 
 const connection = mongoose.connect(
   config.MONGO_URL
@@ -54,7 +54,9 @@ app.set("view engine", "handlebars");
 
 
 const expressServer=app.listen(config.PORT,()=>{
+  
   console.log("Servidor en Express - Listo - en puerto "+config.PORT)
+  
 })
  
 
@@ -86,6 +88,7 @@ socketServer.on("connection", (socket) => {
 
 
 });
+
 
 app.use((req,res,next)=>{
   req.socketServer=socketServer;

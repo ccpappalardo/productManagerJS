@@ -73,6 +73,17 @@ async (req, res) => {
     const result=await sessionController.resetPasswordController(req,res);
     res.send(result);
 });
-  
+
+router.get('/loggerTest', async (req, res) => {
+
+  req.logger.fatal("Logger - level 'fatal'")
+  req.logger.error("Logger - level 'error'")
+  req.logger.warning("Logger - level 'warning'")
+  req.logger.info("Logger - level 'info'")
+  req.logger.http("Logger - level  'http'")
+  req.logger.debug("Logger - level 'debug'")
+
+  res.send("Se termino de probar el logger exitosamente")
+});
 
 export default router

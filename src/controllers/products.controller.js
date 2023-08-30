@@ -11,6 +11,7 @@ export default class ProductController{
     }
 
     async createProductController(product){
+       
         const {title, price}=product;
 
         if(title=="" || !title){
@@ -39,6 +40,8 @@ export default class ProductController{
 
         const result=await this.productService.createProductService(product);
         return result;
+        
+
     }
 
     async getProductsPaginadosController(req){

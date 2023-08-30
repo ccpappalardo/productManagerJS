@@ -14,14 +14,21 @@ router.post("/",  async(req,res)=>{
 
 router.get("/:id", async(req,res)=>{  
   const id = req.params.id;
-  console.log(id)
-  let cart=await cartController.getCartByIdController(id)  
-  res.send(cart);
+
+  req.logger.info(id);
+  try{
+    let cart=await cartController.getCartByIdController(id)  
+    res.send(cart);
+  }catch(error){
+    res.send(error)
+    req.logger.error(error);
+  }
+  
 });
 
 router.get("/", async(req,res)=>{
   let carts=await cartController.getCartsController();
-  console.log("carts en router"+carts)
+  //console.log("carts en router"+carts)
   res.send(carts);
 
 }); 
@@ -72,7 +79,7 @@ router.put("/:cid",async (req, res) => {
 
 //procesar compra
 router.post("/:cid/purchase",passportCall("jwt"), async (req, res) => {
-  console.log("entro a router procesar compra ")
+ // console.log("entro a router procesar compra ")
   let cart=await cartController.procesarCompraController(req,res);
   res.send(cart);
 });

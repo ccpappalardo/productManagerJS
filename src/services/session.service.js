@@ -10,7 +10,6 @@ export default class SessionService {
 
     async registerService(user){
         const result =await this.userDao.addUser(user);
-        console.log(result)
         return result;
     }
   
@@ -28,9 +27,8 @@ export default class SessionService {
     return usuario;
     }
 
-    async logoutService(res){
-    //eliminar la cookie
-    console.log("Cookie eliminada");
+    async logoutService(req,res){
+    //console.log("Cookie eliminada");
     res.clearCookie('coderCookie').send('Cookie Eliminada');
     }
     
@@ -46,7 +44,7 @@ export default class SessionService {
             expiresIn: "24h",
         });
 
-        console.log('Entro bien a githubCallback')
+      //  console.log('Entro bien a githubCallback')
         //redirecciono a products si se loguea correctamente
         return res.cookie("coderCookie", token, { httpOnly: true }).redirect('/products') 
     }
