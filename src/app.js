@@ -20,8 +20,7 @@ import config from "./config.js";
 import { errorMiddleware } from "./services/middleware/error.middleware.js";
 import { addLogger } from './logger.js' 
 
-
-
+ 
 
 export const productManager = new ProductManager();
 export const messagesManager = new MessagesManager();
@@ -54,9 +53,7 @@ app.set("view engine", "handlebars");
 
 
 const expressServer=app.listen(config.PORT,()=>{
-  
   console.log("Servidor en Express - Listo - en puerto "+config.PORT)
-  
 })
  
 
@@ -99,6 +96,6 @@ app.use('/api/carts/',routerCart);
 app.use('/api/messages/',routerMessages);
 app.use('/api/sessions/',routerSession);
 app.use('/',routerViews); 
-app.use(errorMiddleware)
+//app.use(errorMiddleware)
 
 export default socketServer;

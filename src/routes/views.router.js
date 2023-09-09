@@ -103,6 +103,10 @@ router.get('/resetPassword',(req,res)=>{
   res.render('resetPassword');
 })
 
+router.get('/resetPassword'),(req,res)=>{
+  res.render('recoverPassword')
+}
+
 router.get("/mockingproducts", async (req, res) => {
   const product=await viewController.generateMockProductsController(req);
   res.send({product});

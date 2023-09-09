@@ -5,7 +5,7 @@ import config from "../../../config.js";
 export default class TicketDAO {
   
     connection=mongoose.connect(config.MONGO_URL);
- 
+    
     //crea un ticket nuevo
     createTicket = async (ticket) => {
         try{

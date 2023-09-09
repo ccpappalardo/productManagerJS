@@ -3,8 +3,7 @@ import { cartModel } from "../models/carts.model.js";
 import config from "../../../config.js";
 
 export default class CartDAO { 
-  
-  connection=mongoose.connect(config.MONGO_URL);
+ connection=mongoose.connect(config.MONGO_URL);
  
   //Lee los carritos del archivo si es que existe los devuelve en formato de array, 
     //sino devuelve un array vacio

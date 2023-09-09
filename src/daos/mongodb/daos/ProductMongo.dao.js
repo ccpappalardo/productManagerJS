@@ -6,6 +6,7 @@ import { generateErrorInfo } from "../../../services/info.js";
 export default class ProductDAO{
     
     connection=mongoose.connect(config.MONGO_URL);
+    
 
      
     //funcion para agregar productos al archivo
@@ -13,7 +14,7 @@ export default class ProductDAO{
         try{
         let result=await productsModel.create(product);
         return result
-        }catch(error){
+        }catch(error){ 
             CustomError.createError({
                 name: "El codigo del producto está duplicado",
                 cause: generateErrorInfo(product),

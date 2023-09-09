@@ -3,12 +3,14 @@ import SessionService from "../services/session.service.js";
 import { createHash} from "../../src/utils.js";
 import jwt from 'jsonwebtoken' 
 import config from "../config.js"; 
+import Mail from "../helpers/mail.js";
 
 export default class SessionController{ 
 
   
   constructor(){
     this.sessionService=new SessionService()
+    this.mail = new Mail()
   }
 
   
@@ -100,5 +102,25 @@ console.log(email, password)
     return res.status(404).send({status: "error", error: error.message});
   }
 }
+
+  async recoverPasswordController(req,res){
+
+    const {email} = req.body;
+    console.log(email)
+    if(!email) return res.status(400).send({status:"error",error:"No completo los campos del Formulario"});
+    const user = await this.sessionService.getUserByIdService(email);
+    
+    //await managerUsers.getUserById(email);
+    if(!user) return res.status(404).send({status:"error",error:"El usuario no se encuentra registrado"});
+    
+    try{
+      let html = `<h1>Recuperar Contraseña - ${email}</h1>`
+      html = html.concat(`<buttton href="www.google.com.ar">Este es un botonn</p>`);
+      const result = this.mail.send(email, "Recuperar contraseña", html);
+      return result; 
+    }catch(error){
+      return res.status(404).send({status: "error", error: error.message});
+    }
+  }
  
 }

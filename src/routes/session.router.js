@@ -74,6 +74,11 @@ async (req, res) => {
     res.send(result);
 });
 
+router.post('/recoverPassword',
+    async(req,res)=>{
+    const result=await sessionController.recoverPasswordController(req,res);
+});
+
 router.get('/loggerTest', async (req, res) => {
 
   req.logger.fatal("Logger - level 'fatal'")

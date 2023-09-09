@@ -11,8 +11,8 @@ export default class ProductController{
     }
 
     async createProductController(product){
-       
-        const {title, price}=product;
+      
+        const {title, price, owner}=product;
 
         if(title=="" || !title){
             CustomError.createError({
@@ -37,7 +37,11 @@ export default class ProductController{
                 code: ErrorEnum.INVALID_TYPES_ERROR,
               });
         } 
-
+        
+        if(owner=="" || !owner){
+            product.owner='admin';
+        }
+       
         const result=await this.productService.createProductService(product);
         return result;
         

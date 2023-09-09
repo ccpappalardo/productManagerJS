@@ -14,3 +14,12 @@ export const adminAuth=(req,res,next)=>{
          return res.status(403).send({error: "Alerta! Usted no tiene acceso."});
         } 
  }
+
+ 
+export const premiumAuth=(req,res,next)=>{ 
+    if(req.user.role==='premium'){
+        next();
+    }else{
+     return res.status(403).send({error: "Alerta! Usted no tiene acceso."});
+    } 
+}

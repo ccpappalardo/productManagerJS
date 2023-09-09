@@ -1,7 +1,7 @@
 import { Router } from "express";
 import ProductController from "../controllers/products.controller.js";
 import { passportCall } from "../utils.js";
-import { adminAuth } from "./middlewares/roles.middleware.js";  
+import { adminAuth, premiumAuth } from "./middlewares/roles.middleware.js";  
 
 let productController=new ProductController();
 
@@ -37,7 +37,7 @@ router.delete('/:id', passportCall("jwt"),adminAuth,async(req,res)=>{
     res.send({product});
 }) 
 
-router.put('/:id', passportCall("jwt"),adminAuth, async(req,res)=>{
+router.put('/:id', passportCall("jwt"),adminAuth, premiumAuth, async(req,res)=>{
     const product=await productController.updateProductController(req);
     res.send({product});
 }) 

@@ -97,6 +97,12 @@ async getProfile(req, res){
 async resetPassword(req,res){
   res.render('resetPassword');
 }  
+ 
+async recoverPassword(req,res){
+  console.log("llega hasta aca")
+  res.render('recoverPassword');
+}  
+
 
 
 async generateMockProductsController(req){

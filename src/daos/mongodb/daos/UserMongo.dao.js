@@ -5,7 +5,7 @@ import config from "../../../config.js";
 export default class UserDAO{
     
     connection=mongoose.connect(config.MONGO_URL);
-
+    
         //funcion para agregar user 
     addUser= async (user) => {
         try{
