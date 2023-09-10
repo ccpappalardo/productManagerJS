@@ -7,8 +7,8 @@ export default class Mail {
             service: 'gmail',
             port: 587,
             auth: {
-                user: config.EMAIL_NAME,
-                pass: config.EMAIL_PASSWORD
+                user:"ccpappalardo@gmail.com",
+                pass: "qcuwqbhmdfntltnc"
             }
         })
     }
@@ -16,7 +16,7 @@ export default class Mail {
     send = async(user, subject, html) => {
         const result = await this.transport.sendMail({
             from: config.mailUser,
-            to: user.email,
+            to: user,
             subject,
             html
         })

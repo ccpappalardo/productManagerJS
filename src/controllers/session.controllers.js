@@ -115,7 +115,7 @@ console.log(email, password)
     
     try{
       let html = `<h1>Recuperar Contraseña - ${email}</h1>`
-      html = html.concat(`<buttton href="www.google.com.ar">Este es un botonn</p>`);
+      html = html.concat(`<button><a href="www.google.com.ar">Este es un botonn</a></button>`);
       const result = this.mail.send(email, "Recuperar contraseña", html);
       return result; 
     }catch(error){
