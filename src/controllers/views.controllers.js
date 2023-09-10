@@ -98,9 +98,9 @@ async resetPassword(req,res){
   res.render('resetPassword');
 }  
  
-async recoverPassword(req,res){
+async requestResetPassword(req,res){
   console.log("llega hasta aca")
-  res.render('recoverPassword');
+  res.render('requestResetPassword');
 }  
 
 

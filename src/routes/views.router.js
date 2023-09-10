@@ -99,12 +99,13 @@ router.get('/', passport.authenticate("jwt",{session: false}), (req, res) => {
     });
 })
 
-router.get('/resetPassword',(req,res)=>{
+router.get('/resetPassword',passport.authenticate("jwtRequestPassword",{failureRedirect:'requestResetPassword',session: false}),(req,res)=>{
   res.render('resetPassword');
 })
 
-router.get('/recoverPassword',(req,res)=>{
-  res.render('recoverPassword');
+router.get('/requestResetPassword',(req,res)=>{
+  console.log("req resetpass pero de view controller")
+  res.render('requestResetPassword');
 })
 
 router.get("/mockingproducts", async (req, res) => {

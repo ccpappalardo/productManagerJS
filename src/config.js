@@ -16,4 +16,5 @@ export default {
     ENVIRONMENT: process.env.ENVIRONMENT,
     EMAIL_NAME:process.env.EMAIL_NAME,
     EMAIL_PASSWORD:process.env.EMAIL_PASSWORD,
+    TOKEN_RESET:process.env.TOKEN_RESET
 }

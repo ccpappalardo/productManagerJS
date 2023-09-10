@@ -74,9 +74,12 @@ async (req, res) => {
     res.send(result);
 });
 
-router.post('/recoverPassword',
+
+
+router.post('/requestResetPassword',
     async(req,res)=>{
-    const result=await sessionController.recoverPasswordController(req,res);
+      console.log("entro a session router req resertpass")
+    const result=await sessionController.requestResetPasswordController(req,res);
 });
 
 router.get('/loggerTest', async (req, res) => {

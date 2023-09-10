@@ -1,11 +1,11 @@
-const form = document.getElementById('recoverPasswordForm');
+const form = document.getElementById('requestResetPasswordForm');
 
 form.addEventListener('submit',e=>{
     e.preventDefault();
     const data = new FormData(form);
     const obj = {};
     data.forEach((value,key)=>obj[key]=value);
-    fetch('/api/sessions/recoverPassword',{
+    fetch('/api/sessions/requestResetPassword',{
         method:'POST',
         body:JSON.stringify(obj),
         headers:{

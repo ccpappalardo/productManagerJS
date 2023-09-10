@@ -1,6 +1,6 @@
 //import UserManager from "../daos/mongodb/daos/UserManager.class.js";
 import SessionService from "../services/session.service.js";
-import { createHash} from "../../src/utils.js";
+import { createHash, validatePassword} from "../../src/utils.js";
 import jwt from 'jsonwebtoken' 
 import config from "../config.js"; 
 import Mail from "../helpers/mail.js";
@@ -94,6 +94,9 @@ console.log(email, password)
   if(!user) return res.status(404).send({status:"error",error:"El usuario no se encuentra registrado"});
   
   try{
+    
+    if(password==password.user) return res.status(400).send({status:"error",error:"La contraseña es igual a la anterior"});
+
     const newHashedPassword = createHash(password);
     const result=await this.sessionService.resetPasswordService(user._id,newHashedPassword);
     return result;
@@ -103,7 +106,7 @@ console.log(email, password)
   }
 }
 
-  async recoverPasswordController(req,res){
+  async requestResetPasswordController(req,res){
 
     const {email} = req.body;
     console.log(email)
@@ -114,9 +117,19 @@ console.log(email, password)
     if(!user) return res.status(404).send({status:"error",error:"El usuario no se encuentra registrado"});
     
     try{
-      let html = `<h1>Recuperar Contraseña - ${email}</h1>`
-      html = html.concat(`<button><a href="www.google.com.ar">Este es un botonn</a></button>`);
-      const result = this.mail.send(email, "Recuperar contraseña", html);
+      console.log("Entro a mandar el emailssssssssss");
+      
+      let tokenReset = jwt.sign({email}, config.TOKEN_RESET, {
+        expiresIn: "1h",
+      });
+
+      
+      let html = `<h1>Correo de Recuperación de Contraseña - ${email}</h1>`
+      html = html.concat(
+        `<div><h1>Restaura tu contraseña haciendo click en el siguiente link</h1> 
+      http://localhost:8080/resetPassword?token=${tokenReset}</div>`);
+     
+     const result = this.mail.send(email, "Correo de Recuperación de Contraseña", html);
       return result; 
     }catch(error){
       return res.status(404).send({status: "error", error: error.message});
