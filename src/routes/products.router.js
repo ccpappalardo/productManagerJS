@@ -1,16 +1,16 @@
 import { Router } from "express";
 import ProductController from "../controllers/products.controller.js";
 import { passportCall } from "../utils.js";
-import { adminAuth, premiumAuth } from "./middlewares/roles.middleware.js";  
+import { adminAuth, multipleAuthMiddleware, premiumAuth } from "./middlewares/roles.middleware.js";  
 
 let productController=new ProductController();
 
 const router= Router(); 
 
-router.post("/", passportCall("jwt"),adminAuth, async(req,res, next)=>{
+router.post("/", passportCall("jwt"),multipleAuthMiddleware(["admin","premium"]), async(req,res, next)=>{
     try{
         const product = req.body;
-        const nuevoProducto=await productController.createProductController(product)
+        const nuevoProducto=await productController.createProductController(product,req)
         req.socketServer.sockets.emit('nuevoProducto', nuevoProducto);
         res.send({ status: "success", nuevoProducto });
     }catch(error){
@@ -31,15 +31,15 @@ router.get('/:id',async(req,res)=>{
 }) 
 
 
-router.delete('/:id', passportCall("jwt"),adminAuth,async(req,res)=>{
-    let id=req.params.id;
-    const product=await productController.deleteProductController(id);
+router.delete('/:id', passportCall("jwt"),multipleAuthMiddleware(["admin","premium"]),async(req,res)=>{
+   
+    const product=await productController.deleteProductController(req,res);
     res.send({product});
 }) 
 
-router.put('/:id', passportCall("jwt"),adminAuth, premiumAuth, async(req,res)=>{
-    const product=await productController.updateProductController(req);
-    res.send({product});
+router.put('/:id', passportCall("jwt"),multipleAuthMiddleware(["admin","premium"]), async(req,res)=>{
+    const product=await productController.updateProductController(req,res);
+    //res.send({product});
 }) 
  
 

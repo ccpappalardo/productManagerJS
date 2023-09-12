@@ -23,3 +23,14 @@ export const premiumAuth=(req,res,next)=>{
      return res.status(403).send({error: "Alerta! Usted no tiene acceso."});
     } 
 }
+
+export const multipleAuthMiddleware = (roles) => {
+        return (req,res,next) => {
+            if(roles.includes(req.user.role)){
+             return next();
+            }
+            else{                   
+                return res.status(403).send({error: "Alerta! Usted no tiene acceso."});
+            }
+    }
+}

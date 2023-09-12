@@ -3,6 +3,7 @@ import socketServer, { productManager } from "../app.js";
 import { ErrorEnum } from "../services/enum/error.enum.js";
 import { generateErrorInfo } from "../services/info.js";
 import CustomError from "../services/Error/CustomError.class.js";
+import { config } from "dotenv";
 
 
 export default class ProductController{
@@ -10,7 +11,7 @@ export default class ProductController{
         this.productService=new ProductService();
     }
 
-    async createProductController(product){
+    async createProductController(product, req){
       
         const {title, price, owner}=product;
 
@@ -37,10 +38,10 @@ export default class ProductController{
                 code: ErrorEnum.INVALID_TYPES_ERROR,
               });
         } 
-        
-        if(owner=="" || !owner){
-            product.owner='admin';
-        }
+
+        if (req.user.email != config.ADMIN_NAME) {
+            product.owner = req.user.email 
+          }
        
         const result=await this.productService.createProductService(product);
         return result;
@@ -83,10 +84,19 @@ async getProductByIdController(id){
 }
 
 
-async deleteProductController(productId){
+async deleteProductController(req,res){
     try{
-        const productoEliminado= await this.productService.deleteProductService(productId);
-        socketServer.emit('eliminarProducto', productoEliminado);
+        let id=req.params.id;
+        const productoBuscado= await this.productService.getProductByIdService(id);
+
+        //Controlo que el usuario que borra el producto sea admin o el owner del mismo
+        if (!(req.user.role === "admin" || productoBuscado.owner === req.user.email) ) {
+            return res.status(403).
+            send({ status: "failure", details: "No está permitido que borres este producto, ya que no te pertenece o no sos admin" })
+        } 
+       
+        const productoEliminado= await this.productService.deleteProductService(id);
+       // socketServer.emit('eliminarProducto', productoEliminado);
         return productoEliminado
     }catch(error){
         res.status(400).send({status: "failure", details: error.message})     
@@ -95,15 +105,23 @@ async deleteProductController(productId){
 
   
  
-  async updateProductController(req){
+  async updateProductController(req,res){
     
         const productId = req.params.id;
         const producto = req.body;
-        console.log(req.body);
+        //console.log(req.body);
+        
+        const productoBuscado= await this.productService.getProductByIdService(productId);
+        
+        //Controlo que el usuario que actualiza el producto sea admin o el owner del mismo
+        if (!(req.user.role === "admin" || productoBuscado.owner === req.user.email) ) {
+            return res.status(403).
+            send({ status: "failure", details: "No está permitido que actualices este producto, ya que no te pertenece o no sos admin" })
+        } 
+
         const productoActualizado=await this.productService.updateProductService(productId,producto);
-        //productosManager.updateProduct(productId,producto);
         socketServer.emit('actualizarProducto', productoActualizado);
-        //res.send({ status: "success" });
+        res.send({productoActualizado}); 
      
   };
 
