@@ -1,10 +1,12 @@
 
 import CartService from "../services/carts.service.js"
+import ProductService from "../services/products.service.js";
 
 export default class CartController{
 
   constructor(){
-    this.cartService=new CartService()
+    this.cartService=new CartService();
+    this.productService=new ProductService();
   }
 
 async createCartController(){
@@ -27,9 +29,22 @@ async getCartsController(){
   const carts = await this.cartService.getCartsService();
   return carts;
 } 
-async addProductInCartController(cartId,productId){
+async addProductInCartController(req,res){
+  const cartId = req.params.cid;
+  const productId = req.params.pid;
+  const productoBuscado= await this.productService.getProductByIdService(productId);
+  if(req.user.role=="premium"){
+    return res.status(403).
+    send({status: "failure", details: "El rol premium no puede agregar productos al carrito"})
+  }
+  if (productoBuscado.owner === req.user.email) { 
+    return res.status(403).
+    send({status: "failure", details: "No está permitido que agregues este producto a este carrito"})
+  }
+  
+ 
   const carts = await this.cartService.addProductInCartService(cartId, productId);
-  return carts
+  res.send({ status: "success" });
 }
 
 async deleteProductFromCartController(cartId,productId){
