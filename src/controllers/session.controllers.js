@@ -135,5 +135,27 @@ console.log(email, password)
       return res.status(404).send({status: "error", error: error.message});
     }
   }
+
+  async cambiarRolController(req,res){
+    try {
+      let id = req.params.uid
+      let user = await this.sessionService.getUserService(id);
+
+      if(user.role=="user"){
+        await this.sessionService.updateUserRoleService(id, "premium");
+        return res.send({status: "success", message: "Rol de Usuario actualizado a Premium"});
+      }else if(user.role=="premium"){
+        await this.sessionService.updateUserRoleService(id, "user");
+        return res.send({status: "success", message: "Rol de Premium actualizado a Usuario"});
+      }else{
+        return res.status(400).
+        send({status: "failure", details: "No puede cambiar de Rol."})
+      }
+  
+    }
+    catch (error) {
+      return res.status(404).send({status: "error", error: error.message});
+    }
+  }
  
 }

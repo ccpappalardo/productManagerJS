@@ -17,7 +17,11 @@ export default class SessionService {
         const result =await this.userDao.getUserById(username)
         return result;
     }
-
+    
+    async getUserService(id){
+        const result =await this.userDao.getUser(id)
+        return result;
+    }
 
     async getCurrentService(req,res){
             //TO DO crear el DTO y mandar la cookie req
@@ -51,6 +55,11 @@ export default class SessionService {
 
     async resetPasswordService(user, hashedpass){
         const result =await this.userDao.updatePassword(user,hashedpass);
+        return result;
+    }
+
+    async updateUserRoleService(id,role){
+        const result =await this.userDao.updateRole(id,role);
         return result;
     }
 

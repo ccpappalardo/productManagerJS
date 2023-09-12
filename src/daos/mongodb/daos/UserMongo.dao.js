@@ -63,6 +63,18 @@ export default class UserDAO{
                 return e; 
             }
     }
+
+    updateRole=async(id,role)=>{
+        try{
+            let result=await userModel.updateOne(
+                {_id: id},
+                {$set: {role:role}}
+            );
+        return result;
+        }catch(e){
+            return e;
+        }
+    }
  
    
 } 

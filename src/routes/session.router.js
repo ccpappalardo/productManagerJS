@@ -78,7 +78,6 @@ async (req, res) => {
 
 router.post('/requestResetPassword',
     async(req,res)=>{
-      console.log("entro a session router req resertpass")
     const result=await sessionController.requestResetPasswordController(req,res);
 });
 
@@ -93,5 +92,14 @@ router.get('/loggerTest', async (req, res) => {
 
   res.send("Se termino de probar el logger exitosamente")
 });
+
+// upgrade user to premium, degrade premium to user 
+
+router.post(
+  '/premium/:uid',
+  passportCall("jwt",{ session: false }),
+  async(req,res)=>{
+  sessionController.cambiarRolController(req,res);
+})
 
 export default router
