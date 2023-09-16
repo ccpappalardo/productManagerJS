@@ -19,6 +19,8 @@ import cookieParser from "cookie-parser";
 import config from "./config.js";  
 import { errorMiddleware } from "./services/middleware/error.middleware.js";
 import { addLogger } from './logger.js' 
+import swaggerJsdoc from 'swagger-jsdoc'
+import swaggerUiExpress from 'swagger-ui-express'
 
  
 
@@ -87,10 +89,26 @@ socketServer.on("connection", (socket) => {
 });
 
 
+const swaggerOptions = {
+  definition: {
+      openapi: '3.0.1',
+      info: {
+          title: 'Documentación Proyecto E-Commerce',
+          description: 'Esta es la Documentación del Proyecto E-Commerce'
+      },
+  },
+  apis: [`${__dirname}/docs/**/*.yaml`]
+}
+
+const specs = swaggerJsdoc(swaggerOptions)
+
+
 app.use((req,res,next)=>{
   req.socketServer=socketServer;
   next();
 }) 
+
+app.use('/apidocs',swaggerUiExpress.serve, swaggerUiExpress.setup(specs))
 app.use('/api/products/',routerProductos);
 app.use('/api/carts/',routerCart);
 app.use('/api/messages/',routerMessages);

@@ -1,0 +1,114 @@
+paths:
+  /api/products:
+    get:
+      summary: Obtener todos los productos
+      tags:
+        - Products
+      responses:
+        "200":
+          description: devuelve los productos
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#components/schemas/products"
+        "500":
+          description: "hubo un error"
+  /api/products/{uid}:
+    get:
+      summary: obtener el producto por id
+      tags:
+        - Products
+      parameters:
+        - name: uid
+          in: path
+          required: true
+          description: "parametro de ruta para identificar el producto"
+          schema:
+            type: String
+      responses:
+        "200":
+          description: devuelve el producto por id
+          content:
+            application/json:
+              schema:
+                $ref: "#components/schemas/products"
+        "500":
+          description: "hubo un error"
+    patch:
+      summary: actualizar el producto por id
+      tags:
+        - Products
+      parameters:
+        - name: uid
+          in: path
+          required: true
+          description: "parametro de ruta para identificar el producto a actualizar"
+          schema:
+            type: String
+      requestBody:
+        require: true
+        content:
+          application/json:
+            schema:
+              $ref: "#components/schemas/updateProduct"
+
+components:
+  schemas:
+    products:
+      type: object
+      properties:
+        _id:
+          type: ObjectId
+          description: id autogenerado por mongo
+        title:
+          type: String
+          description: titulo del producto
+        description:
+          type: String
+          description: descripcion del producto
+        code:
+          type: String
+          description: codigo del producto
+        category:
+          type: String
+          description: categoría del producto
+        price:
+          type: Number
+          description: precio del producto
+        stock:
+          type: Number
+          description: stock del producto
+        owner:
+          type: String
+          description: propietario del producto
+      example:
+        _id: ObjectId("asdasdasd")
+        title: titulo del producto
+        description: descripcion del producto
+        code: 9958
+        category: almacen
+        price: 456.23
+        stock: 15
+        owner: Juan
+    updateProduct:
+      type: object
+      properties:
+        title:
+          type: String
+          description: titulo del producto
+        description:
+          type: String
+          description: descripcion del producto
+        category:
+          type: String
+          description: categoría del producto
+        price:
+          type: Number
+          description: precio del producto
+      example:
+        title: Yerba Rosamonte
+        description: Yerba Rosamonte 500g
+        category: almacen
+        price: 540.25
