@@ -34,12 +34,8 @@ async getProductsPaginadosController(req,res){
 
   products.prevLink = products.hasPrevPage?`http://localhost:8080/products?page=${products.prevPage}&limit=${products.limit}`:'';
   products.nextLink = products.hasNextPage?`http://localhost:8080/products?page=${products.nextPage}&limit=${products.limit}`:'';
+  return products;
 
-  res.render('home', {
-    title: "productos",
-    products: products,
-    user: user
-  });
 }
  
 

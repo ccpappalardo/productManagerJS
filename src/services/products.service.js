@@ -48,13 +48,10 @@ export default class ProductService {
 
         const producto=await this.getProductByIdService(idProducto);
         const result=await this.productDao.existeStock(producto,cantidad);
-        return result;
-        
-      // return result;
+        return result; 
     }
 
-    async getActualizarStockService(element,cantidad){
-        //console.log("actualizar stockkkkkkk -- "+element,cantidad)
+    async getActualizarStockService(element,cantidad){ 
         const result=await this.productDao.actualizarStock(element,cantidad);
         return result;
     }
