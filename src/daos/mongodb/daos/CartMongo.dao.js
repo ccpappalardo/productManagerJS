@@ -76,7 +76,7 @@ export default class CartDAO {
       let product = cart.products.find((prod) => prod.product._id.toString() === productoId )
       product.quantity=quantity;
       await cart.save();
-      return result
+      return cart
     }catch(e){
         console.log(e);
         return e; 

@@ -1,0 +1,254 @@
+paths:
+  /api/carts:
+    post:
+      summary: Agregar un carrito
+      tags:
+        - Carts
+      security:
+        - cookieAuth: []
+      requestBody:
+        require: true
+        content:
+          application/json:
+            schema:
+              $ref: "#components/schemas/carts"
+      responses:
+        "200":
+          description: "Se agrego el carrito satisfactoriamente"
+        "500":
+          description: "Error interno del servidor"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+    get:
+      summary: Obtener todos los carritos
+      tags:
+        - Carts
+      responses:
+        "200":
+          description: Devuelve todos los carritos
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#components/schemas/carts"
+        "500":
+          description: "hubo un error"
+  /api/carts/{id}:
+    get:
+      summary: Obtener el carrito por id
+      tags:
+        - Carts
+      parameters:
+        - name: id
+          in: path
+          description: "id del carrito que se quiere solicitar"
+          schema:
+            type: String
+      responses:
+        "200":
+          description: Devuelve el carrito por id
+          content:
+            application/json:
+              schema:
+                $ref: "#components/schemas/carts"
+        "500":
+          description: "hubo un error"
+    put:
+      summary: Actualizar el carrito por id
+      tags:
+        - Carts
+      security:
+        - cookieAuth: []
+      parameters:
+        - name: id
+          in: path
+          description: "parametro de ruta para identificar el producto a actualizar"
+          schema:
+            type: String
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#components/schemas/cart"
+      responses:
+        "200":
+          description: Producto actualizado
+          content:
+            application/json:
+              schema:
+                $ref: "#components/schemas/carts"
+        "500":
+          description: "Hubo un error"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+    delete:
+      summary: Eliminar todos los productos del cart por id
+      tags:
+        - Carts
+      security:
+        - cookieAuth: []
+      parameters:
+        - name: id
+          in: path
+          description: "parametro de ruta para identificar el cart a eliminar sus productos"
+          schema:
+            type: String
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#components/schemas/deleteAllProductsFromCart"
+      responses:
+        "200":
+          description: carrito eliminado
+          content:
+            application/json:
+              schema:
+                $ref: "#components/schemas/carts"
+        "500":
+          description: "Hubo un error"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+  /api/carts/{cid}/products/{pid}:
+    post:
+      summary: Agregar un producto a un carrito en especifico
+      tags:
+        - Carts
+      security:
+        - cookieAuth: []
+      parameters:
+        - name: cid
+          in: path
+          description: "parametros de para identificar el cart"
+          schema:
+            type: String
+        - name: pid
+          in: path
+          description: "parametros de ruta para identificar el producto a agregar"
+          schema:
+            type: String
+      responses:
+        "200":
+          description: "Se agrego el producto al carrito satisfactoriamente"
+          content:
+            application/json:
+              schema:
+                $ref: "#components/schemas/carts"
+        "500":
+          description: "Error interno del servidor"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+    put:
+      summary: Actualiza la cantidad de un producto, en un carrito en especifico
+      tags:
+        - Carts
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          description: parametros de ruta para identificar el carrito
+          schema:
+            $type: String
+        - name: pid
+          in: path
+          required: true
+          description: parametros de ruta para identificar el producto a actualizar su cantidad
+          schema:
+            $type: String
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#components/schemas/updateQuantityCart"
+      responses:
+        "200":
+          description: Se actualizó la cantidad del producto, en el carrito especifico.
+        "500":
+          description: Error interno del servidor
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+    delete:
+      summary: Elimina un producto de un carrito en especifico
+      tags:
+        - Carts
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          description: parametros de ruta para identificar el carrito
+          schema:
+            $type: String
+        - name: pid
+          in: path
+          required: true
+          description: parametros de ruta para identificar el producto a eliminar
+          schema:
+            $type: String
+      responses:
+        "200":
+          description: El producto se ha eliminado correctamente del carrito
+        "500":
+          description: Error interno del servidor
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+
+  /api/carts/{cid}/purchase:
+    post:
+      summary: Procesar la compra de todos los productos del carrito
+      tags:
+        - Carts
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          description: parametros de ruta para identificar el carrito
+          schema:
+            $type: String
+      responses:
+        "200":
+          description: La compra se completo correctamente. Se devuelve un ticket con los detalles
+        "500":
+          description: Error interno del servidor
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+
+components:
+  schemas:
+    carts:
+      type: object
+      properties:
+        _id:
+          type: ObjectId
+          description: id autogenerado por mongo
+        product:
+          type: ObjectId
+          description: producto del carrito
+        quantity:
+          type: Number
+          description: cantidad del producto
+      example:
+        _id: ObjectId("asdasdasd")
+        product: ObjectId("asdasj323")
+        quantity: 15
+    updateQuantityCart:
+      type: object
+      example:
+        quantity: 5
+    deleteAllProductsFromCart:
+      type: object
+      properties:
+        id:
+          type: String
+          description: id del cart
+      example:
+        id: "pdkasds"
+  responses:
+    UnauthorizedError:
+      description: Access token is missing or invalid
+  securitySchemes:
+    cookieAuth: # arbitrary name for the security scheme; will be used in the "security" key later
+      type: apiKey
+      in: cookie
+      name: coderCookie

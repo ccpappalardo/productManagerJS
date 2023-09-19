@@ -34,7 +34,11 @@ router.get("/", async(req,res)=>{
 }); 
 
 //Sólo el usuario puede agregar productos a su carrito.
-router.post("/:cid/products/:pid",passportCall("jwt"),multipleAuthMiddleware(["admin","premium"]),chequeaPertenenciaDelCarrito,async(req,res)=>{
+router.post("/:cid/products/:pid",
+passportCall("jwt"),
+multipleAuthMiddleware(["admin","premium"]),
+chequeaPertenenciaDelCarrito,
+async(req,res)=>{
   try{
     //await managerCart.addProductInCart(cartId, productId);
     await cartController.addProductInCartController(req,res);
