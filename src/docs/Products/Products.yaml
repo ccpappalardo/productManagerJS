@@ -1,12 +1,31 @@
 paths:
   /api/products:
+    post:
+      summary: Agregar un producto
+      tags:
+        - Products
+      security:
+        - cookieAuth: []
+      requestBody:
+        require: true
+        content:
+          application/json:
+            schema:
+              $ref: "#components/schemas/addProduct"
+      responses:
+        "200":
+          description: "Se agrego el producto satisfactoriamente"
+        "500":
+          description: "Error interno del servidor"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
     get:
       summary: Obtener todos los productos
       tags:
         - Products
       responses:
         "200":
-          description: devuelve los productos
+          description: Devuelve todos los productos
           content:
             application/json:
               schema:
@@ -15,44 +34,82 @@ paths:
                   $ref: "#components/schemas/products"
         "500":
           description: "hubo un error"
-  /api/products/{uid}:
+  /api/products/{id}:
     get:
-      summary: obtener el producto por id
+      summary: Obtener el producto por id
       tags:
         - Products
       parameters:
-        - name: uid
+        - name: id
           in: path
-          required: true
-          description: "parametro de ruta para identificar el producto"
+          description: "id del producto que se quiere solicitar"
           schema:
             type: String
       responses:
         "200":
-          description: devuelve el producto por id
+          description: Devuelve el producto por id
           content:
             application/json:
               schema:
                 $ref: "#components/schemas/products"
         "500":
           description: "hubo un error"
-    patch:
-      summary: actualizar el producto por id
+    put:
+      summary: Actualizar el producto por id
       tags:
         - Products
+      security:
+        - cookieAuth: []
       parameters:
-        - name: uid
+        - name: id
           in: path
-          required: true
           description: "parametro de ruta para identificar el producto a actualizar"
           schema:
             type: String
       requestBody:
-        require: true
         content:
           application/json:
             schema:
               $ref: "#components/schemas/updateProduct"
+      responses:
+        "200":
+          description: Producto actualizado
+          content:
+            application/json:
+              schema:
+                $ref: "#components/schemas/products"
+        "500":
+          description: "Hubo un error"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+    delete:
+      summary: Eliminar producto por id
+      tags:
+        - Products
+      security:
+        - cookieAuth: []
+      parameters:
+        - name: id
+          in: path
+          description: "parametro de ruta para identificar el producto a eliminar"
+          schema:
+            type: String
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#components/schemas/deleteProduct"
+      responses:
+        "200":
+          description: producto eliminado
+          content:
+            application/json:
+              schema:
+                $ref: "#components/schemas/products"
+        "500":
+          description: "Hubo un error"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
 
 components:
   schemas:
@@ -112,3 +169,47 @@ components:
         description: Yerba Rosamonte 500g
         category: almacen
         price: 540.25
+    deleteProduct:
+      type: object
+      properties:
+        id:
+          type: String
+          description: id del producto
+      example:
+        id: "pdkasds"
+    addProduct:
+      type: object
+      properties:
+        title:
+          type: String
+          description: titulo del producto
+        description:
+          type: String
+          description: descripcion del producto
+        code:
+          type: Number
+          description: codigo del producto
+        category:
+          type: String
+          description: categoría del producto
+        price:
+          type: Number
+          description: precio del producto
+        stock:
+          type: Number
+          description: stock del producto
+      example:
+        title: productoo de prueba,
+        description: desc producto de prueba,
+        code: 5555,
+        category: Grocery,
+        price: 332.00,
+        stock: 3
+  responses:
+    UnauthorizedError:
+      description: Access token is missing or invalid
+  securitySchemes:
+    cookieAuth: # arbitrary name for the security scheme; will be used in the "security" key later
+      type: apiKey
+      in: cookie
+      name: coderCookie
