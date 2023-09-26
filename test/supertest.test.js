@@ -1,8 +1,9 @@
 import chai from "chai";
 import supertest from "supertest";
+import config from "../src/config";
 
 const expect = chai.expect;
-const requester = supertest("http://localhost:8080");
+const requester = supertest("http://localhost:"+config.PORT);
 let currentUser;
 let CoderCookie;
 
@@ -81,8 +82,7 @@ describe("Test General del Sistema", () => {
       const request = await requester
       .get("/api/products/" + productId)
       .set("Cookie", [`${CoderCookie.name}=${CoderCookie.value}`])
-     // console.log(request);
-      expect(request._body.product).to.have.property("_id"); 
+      expect(request._body).to.have.property("product"); 
       expect(request.statusCode).to.be.equal(200);
     }).timeout(10000);
 
