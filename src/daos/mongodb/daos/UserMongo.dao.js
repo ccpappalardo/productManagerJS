@@ -9,6 +9,9 @@ export default class UserDAO{
         //funcion para agregar user 
     addUser= async (user) => {
         try{
+ 
+        console.log(user)
+        //Comprobante de domicilio, Comprobante de estado de cuenta
         let result=await userModel.create(user);
         return result
         }catch(e){ 
@@ -40,8 +43,8 @@ export default class UserDAO{
     }
  
 
-      //Recibe un id de user y lo devuelve en formato de objeto
-      getUserByEmailPass = async (email,password) => {
+    //Recibe un id de user y lo devuelve en formato de objeto
+    getUserByEmailPass = async (email,password) => {
         try{
         //let result=await userModel.findOne({email: email, password:password}).populate('carts.cart');
         let result=await userModel.findOne({email: email, password:password});
@@ -75,6 +78,80 @@ export default class UserDAO{
             return e;
         }
     }
+
+    updateLastConnection=async(id)=>{
+        try{
+            let ahora=new Date();
+            let result=await userModel.updateOne(
+                {_id: id},
+                {$set: {last_connection:ahora}}
+            );
+        return result;
+        }catch(e){
+            return e;
+        }
+    }
+
+    updatePathDocuments=async(id,documentsNames,documentsPaths)=>{
+        try{
+            let user= await userModel.findOne({_id: id});
+           
+
+            for(let i=0; i<documentsPaths.length; i++){
+                const path=documentsPaths[i]
+                const name=documentsNames[i]
  
-   
+                if(path!=undefined){
+                    const existeDocumento=user.documents.find(doc=>doc.name==name);
+                    if(existeDocumento){
+                        existeDocumento.reference=path;
+                    }else{
+                        user.documents.push({
+                            name:name,
+                            reference: path
+                        });
+                    }
+
+                }
+            }
+            /*
+            if(archivos.adress){
+                user.documents.push({
+                    name:'profiles',
+                    reference: "/src/public/images/profiles/"+archivos.profiles[0].filename
+                });
+            }
+            if(archivos.products){
+                user.documents.push({
+                    name:'products',
+                    reference: "/src/public/images/products/"+archivos.products[0].filename
+                }); 
+            }
+            */          
+            const result= await user.save();
+            return result; 
+        }catch(e){
+            return e;
+        }
+    }
+
+     //Recibe un id de user y lo devuelve en formato de objeto
+     getPremiumRequiredDoc = async (id) => {
+        try{
+        let user= await userModel.findOne({_id: id});
+  
+        let identification, adress,accountStatus;
+        if(!user.documents) return false;        
+        for(let i=0; i<user.documents.length;i++){
+            identification=user.documents.find(doc=>doc.name=='identification' && doc.reference!="");
+            adress=user.documents.find(doc=>doc.name=='adress' && doc.reference!="");
+            accountStatus=user.documents.find(doc=>doc.name=='accountStatus' && doc.reference!="");   
+        }
+ 
+        return identification && adress && accountStatus? true: false; 
+        }catch(e){ 
+            return e; 
+        }
+    }
+ 
 } 

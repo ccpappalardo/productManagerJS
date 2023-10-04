@@ -113,4 +113,9 @@ router.get("/mockingproducts", async (req, res) => {
   res.send({product});
 });
 
+
+router.get("/documents", async (req, res) => {
+  res.render('documents');
+});
+  
 export default router;

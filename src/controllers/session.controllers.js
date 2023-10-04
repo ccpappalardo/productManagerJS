@@ -32,13 +32,15 @@ async loginController(req,res){
    id: req.user._id,
    cart: req.user.cart
    } 
+
    
    let token = jwt.sign(user, config.JWT_SECRET, {
     expiresIn: "24h",
   });
    
   res.cookie("coderCookie", token, { httpOnly: true }).send({ status: "success", user: user });
-   
+  //actualizo la ultima conexion del usuario
+  await this.sessionService.updateUserLastConnection(req.user._id);
  } 
 
 async loginFailController(req, res) {
@@ -59,8 +61,10 @@ async getCurrentController(req, res) {
 
 
 async logoutController(res){
-  await this.sessionService.logoutService(res)
-
+  console.log(res);
+    await this.sessionService.logoutService(res)
+  //actualizo la ultima conexion del usuario--
+  await this.sessionService.updateUserLastConnection(req.user._id);
  }
 
  
@@ -142,8 +146,17 @@ console.log(email, password)
       let user = await this.sessionService.getUserService(id);
 
       if(user.role=="user"){
-        await this.sessionService.updateUserRoleService(id, "premium");
-        return res.send({status: "success", message: "Rol de Usuario actualizado a Premium"});
+        //Agrego control para saber si el usuario tiene los archivos necesarios para ser Premium
+        const result=await this.sessionService.getPremiumRequiredDoc(id);
+   
+        if(result){
+          await this.sessionService.updateUserRoleService(id, "premium");
+          return res.send({status: "success", message: "Rol de Usuario actualizado a Premium"});
+        }else{
+          return res.status(400).
+          send({status: "failure", details: "El usuario no tiene la documentación requerida para pasar a Premium."})
+
+        }
       }else if(user.role=="premium"){
         await this.sessionService.updateUserRoleService(id, "user");
         return res.send({status: "success", message: "Rol de Premium actualizado a Usuario"});
@@ -157,5 +170,68 @@ console.log(email, password)
       return res.status(404).send({status: "error", error: error.message});
     }
   }
+
+//actualiza path de documentos
+async updatePathDocuments(req,res){
+  try {
+     
+    let id = req.params.uid;
+    let archivos=req.files; 
+
+    let identification;
+    let adress;
+    let accountStatus;
+
+    if(archivos.identification){
+     identification="/src/public/images/documents/identification/"+archivos.identification[0].filename;
+    }
+    if(archivos.adress){
+     adress="/src/public/images/documents/adress/"+archivos.adress[0].filename;
+    }
+    if(archivos.accountStatus){
+     accountStatus="/src/public/images/documents/accountStatus/"+archivos.accountStatus[0].filename;
+    }
+
+    const documentsPaths=[identification, adress, accountStatus]
+    const documentsNames=["identification","adress","accountStatus"]
+  
+    let result = await this.sessionService.updatePathDocuments(id,documentsNames,documentsPaths);
+
+    if(result){
+      return res.send({status: "success", message: "Archivos actualizados con Exito!"});
+    } 
+    else{
+      return res.status(400).
+      send({status: "failure", details: "Error - No se pudo actualizar el path de archivos."})
+    }
+
+  }
+  catch (error) {
+    return res.status(404).send({status: "error", error: error.message});
+  }
+}
+
+
+//Controlo si tiene la documentación requerida para ser Premium
+async getPremiumRequiredDoc(req,res){
+  try {
+     
+    let id = req.params.uid; 
+
+    let result = await this.sessionService.getPremiumRequiredDoc(id);
+
+    if(result){
+      return res.send({status: "success", message: "tiene los archivos requeridos para ser Premium!"});
+    } 
+    else{
+      return res.status(400).
+      send({status: "failure", details: "Error - No tiene los archivos requeridos para ser Premium."})
+    }
+
+  }
+  catch (error) {
+    return res.status(404).send({status: "error", error: error.message});
+  }
+}
  
 }

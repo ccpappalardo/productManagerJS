@@ -63,4 +63,20 @@ export default class SessionService {
         return result;
     }
 
+    async updateUserLastConnection(id){
+        const result =await this.userDao.updateLastConnection(id);
+        return result;
+    }
+
+    async updatePathDocuments(id,documentsNames,documentsPaths){
+ 
+        const result =await this.userDao.updatePathDocuments(id,documentsNames,documentsPaths);
+        return result;
+    }
+
+    
+    async getPremiumRequiredDoc(id){
+        const result =await this.userDao.getPremiumRequiredDoc(id);
+        return result;
+    }
 } 

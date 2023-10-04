@@ -32,7 +32,21 @@ export const intializePassport = () => {
               age,
               cart: carrito,
               password: createHash(password),
-              role:"user"
+              role:"user",
+              documents:[
+                    {
+                        name:"adress",
+                        reference:""                    
+                    },
+                    {
+                        name:"identification",
+                        reference:""                    
+                    },
+                    {
+                    name:"accountStatus",
+                    reference:""                    
+                    }
+                ]
             };
             
       console.log("usuario nuevo--en passport "+newUser);

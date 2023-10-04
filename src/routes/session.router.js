@@ -5,6 +5,7 @@ import passport from "passport";
 import { ErrorEnum } from "../services/enum/error.enum.js";
 import CustomError from "../services/Error/CustomError.class.js";
 import { generateErrorInfo } from "../services/info.js";
+import uploaderMulter from "../services/middleware/multer.middleware.js";
 
 let sessionController=new SessionController();
 
@@ -48,7 +49,7 @@ async (req, res) => {
 );
  
 
-router.post('/logout',
+router.post('/logout',passportCall("jwt"),
 async (req, res) => {
     await sessionController.logoutController(res);
 })
@@ -100,6 +101,13 @@ router.post(
   passportCall("jwt",{ session: false }),
   async(req,res)=>{
   sessionController.cambiarRolController(req,res);
+})
+
+router.post(
+  '/:uid/documents',
+  uploaderMulter.fields(([{ name: 'adress', maxCount: 1 }, { name: 'identification', maxCount: 1 },{ name: 'accountStatus', maxCount: 1 }])),
+  async(req,res)=>{ 
+    await sessionController.updatePathDocuments(req,res);
 })
 
 export default router
