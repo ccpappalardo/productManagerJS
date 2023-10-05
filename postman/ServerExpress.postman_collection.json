@@ -4,7 +4,7 @@
 		"name": "ServerExpress",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "16835092",
-		"_collection_link": "https://galactic-comet-677597.postman.co/workspace/Team-Workspace~d5795839-c1b7-403f-81c1-5ceb58ecdb20/collection/16835092-1b8c4eab-6cdc-46e6-b9da-a267ed3af769?action=share&creator=16835092&source=collection_link"
+		"_collection_link": "https://galactic-comet-677597.postman.co/workspace/Team-Workspace~d5795839-c1b7-403f-81c1-5ceb58ecdb20/collection/16835092-1b8c4eab-6cdc-46e6-b9da-a267ed3af769?action=share&source=collection_link&creator=16835092"
 	},
 	"item": [
 		{
@@ -65,7 +65,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n\t\"title\": \"Yerba\",\r\n\t\"description\": \"Yerba Rosamonte 500g\",\r\n\t\"code\": 556,\r\n\t\"price\": 750,\r\n\t\"status\":true,\r\n\t\"stock\": 10,\r\n\t\"thumbnail\": [\"yerba.jpg\",\"https://d3ugyf2ht6aenh.cloudfront.net/stores/805/409/products/suave-plus1-16a2f6270bbd451a1b16708697687286-640-0.jpg\"],\r\n\t\"category\": \"almacen\"\r\n}",
+							"raw": "{\r\n\"ObjectId\": \"6bbcaf3a49ffbbbb2b09d946\",\r\n\"title\": \"Awesome Frozen Keyboard\",\r\n\"description\": \"The slim & simple Maple Gaming Keyboard from Dev Byte comes with a sleek body and 7- Color RGB LED Back-lighting for smart functionality\",\r\n\"code\": 124,\r\n\"category\": \"Grocery\",\r\n\"price\": \"158.00\",\r\n\"stock\": \"0\",\r\n\"owner\": \"ccpappalardo@gmail.com\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -233,6 +233,408 @@
 								{
 									"key": "pid",
 									"value": null
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/api/carts/cid/purchase",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/carts/64d69034e13e77e646f54d32/purchase",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"carts",
+								"64d69034e13e77e646f54d32",
+								"purchase"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/api/carts/cid/products/pid",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/carts/6490c0066c7f1bf03622b714/products/6490bd614c46fa6eadf50cea",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"carts",
+								"6490c0066c7f1bf03622b714",
+								"products",
+								"6490bd614c46fa6eadf50cea"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/api/carts/cid",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "/api/carts/cid",
+							"path": [
+								"api",
+								"carts",
+								"cid"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/api/carts/id",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "[\r\n    {    \r\n        \"product\": \"64d2eb9d60d648c3f15394e2\",\r\n        \"quantity\": 2\r\n    },\r\n     {    \r\n        \"product\": \"64d2eb9d60d648c3f15394e2\",\r\n        \"quantity\": 1\r\n    }\r\n]\r\n ",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/api/carts/64d2ebbe60d648c3f15394e4",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"carts",
+								"64d2ebbe60d648c3f15394e4"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/api/carts/cid/product/pid",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "/api/carts/cid/product/pid",
+							"path": [
+								"api",
+								"carts",
+								"cid",
+								"product",
+								"pid"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "messages",
+			"item": [
+				{
+					"name": "api/messages",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/messages/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"messages",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/api/messages",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n        \"user\": \"rodrigo\",\r\n        \"message\": \"hola soy rodrigo\"\r\n }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/messages",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"messages"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "views",
+			"item": [
+				{
+					"name": "/carts/id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "/carts/id",
+							"path": [
+								"carts",
+								"id"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/register",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"first_name\": \"Carla\",\r\n    \"last_name\": \"Pappalardo\",\r\n    \"email\": \"ccpappalardo@gmail.com\",\r\n    \"password\": 123456\r\n\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/register",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"register"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "sessions",
+			"item": [
+				{
+					"name": "/api/login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n   \"email\":\"ccpappalardo@gmail.com\",\r\n\"password\": \"123456\"\r\n  //\"email\":\"adminCoder@coder.com\",\r\n  //\"password\": \"adminCod3r123\"\r\n //   \"email\": \"xx@gmail.com\",\r\n  //  \"password\": \"123456\" \r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/api/sessions/login",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"sessions",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/current",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/sessions/current",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"sessions",
+								"current"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/logout",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/sessions/logout",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"sessions",
+								"logout"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/sessions/asdsad",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"sessions",
+								"asdsad"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "postprofe",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"lastName\": \"nnnn\",\r\n    \"firstName\": \"aaa\",\r\n    \"age\": \"25\",\r\n    \"email\": \"adminCoder@coder.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/api/sessions",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"sessions"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/premium/:uid",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/sessions/premium/:uid",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"sessions",
+								"premium",
+								":uid"
+							],
+							"variable": [
+								{
+									"key": "uid",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/:uid/documents",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "reference",
+									"type": "file",
+									"src": "/C:/Users/kar/Pictures/CDI/descarga.jpg"
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost:8080/api/sessions/:uid/documents",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"sessions",
+								":uid",
+								"documents"
+							],
+							"variable": [
+								{
+									"key": "uid",
+									"value": ""
 								}
 							]
 						}
