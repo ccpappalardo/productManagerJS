@@ -153,5 +153,40 @@ export default class UserDAO{
             return e; 
         }
     }
+
+    //Devuelve todos los usuarios del Sistema
+    getUsers = async () => {
+        try{
+        let result= await userModel.find();
+       // console.log("usuarios en dao")
+       // console.log(result)
+        return result
+        }catch(e){ 
+            return e; 
+        }
+    }
+
+
+    getUsersInactivos= async()=>{
+        try{
+        let ahora=new Date();
+        console.log(ahora);
+       ahora.setDate(ahora.getDate() - 2);
+       // console.log(ahora)
+        console.log(ahora);
+
+        const result = await userModel.find({ //query today up to tonight´
+          //  _id:id,
+            last_connection: {
+                $lt: ahora
+            }
+        })
+        console.log(result);
+        return result
+        }catch(e){
+           
+            return e;
+        }
+    }  
  
 } 

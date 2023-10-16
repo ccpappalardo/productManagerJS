@@ -6,6 +6,7 @@ import { ErrorEnum } from "../services/enum/error.enum.js";
 import CustomError from "../services/Error/CustomError.class.js";
 import { generateErrorInfo } from "../services/info.js";
 import uploaderMulter from "../services/middleware/multer.middleware.js";
+import { multipleAuthMiddleware } from "./middlewares/roles.middleware.js";
 
 let sessionController=new SessionController();
 
@@ -38,20 +39,18 @@ router.post("/login",
 router.get("/faillogin",async (req, res) => {
   await sessionController.loginFailController(req,res)   
 });
- 
-//current
-//router.get("/current",passportCall("jwt"),authorization('user'),
+  
 router.get("/current",passportCall("jwt"),
 async (req, res) => {
      await sessionController.getCurrentController(req,res);
- 
 }
 );
  
 
-router.post('/logout',passportCall("jwt"),
+router.post('/logout',
+passportCall("jwt"),
 async (req, res) => {
-    await sessionController.logoutController(res);
+    await sessionController.logoutController(res,req);
 })
 
 
@@ -108,6 +107,23 @@ router.post(
   uploaderMulter.fields(([{ name: 'adress', maxCount: 1 }, { name: 'identification', maxCount: 1 },{ name: 'accountStatus', maxCount: 1 }])),
   async(req,res)=>{ 
     await sessionController.updatePathDocuments(req,res);
+})
+
+//ruta que devuelve todos los Usuarios
+router.get("/",
+passportCall("jwt",{ session: false }),
+multipleAuthMiddleware(["admin"]),
+  async (req, res, next) => {
+    await sessionController.getUsersController(req,res);
+})
+
+
+//ruta que devuelve todos los Usuarios
+router.delete("/",
+passportCall("jwt",{ session: false }),
+multipleAuthMiddleware(["admin"]),
+  async (req, res, next) => {
+    await sessionController.deleteUsersInactivosController(req,res);
 })
 
 export default router

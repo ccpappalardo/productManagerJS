@@ -60,9 +60,9 @@ async getCurrentController(req, res) {
 }
 
 
-async logoutController(res){
-  console.log(res);
-    await this.sessionService.logoutService(res)
+async logoutController(res,req){
+  //console.log(res);
+    await this.sessionService.logoutService(req,res)
   //actualizo la ultima conexion del usuario--
   await this.sessionService.updateUserLastConnection(req.user._id);
  }
@@ -148,7 +148,6 @@ console.log(email, password)
       if(user.role=="user"){
         //Agrego control para saber si el usuario tiene los archivos necesarios para ser Premium
         const result=await this.sessionService.getPremiumRequiredDoc(id);
-   
         if(result){
           await this.sessionService.updateUserRoleService(id, "premium");
           return res.send({status: "success", message: "Rol de Usuario actualizado a Premium"});
@@ -232,6 +231,16 @@ async getPremiumRequiredDoc(req,res){
   catch (error) {
     return res.status(404).send({status: "error", error: error.message});
   }
+}
+
+async getUsersController(req, res) {
+  const result=await this.sessionService.getUsersService();
+  res.send(result);
+}
+
+async deleteUsersInactivosController(req, res) {
+  const result=await this.sessionService.deleteUsersInactivosService();
+  res.send(result);
 }
  
 }

@@ -1,6 +1,7 @@
 import UserDAO from "../daos/mongodb/daos/UserMongo.dao.js"
 import jwt from 'jsonwebtoken' 
 import userDTO from "../controllers/dtos/user.dto.js";
+import usersDTO from "../controllers/dtos/users.dto.js";
  
 export default class SessionService {
 
@@ -79,4 +80,21 @@ export default class SessionService {
         const result =await this.userDao.getPremiumRequiredDoc(id);
         return result;
     }
+
+    async getUsersService(){
+        const result =await this.userDao.getUsers(); 
+        let usuariosFormateados=new Array();
+        result.forEach((usuario)=>usuariosFormateados.push(new usersDTO(usuario)));
+        return usuariosFormateados;
+    }
+
+    async deleteUsersInactivosService(){
+        const usersInactivos=await this.userDao.getUsersInactivos();
+        //const result =await this.userDao.getUsers(); 
+        //let usuariosFormateados=new Array();
+        //result.forEach((usuario)=>usuariosFormateados.push(new usersDTO(usuario)));
+        //return usuariosFormateados;
+        return usersInactivos;
+    }
+
 } 
