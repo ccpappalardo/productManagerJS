@@ -2,11 +2,13 @@ import UserDAO from "../daos/mongodb/daos/UserMongo.dao.js"
 import jwt from 'jsonwebtoken' 
 import userDTO from "../controllers/dtos/user.dto.js";
 import usersDTO from "../controllers/dtos/users.dto.js";
+import Mail from "../helpers/mail.js";
  
 export default class SessionService {
 
     constructor(){
         this.userDao= new UserDAO();  
+        this.mail = new Mail();
     }
 
     async registerService(user){
@@ -88,13 +90,36 @@ export default class SessionService {
         return usuariosFormateados;
     }
 
-    async deleteUsersInactivosService(){
+    async getUsersInactivos(){
         const usersInactivos=await this.userDao.getUsersInactivos();
-        //const result =await this.userDao.getUsers(); 
-        //let usuariosFormateados=new Array();
-        //result.forEach((usuario)=>usuariosFormateados.push(new usersDTO(usuario)));
-        //return usuariosFormateados;
+        
+        //deleteUserById
+        
         return usersInactivos;
     }
+
+    
+    async deleteUserInactivo(user){
+       
+        try{
+             const result =this.userDao.deleteUserById(user._id);
+            return result; 
+          }catch(error){
+            return res.status(404).send({status: "error", error: error.message});
+          }
+    }
+
+    async enviarCorreo(email,asunto, cuerpo,res){
+
+    try{
+      console.log("Entro a mandar el emailssssssssss");
+    
+      const result = this.mail.send(email,asunto,cuerpo);
+      return result; 
+    }catch(error){
+      return res.status(404).send({status: "error", error: error.message});
+    }
+    }
+
 
 } 

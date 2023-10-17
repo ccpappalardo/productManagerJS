@@ -110,6 +110,7 @@ console.log(email, password)
   }
 }
 
+//envia correo - email
   async requestResetPasswordController(req,res){
 
     const {email} = req.body;
@@ -121,7 +122,7 @@ console.log(email, password)
     if(!user) return res.status(404).send({status:"error",error:"El usuario no se encuentra registrado"});
     
     try{
-      console.log("Entro a mandar el emailssssssssss");
+      //console.log("Entro a mandar el emailssssssssss");
       
       let tokenReset = jwt.sign({email}, config.TOKEN_RESET, {
         expiresIn: "1h",
@@ -132,8 +133,9 @@ console.log(email, password)
       html = html.concat(
         `<div><h1>Restaura tu contraseña haciendo click en el siguiente link</h1> 
       http://localhost:8080/resetPassword?token=${tokenReset}</div>`);
-     
-     const result = this.mail.send(email, "Correo de Recuperación de Contraseña", html);
+     let asunto="Correo de Recuperación de Contraseña";
+     const result=this.sessionService.enviarCorreo(email,asunto,html,res);
+   //  const result = this.mail.send(email, "Correo de Recuperación de Contraseña", html);
       return result; 
     }catch(error){
       return res.status(404).send({status: "error", error: error.message});
@@ -239,8 +241,26 @@ async getUsersController(req, res) {
 }
 
 async deleteUsersInactivosController(req, res) {
-  const result=await this.sessionService.deleteUsersInactivosService();
-  res.send(result);
+  const usuarios=await this.sessionService.getUsersInactivos();
+  try{
+     
+    let cuerpo = `<h1>Su usuario se encuentra inactivo</h1>`
+    cuerpo = cuerpo.concat(
+      `<div><h1>Se procede a eliminar su usuario del Sistema, ya que hemos detectado que no tiene actividad reciente.</h1> 
+         Ante cualquier inquietud contáctenos! </div>`);
+
+    usuarios.forEach((user)=>{
+       
+      let asunto=`Usuario  - ${user.email}`;
+      this.sessionService.enviarCorreo(user.email,asunto,cuerpo)
+      this.sessionService.deleteUserInactivo(user);
+    })
+    
+  }catch(error){
+    return res.status(404).send({status: "error", error: error.message});
+  }
+
+  res.status(200).send({status: "success", message: "Usuarios Eliminados con Exito!"});
 }
  
 }

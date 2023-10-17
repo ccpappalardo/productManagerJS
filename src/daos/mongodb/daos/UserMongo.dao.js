@@ -81,7 +81,7 @@ export default class UserDAO{
 
     updateLastConnection=async(id)=>{
         try{
-            let ahora=new Date();
+            let ahora=Date.now();
             let result=await userModel.updateOne(
                 {_id: id},
                 {$set: {last_connection:ahora}}
@@ -169,24 +169,32 @@ export default class UserDAO{
 
     getUsersInactivos= async()=>{
         try{
-        let ahora=new Date();
+        let ahora=Date.now() - 2*24*60*60*1000;
         console.log(ahora);
-       ahora.setDate(ahora.getDate() - 2);
-       // console.log(ahora)
-        console.log(ahora);
-
-        const result = await userModel.find({ //query today up to tonight´
-          //  _id:id,
+       
+        const result = await userModel.find({ 
             last_connection: {
                 $lt: ahora
             }
         })
-        console.log(result);
+       
         return result
         }catch(e){
            
+        console.log(e);
             return e;
         }
     }  
+
+    //Metodo que elimina el usuario por el id
+    deleteUserById= async (id) => { 
+   
+        try{
+        let result=await userModel.deleteOne({_id: id});
+        return result;
+        }catch(e){ 
+                return e; 
+            }
+        }
  
 } 

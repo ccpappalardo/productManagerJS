@@ -28,7 +28,8 @@ const schema = new mongoose.Schema({
             }
         ]
     },
-    last_connection: String,
+    last_connection:  { type: String, 
+        default: Date.now()},
 })
 
 //const userModel = 
