@@ -19,7 +19,6 @@ export default class CartDAO {
   }
   async getCartById(id) {
     const cart = await cartModel.findOne({_id: id}).populate('products.product')
-    //console.log(cart);
     return cart
   }
   
@@ -63,7 +62,7 @@ export default class CartDAO {
   //Elimino todos los productos de un carrito en especifico
   deleteAllProductsFromCart = async (carritoId) => {
     const cart=await this.getCartById(carritoId);
-    console.log(cart+"cart en dao")
+ 
     cart.products=[];
     await cart.save();
     return cart;
@@ -78,7 +77,7 @@ export default class CartDAO {
       await cart.save();
       return cart
     }catch(e){
-        console.log(e);
+      
         return e; 
     }
 }
@@ -90,10 +89,19 @@ updateAllProductsFromCart = async (carritoId,arrayProductos) => {
     cart.products=arrayProductos;
     await cart.save();
     }catch(e){
-        console.log(e);
+       
         return e; 
     }
 }
+
+deleteCart= async (cartId) => { 
+  try{
+  let result=await cartModel.deleteOne({_id: cartId});
+  return result;
+  }catch(e){ 
+          return e; 
+      }
+  }
 
  
 }

@@ -15,15 +15,15 @@ export default class TicketDAO {
                 return e;
         }
     }
-    
-    //trae todos los tickets de un email.
-    imprimirTicketByUser = async (username) => {
+     
+     //Trae un ticket por id
+     getTicketById = async (id) => {
         try{
-            let result=await ticketsModel.findOne({purchaser: username});
+            let result=await ticketsModel.findOne({_id: id});
             return result
             }catch(e){ 
-                return e; 
-            }
+                return e;
+        }
     }
 
  

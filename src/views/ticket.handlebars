@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Información del Ticket</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head> 
+<body> 
+
+<div class="container">
+  <h2>Usuario:</h2>
+  <div class="centrar">
+  <p><strong>ID:</strong> {{user.id}}</p>
+  <p><strong>Nombre:</strong> {{user.nombre}}</p>
+  <p><strong>Email:</strong> {{user.email}}</p>
+  <p><strong>Edad:</strong> {{user.edad}}</p>
+  <p><strong>Rol:</strong> {{user.role}}</p>
+  <p><strong>Carrito:</strong> {{user.cart}}</p> 
+  </div>
+
+  <h2>Ticket:</h2>
+  <div class="centrar">
+  <p><strong>ID:</strong> {{ticket.id}}</p>
+  <p><strong>Código:</strong> {{ticket.codigo}}</p>
+  <p><strong>Fecha de Compra:</strong> {{ticket.fecha}}</p>
+  <p><strong>Precio Total:</strong> $ {{ticket.precio}}</p>
+  <p><strong>Cliente:</strong> {{ticket.cliente}}</p>
+  <p><strong>Productos:</strong> {{#each ticket.productos}}
+    {{this}}
+  {{/each}}</p>
+  </div>
+  <div>
+      <button class="btn" id="logout-btn" name="logout-btn">Salir</button>
+  </div>
+</div>
+
+</body>
+</html>
+  
+
+<script>
+  let logoutButton = document.getElementById("logout-btn") 
+   
+   logoutButton.addEventListener("click", (evt) => {
+    fetch('http://localhost:8080/api/sessions/logout', {method: 'post'})
+    .then( res => {
+      return window.location.replace('/login')
+    })
+  })
+ 
+</script>
+

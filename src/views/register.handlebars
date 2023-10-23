@@ -1,24 +1,33 @@
-<div>
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Registro de Usuarios</title>
+   <link rel="stylesheet" href="/css/style.css">
+</head> 
+<body>
+<div class="container">
     <h1>Registro</h1>
     <form id="registerForm">
 
         <label>Nombre</label>
-        <input name="first_name">
+        <input name="first_name" required>
         <br/>
-        <label>Apellido</label>
-        <input name="last_name">
+        <label>Apellido</label >
+        <input name="last_name" required>
         <br/>
         <label>Email</label>
-        <input name="email">
+        <input name="email" required>
         <br/>
         <label>Edad</label>
-        <input name="age">
+        <input name="age" required>
         <br/>
         <label>Contraseña</label>
-        <input type="password" name="password">
+        <input type="password" name="password" required>
 
         <input type="submit">
     </form>
-    <p>¿Ya tienes una cuenta? <a href="/login">Ingresa aquí</a></p>
+    <p class="centrado">¿Ya tienes una cuenta? <a href="/login">Ingresa aquí</a></p>
 </div>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="/js/register.js"></script>

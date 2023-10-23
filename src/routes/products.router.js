@@ -33,13 +33,12 @@ router.get('/:id',async(req,res)=>{
 
 router.delete('/:id', passportCall("jwt"),multipleAuthMiddleware(["admin","premium"]),async(req,res)=>{
    
-    const product=await productController.deleteProductController(req,res);
-    res.send({product});
+ await productController.deleteProductController(req,res);
+  
 }) 
 
 router.put('/:id', passportCall("jwt"),multipleAuthMiddleware(["admin","premium"]), async(req,res)=>{
     const product=await productController.updateProductController(req,res);
-    //res.send({product});
 }) 
  
 

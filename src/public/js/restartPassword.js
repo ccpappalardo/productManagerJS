@@ -13,7 +13,29 @@ form.addEventListener('submit',e=>{
         }
     }).then(result=>{
         if(result.status===200){
-            console.log("Contraseña restaurada")
+            Swal.fire({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 5000,
+                title:  'Se ha modificado su contraseña con Éxito',
+                icon: 'success',
+                timerProgressBar:true
+              })
+            setTimeout(()=>window.location.replace('/login'),3000);
+        }else{
+
+            Swal.fire({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 5000,
+                title:  'No se ha podido modificar su contraseña',
+                icon: 'error',
+                timerProgressBar:true
+              })
+
         }
+
     })
 })

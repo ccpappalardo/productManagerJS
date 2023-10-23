@@ -20,7 +20,7 @@ async getCartByIdController(id) {
       error: "debes especificar un id",
     };
   }
-  console.log(id);
+ 
   const result = await this.cartService.getCartById(id);
   return result;
 }
@@ -33,13 +33,14 @@ async addProductInCartController(req,res){
   const cartId = req.params.cid;
   const productId = req.params.pid;
   const productoBuscado= await this.productService.getProductByIdService(productId);
+ 
   if(req.user.role=="premium"){
     return res.status(403).
-    send({status: "failure", details: "El rol premium no puede agregar productos al carrito"})
+    send({status: "failure", message: "El rol premium no puede agregar productos al carrito"})
   }
   if (productoBuscado.owner === req.user.email) { 
     return res.status(403).
-    send({status: "failure", details: "No está permitido que agregues este producto a este carrito"})
+    send({status: "failure", message: "No está permitido que agregues este producto a este carrito"})
   }
   
  
@@ -69,14 +70,18 @@ async updateProductFromCartController(req){
 async updateAllProductsFromCartController(req){
   let cartId = req.params.cid
   let productos = req.body;
-  console.log(productos)
   const productoActualizado= await this.cartService.updateAllProductsFromCartService(cartId,productos);
-  return productoActualizado 
+  if(productoActualizado){
+   return res.status(200).send({status: "success",result: productoActualizado, message: "El producto se ha actualizado con Éxito!"}); 
+  }else{
+    return res.status(403).
+    send({status: "failure", message: "El producto no se ha actualizado!"})
+  }
 }
 
 async procesarCompraController(req,res){
   let cartId = req.params.cid
   const compraProcesada= await this.cartService.procesarCompraService(cartId,req,res);
-  return compraProcesada;
-}
+  return res.send({status: "success",result: compraProcesada});  
+  }
 }

@@ -18,6 +18,7 @@ router.get("/:id", async(req,res)=>{
   req.logger.info(id);
   try{
     let cart=await cartController.getCartByIdController(id)  
+ 
     res.send(cart);
   }catch(error){
     res.send(error)
@@ -28,7 +29,6 @@ router.get("/:id", async(req,res)=>{
 
 router.get("/", async(req,res)=>{
   let carts=await cartController.getCartsController();
-  //console.log("carts en router"+carts)
   res.send(carts);
 
 }); 
@@ -36,11 +36,10 @@ router.get("/", async(req,res)=>{
 //Sólo el usuario puede agregar productos a su carrito.
 router.post("/:cid/products/:pid",
 passportCall("jwt"),
-multipleAuthMiddleware(["admin","premium"]),
+multipleAuthMiddleware(["user","premium"]),
 chequeaPertenenciaDelCarrito,
 async(req,res)=>{
   try{
-    //await managerCart.addProductInCart(cartId, productId);
     await cartController.addProductInCartController(req,res);
    
   }catch(error){
@@ -62,17 +61,14 @@ router.delete("/:cid", async (req, res) => {
   
   const cartId = req.params.cid;
   let cart=await cartController.deleteAllProductsFromCartController(cartId);
-  res.send(cart);
-  //res.send({ status: "success" });
+  res.send(cart); 
 });
 
 
 router.put("/:cid/products/:pid", async (req, res) => {
-  let cart=await cartController.updateProductFromCartController(req);
-  res.send(cart);
-//  cartsController.updateProduct
+  await cartController.updateProductFromCartController(req); 
 });
-
+  
 router.put("/:cid",async (req, res) => {
   let cart=await cartController.updateAllProductsFromCartController(req);
   res.send(cart);
@@ -81,10 +77,8 @@ router.put("/:cid",async (req, res) => {
 
 //procesar compra
 router.post("/:cid/purchase",passportCall("jwt"), async (req, res) => {
- // console.log("entro a router procesar compra ")
-  let cart=await cartController.procesarCompraController(req,res);
-  res.send(cart);
-});
- 
+   await cartController.procesarCompraController(req,res); 
+}); 
+
 
 export default router;

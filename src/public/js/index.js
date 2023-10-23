@@ -53,19 +53,4 @@ socket.on("actualizarProduct", (product) => {
   deleteChild(product.id);
   createChild(product);
 });
-
  
-function agregarAlCarrito(productId) {
-    /*
-  const id=productId
-  console.log(id)
-    try{
-      const productoBuscado=productosManager.getProductById(id);
-      console.log({productoBuscado});
-      res.render('product',{productoBuscado});
-    }catch (error) {
-      console.error(error);
-      res.status(400).send(error.message); // Envía el mensaje de error al cliente de Postman
-    }    
-    */
-  }

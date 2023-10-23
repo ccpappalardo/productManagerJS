@@ -29,7 +29,7 @@ export const multipleAuthMiddleware = (roles) => {
             if(roles.includes(req.user.role)){
              return next();
             }
-            else{                   
+            else{ 
                 return res.status(403).send({error: "Alerta! Usted no tiene acceso."});
             }
     }

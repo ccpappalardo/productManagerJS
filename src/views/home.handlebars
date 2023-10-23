@@ -1,18 +1,31 @@
 
 <div class="container">
   <div>
-    <h1>Bienvenido - {{user.role}}</h1>
-    <p>{{user.name}}</p>
-    <p>{{user.email}}</p>
-    <p>{{user.age}}</p>
-    <button id="logout-btn" name="logout-btn">Salir</button>
+    <h2>Bienvenido, {{user.nombre}}</h2>
+    <p>Mail: {{user.email}}</p>
+    <p>Rol:  {{user.role}} </p>
+    {{# if user.cart }}  
+    <p id="cart-id">Id del Carrito: {{user.cart}} </p>
+    {{/if}}
+    <button  class="btn" id="logout-btn" name="logout-btn">Salir</button>
 </div>
- 
+{{#if (eq user.role 'admin')}} 
+  <div>
+    <button  class="btn" id="admin-btn" name="logout-btn">Administración de Usuarios</button>
+  </div>
+{{/if}}
+{{# if user.cart }}  
+<div>
+   <button class="btn" id={{user.cart}} onclick="viewCart(this)">Ver Carrito</button>
+</div>
+
+<h2>Productos </h2>
 {{#if products.docs.length}}
   <table class="table">
     <thead>
         <th>Titulo</th>
         <th>Descripcion</th>
+        <th>Stock</th>
         <th>Precio</th>
         <th>Codigo</th>
         <th></th>
@@ -25,16 +38,18 @@
         <tr>
           <td>{{this.title}}</td>
           <td>{{this.description}}</td>
+          <td>{{this.stock}}</td>   
           <td>${{this.price}}</td>
           <td>{{this.code}}</td>            
           <td>
-          <a href="products/{{this.id}}">Ver</a> 
+            <button class="btn" id={{this._id}} onclick="addProductToCart(this)">Agregar al Carrito</button>
           </td>
         </tr>         
       {{/each}}
     </tbody>
   </table>
 </div>
+
 
 <br/>
 <div>
@@ -52,33 +67,89 @@
 <h1>No hay productos para mostrar</h1>
 {{/if}}
 
+{{/if}}
+
 <h4 id="mensaje"></h4>
 
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="/js/index.js"></script>
 <script src="/socket.io/socket.io.js"></script>
-
-
-
-  <script>
+ 
+<script>
   let logoutButton = document.getElementById("logout-btn")
-
-  logoutButton.addEventListener("click", (evt) => {
+  let adminButton=document.getElementById("admin-btn");
+  let cartButton=document.getElementById("cart-btn");
+   
+   logoutButton.addEventListener("click", (evt) => {
     fetch('http://localhost:8080/api/sessions/logout', {method: 'post'})
     .then( res => {
       return window.location.replace('/login')
     })
   })
 
-  /*
- const btn = document.getElementById('logout');
-  btn.addEventListener("click", (evt) => {
-    fetch('http://localhost:8080/api/sessions/logout', {method: 'post'})
+  
+  adminButton.addEventListener("click", (evt) => {
+    fetch('http://localhost:8080/api/sessions/admin', {method: 'post'})
     .then( res => {
-      console.log("se deslogueo desde")
-      //return window.location.replace('/login')
+      return window.location.replace('/admin')
     })
-  })*/
- 
+  })
+
+
+  async function viewCart(button) {
+    let cartId = button.id;
+
+    try {     
+        return window.location.replace('carts/' + cartId)
+    } 
+    catch(err) {
+      console.error(`Error: ${err}`);
+    }
+
+  }
+
+  
+  async function addProductToCart(button) {
+    let productId = button.id;
+    let cartId = document.getElementById("cart-id").innerText.split(" ")[3] 
+    
+    try {
+      const response = await fetch('http://localhost:8080/api/carts/'+cartId+'/products/' + productId, {
+        method: 'post'
+      }).then(async (result)=>{
+        const data = await result.json();
+         
+        if(result.status===200){
+          Swal.fire({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 5000,
+                title:  'Se ha agregado el producto al carrito!',
+                icon: 'success',
+                timerProgressBar:true
+              })
+            setTimeout(()=>window.location.replace('/products'),3000);
+        }else{
+        
+             Swal.fire({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 5000,
+                title:  data.message,
+                icon: 'error',
+                timerProgressBar:true
+              })
+        }
+      }); 
+
+    }     
+    catch(err) {
+      console.error(`Error: ${err}`);
+    }
+
+  } 
 </script>
 
 

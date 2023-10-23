@@ -15,5 +15,12 @@ form.addEventListener('submit',e=>{
         if(result.status===200){
             window.location.replace('/products');
         }
+        else {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'El usuario o contraseña son incorrectos!',
+              }); 
+          }
     })
 })

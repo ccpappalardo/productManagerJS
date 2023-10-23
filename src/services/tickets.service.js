@@ -12,10 +12,9 @@ export default class TicketService {
         return result;
     }
 
-    
-    async getImprimirTicketByUserService(userId){
       
-        const result =await this.ticketDAO.imprimirTicketByUser(userId);
+    async getTicketService(id){
+        const result = await this.ticketDao.getTicketById(id);
         return result;
     }
   

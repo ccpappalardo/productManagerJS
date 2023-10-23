@@ -4,11 +4,13 @@ import { ErrorEnum } from "../services/enum/error.enum.js";
 import { generateErrorInfo } from "../services/info.js";
 import CustomError from "../services/Error/CustomError.class.js";
 import { config } from "dotenv";
+import SessionService from "../services/session.service.js";
 
 
 export default class ProductController{
     constructor(){
         this.productService=new ProductService();
+        this.sessionService=new SessionService();
     }
 
     async createProductController(product, req){
@@ -94,10 +96,19 @@ async deleteProductController(req,res){
             return res.status(403).
             send({ status: "failure", details: "No está permitido que borres este producto, ya que no te pertenece o no sos admin" })
         } 
-       
+        
+        if(req.user.role === "premium"){
+            let html = `<h1>Correo de Aviso de Eliminación de Producto - ${req.user.email}</h1>`
+            html = html.concat(
+              `<div><h1>Se le informa que se ha eliminado el producto, que usted ha creado.
+              Producto: ${productoBuscado.title} - Id: ${productoBuscado._id} </div>`);
+            let asunto="Correo de Aviso de eliminación de Producto";
+            this.sessionService.enviarCorreo(req.user.email,asunto,html);
+        }
+
         const productoEliminado= await this.productService.deleteProductService(id);
-       // socketServer.emit('eliminarProducto', productoEliminado);
-        return productoEliminado
+        
+        res.status(200).send({status: "success",productoEliminado});
     }catch(error){
         res.status(400).send({status: "failure", details: error.message})     
     }
@@ -108,8 +119,7 @@ async deleteProductController(req,res){
   async updateProductController(req,res){
     
         const productId = req.params.id;
-        const producto = req.body;
-        //console.log(req.body);
+        const producto = req.body; 
         
         const productoBuscado= await this.productService.getProductByIdService(productId);
         
@@ -122,10 +132,6 @@ async deleteProductController(req,res){
         const productoActualizado=await this.productService.updateProductService(productId,producto);
         socketServer.emit('actualizarProducto', productoActualizado);
         res.send({productoActualizado}); 
-     
   };
-
-
  
 }
- 

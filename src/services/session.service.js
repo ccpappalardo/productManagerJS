@@ -26,33 +26,25 @@ export default class SessionService {
         return result;
     }
 
-    async getCurrentService(req,res){
-            //TO DO crear el DTO y mandar la cookie req
-  //await sessionController.getCurrentController(dto).
-  //   console.log("envio usuario en servicio current "+req.user);
+    async getCurrentService(req,res){  
     let usuario=new userDTO(req.user);
     return usuario;
     }
 
-    async logoutService(req,res){
-    //console.log("Cookie eliminada");
-    res.clearCookie('coderCookie').send('Cookie Eliminada');
+    async logoutService(req,res){ 
+        //Cookie Eliminada
+        res.clearCookie('coderCookie').send('Se ha cerrado la sesión!');
     }
     
     async githubService(){
     }
     
     async githubcallbackService(user,res){
-        /*let token = jwt.sign({ email: usuario.email, usuario, role:'user'}, process.env.JWT_SECRET, {
-            expiresIn: "24h",
-        }); */
-
+       
         let token = jwt.sign(user, process.env.JWT_SECRET, {
             expiresIn: "24h",
-        });
+        }); 
 
-      //  console.log('Entro bien a githubCallback')
-        //redirecciono a products si se loguea correctamente
         return res.cookie("coderCookie", token, { httpOnly: true }).redirect('/products') 
     }
 
@@ -84,17 +76,16 @@ export default class SessionService {
     }
 
     async getUsersService(){
-        const result =await this.userDao.getUsers(); 
+        let result =await this.userDao.getUsers(); 
+        
         let usuariosFormateados=new Array();
+        
         result.forEach((usuario)=>usuariosFormateados.push(new usersDTO(usuario)));
         return usuariosFormateados;
     }
 
     async getUsersInactivos(){
         const usersInactivos=await this.userDao.getUsersInactivos();
-        
-        //deleteUserById
-        
         return usersInactivos;
     }
 
@@ -111,9 +102,7 @@ export default class SessionService {
 
     async enviarCorreo(email,asunto, cuerpo,res){
 
-    try{
-      console.log("Entro a mandar el emailssssssssss");
-    
+    try{ 
       const result = this.mail.send(email,asunto,cuerpo);
       return result; 
     }catch(error){
@@ -121,5 +110,15 @@ export default class SessionService {
     }
     }
 
+    
+    async deleteUser(userId){
+       
+        try{
+             const result =this.userDao.deleteUserById(userId);
+             return result;
+          }catch(error){
+            return res.status(404).send({status: "error", error: error.message});
+          }
+    }
 
 } 

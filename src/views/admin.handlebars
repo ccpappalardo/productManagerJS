@@ -1,0 +1,131 @@
+<div class="container">
+  <h2>Detalle de los Usuarios</h2>
+   <div class="centrado">
+    <button  class="btn" id="volver-btn" name="logout-btn">Volver</button>
+    <button  class="btn" id="logout-btn" name="logout-btn">Salir</button>     
+  </div>
+  <table class="table">
+    <thead>
+        <th>User</th>
+        <th>Nombre - Apellido</th>
+        <th>Email</th>
+        <th>Rol</th>
+        <th>Accion</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each users}}
+        <tr>
+          <td>{{this.email}}</td>
+          <td>{{this.nombre}} {{this.apellido}}</td>
+          <td>{{this.email}}</td> 
+          <td>{{this.role}}</td>
+          <td> 
+            <button class="btn-tabla" id={{this._id}} onclick="updateUserRol(this)">Modificar Rol</button>
+            <button class="btn-tabla" id={{this._id}} onclick="deleteUser(this)">Eliminar</button>
+          </td>
+        </tr>
+     {{/each}}
+    </tbody>
+  </table>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+ 
+  let logoutButton = document.getElementById("logout-btn")
+  let volverButton = document.getElementById("volver-btn")
+
+   volverButton.addEventListener("click", (evt) => {
+      return window.location.replace('/products')    
+  })
+
+   logoutButton.addEventListener("click", (evt) => {
+    fetch('http://localhost:8080/api/sessions/logout', {method: 'post'})
+    .then( res => {
+      return window.location.replace('/login')
+    })
+  })
+
+  async function updateUserRol(button) {
+    let userId = button.id;
+
+    try {     
+      const response = await fetch('http://localhost:8080/api/sessions/premium/' + userId, {
+        method: 'post'
+      }).then(async (result)=>{
+        const data = await result.json();
+         
+        if(result.status===200){
+          Swal.fire({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 5000,
+                title:  'Se ha actualizado el rol con éxito!',
+                icon: 'success',
+                timerProgressBar:true
+              })
+            setTimeout(()=>window.location.replace('/admin'),3000);
+        }else{
+        
+             Swal.fire({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 5000,
+                title:  data.message,
+                icon: 'error',
+                timerProgressBar:true
+              })
+        }
+        
+        
+    });
+
+    } 
+    catch(err) {
+      console.error(`Error: ${err}`);
+    }
+
+  }
+
+  async function deleteUser(button) {
+    let userId = button.id;
+ 
+    try {  
+      const response = await fetch('http://localhost:8080/api/sessions/delete/' + userId, {
+        method: 'delete'
+      }).then(async (result)=>{ 
+        const data = await result.json();
+        if(result.status===200){
+          Swal.fire({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 3000,
+                title:  data.message,
+                icon: 'success',
+                timerProgressBar:true
+              })
+            setTimeout(()=>window.location.replace('/admin'),2000);
+        }else{
+        
+             Swal.fire({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 5000,
+                title:  data.message,
+                icon: 'error',
+                timerProgressBar:true
+              })
+        } 
+      });      
+    } 
+    catch(err) {
+      console.error(`Error: ${err}`);
+    }
+
+  }
+</script>

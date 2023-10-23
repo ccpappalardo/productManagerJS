@@ -17,11 +17,10 @@ export const intializePassport = () => {
   new LocalStrategy(
     {passReqToCallback:true, usernameField: 'email'}, async(req, username, password, done)=>{
       const {first_name, last_name, email, age}= req.body;
-      console.log(email);
+    
       try{
       let user=await sessionService.getUserByIdService(email);
       if(user){
-        console.log("El usuario ya existe");
          return done(null, false, {message: "El Usuario ingresado, ya existe!"});
       }
        const carrito=await cartService.createCartService();
@@ -49,7 +48,6 @@ export const intializePassport = () => {
                 ]
             };
             
-      console.log("usuario nuevo--en passport "+newUser);
       let result=await sessionService.registerService(newUser);
       return done(null, result, {message: "Usuario Registrado con éxito!"});
       }catch(error){
@@ -63,32 +61,35 @@ export const intializePassport = () => {
   passport.use("login",
   new LocalStrategy(
     {passReqToCallback:true, usernameField: 'email'}, async(req, username, password, done)=>{
-          console.log(username,password);
+     
           try{
         
           //Controlo si el Usuario es el Admin de coder
-          //if(username=='adminCoder@coder.com'){
-            if(username==config.ADMIN_NAME){
+            if(username==config.ADMIN_NAME && password==config.ADMIN_PASSWORD){
             let user = {
             first_name: "Admin",
             last_name: "Coder",
             age: "25",
             email: config.ADMIN_NAME,
             password: config.ADMIN_PASSWORD,
-            role: "admin"
+            role: "admin",
+            last_connection: Date.now()
             };
             return done(null, user,  {message: "Usted se ha logueado como Coder Admin!"});
-          }
+            } 
 
           //Si es user común - lo busco en la DB -  controlo pass 
           let user=await sessionService.getUserByIdService(username);
+          
+          if (!user) {
+            return done(null, false)
+          }
+          
           if(user){
             if(!validatePassword(password, user)){
-              console.log("Contraseña incorrecta");
               return done(null, false, {message: "Contraseña Incorrecta!"});
             }else{
-            console.log("Se loguea correctamente");
-            return done(null, user, {message: "El usuario se loguea correctamente"});
+              return done(null, user, {message: "El usuario se loguea correctamente"});
             }
         } 
       }catch(error){
@@ -97,6 +98,6 @@ export const intializePassport = () => {
     }
   )
   );
- 
+
 };
 

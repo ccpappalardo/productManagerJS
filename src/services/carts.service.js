@@ -11,7 +11,7 @@ export default class CartService {
         this.cartDao= new CartDAO();
         this.productService=new ProductService;
         this.sessionService=new SessionService;
-        this.ticketService=new TicketService;
+        this.ticketService=new TicketService; 
     }
 
     async createCartService(){
@@ -114,16 +114,31 @@ export default class CartService {
         ticket,
         productosSinStock
         }
-      
-        res.send({
-          status: "success",
-          payload: tickets,
-        });
+        let productsVacios=[];
+        let resultado=await this.cartDao.updateAllProductsFromCart(result._id,productsVacios);
+        return tickets;
         }else{ //Si no se compraron productos xq no habia stock imprimo el array de productos sin stock-
             return productosSinStock;
         }
-      
-
+       
     }
 
+
+    
+  async getTicketService(ticketId) {
+     
+      let ticket=await this.ticketService.getTicketService(ticketId)
+      return ticket;
+
+    } 
+
+    
+  async deleteCartService(cartId){
+   await this.deleteAllProductsFromCartService(cartId);
+    const result = await this.cartDao.deleteCart(cartId);
+    return result;
+  }
+  
+     
+    
 }

@@ -49,7 +49,20 @@ app.use(cookieParser());
 initializePassportGithub(); 
 // configuracion de handlebars 
  
-app.engine("handlebars", handlebars.engine());
+
+
+
+// Configurar Handlebars como motor de vistas
+const hhh = handlebars.create({
+  helpers: {
+    eq: function (v1, v2) {
+      return v1 === v2;
+    }
+  }
+});
+
+app.engine('handlebars', hhh.engine);
+//app.engine("handlebars", handlebars.engine());
 app.set("views", __dirname + "/views");
 app.set("view engine", "handlebars");
 
@@ -66,16 +79,16 @@ const productos=await productManager.getProducts();
  
  
 socketServer.on("connection", (socket) => {
-  console.log("Nuevo Cliente conectado " + socket.id); 
+  //console.log("Nuevo Cliente conectado " + socket.id); 
   
   socketServer.emit('cargarProductos', productos);
 
   socket.on("message", data => {
-      console.log(data);
+    //  console.log(data);
   }); 
 
   socket.on("message", (data) => {
-    console.log(data)
+    //console.log(data)
     messagesManager.create(data.user,data.message);
     mensajes.push(data); 
     socketServer.emit("imprimir", mensajes);
@@ -114,6 +127,6 @@ app.use('/api/carts/',routerCart);
 app.use('/api/messages/',routerMessages);
 app.use('/api/sessions/',routerSession);
 app.use('/',routerViews); 
-//app.use(errorMiddleware)
+ app.use(errorMiddleware)
 
 export default socketServer;

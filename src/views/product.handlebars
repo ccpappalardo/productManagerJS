@@ -1,4 +1,11 @@
 <div class="container">
+    <div>
+      <h1>Bienvenido, {{user.name}}</h1>
+      <p>Mail: {{user.email}}</p>
+      <p>Rol:  {{user.role}} </p>
+      <p id="cart-id">Id del Carrito: {{user.cart}} </p>
+      <button id="logout-btn">Logout</button>
+  </div>
   <h2>Detalle del Producto - {{this.title}}</h2>
   <table class="table">
     <thead>
@@ -17,6 +24,7 @@
           <td>${{this.price}}</td>
           <td>{{this.category}}</td>
           <td>
+            
             <button id={{this._id}} onclick="addProductToCart(this)">Agregar al Carrito</button>
           </td>
         </tr>
@@ -29,9 +37,10 @@
 <script>
   async function addProductToCart(button) {
     let productId = button.id;
+    let cartId = document.getElementById("cart-id").innerText.split(" ")[3] // TODO: Es muy feo, cambiar
 
     try {     
-      const response = await fetch('http://localhost:8080/api/carts/649c534e8feb3949f648266b/products/' + productId, {
+      const response = await fetch('http://localhost:8080/api/carts/'+cartId+'/products/' + productId, {
         method: 'post'
       });
     } 

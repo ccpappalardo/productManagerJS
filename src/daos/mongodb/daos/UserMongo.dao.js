@@ -10,7 +10,6 @@ export default class UserDAO{
     addUser= async (user) => {
         try{
  
-        console.log(user)
         //Comprobante de domicilio, Comprobante de estado de cuenta
         let result=await userModel.create(user);
         return result
@@ -158,8 +157,6 @@ export default class UserDAO{
     getUsers = async () => {
         try{
         let result= await userModel.find();
-       // console.log("usuarios en dao")
-       // console.log(result)
         return result
         }catch(e){ 
             return e; 
@@ -169,9 +166,7 @@ export default class UserDAO{
 
     getUsersInactivos= async()=>{
         try{
-        let ahora=Date.now() - 2*24*60*60*1000;
-        console.log(ahora);
-       
+        let ahora=Date.now() - 2*24*60*60*1000;       
         const result = await userModel.find({ 
             last_connection: {
                 $lt: ahora
@@ -180,8 +175,6 @@ export default class UserDAO{
        
         return result
         }catch(e){
-           
-        console.log(e);
             return e;
         }
     }  

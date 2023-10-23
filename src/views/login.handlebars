@@ -1,17 +1,25 @@
-<div>
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Login de Usuarios</title>
+   <link rel="stylesheet" href="/css/style.css">
+</head> 
+<body>
+<div class="container">
     <h1>Login</h1>
     <form id="loginForm">
-        <label>Email</label>
+        <label>EMAIL</label>
         <input name="email">
         <br/>
-        <label>Contraseña</label>
+        <label>CONTRASEÑA</label>
         <input type="password" name="password">
-        <input type="submit">
+        <input class="btn" type="submit">
     </form>
-    <p>¿No estás registrado? <a href="/register">Regístrate aquí</a></p>
-    <p>¿Olvidaste tu contraseña? <a href="/requestResetPassword">Restáurala aquí</a></p>
-    <div>
-    <a href='/api/sessions/github'><button>Entrar con Github</button></a>
+    <p class="centrado">¿No estás registrado? <a href="/register">Regístrate aquí</a></p>
+    <p class="centrado">¿Olvidaste tu contraseña? <a href="/requestResetPassword">Restáurala aquí</a></p>
+    <div class="centrado">
+    <a href='/api/sessions/github'><button  class="btn">Entrar con Github</button></a>
     </div>
 </div>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="/js/login.js"></script>

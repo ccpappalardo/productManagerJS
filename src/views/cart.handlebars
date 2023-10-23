@@ -1,30 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Productos del Carrito</title>
+   <link rel="stylesheet" href="/css/style.css">
+</head> 
+<body>
  
-<div class="container">
-  <h2>Carrito</h2>
+ <div class="container">
+  <h2>Productos del Carrito </h2> 
+   <div> 
+    <p>Mail: {{user.email}}</p>
+    <p>Rol:  {{user.role}} </p>
+    {{# if user.cart }}  
+    <p id="cart-id">Id del Carrito: {{user.cart}} </p>
+    {{/if}}
+    <button  class="btn" id="volver-btn" name="logout-btn">Volver</button>
+    <button  class="btn" id="logout-btn" name="logout-btn">Salir</button>
+  </div> 
   <table class="table">
     <thead>
-        <th>Id</th>
+        <th>Codigo</th>
         <th>Titulo</th>
         <th>Descripcion</th>
+        <th>Cantidad</th>
         <th>Precio</th>
-        <th>Codigo</th>
       </tr>
     </thead>
     <tbody>
-      {{#each products}}
-        <tr>
-           <td>{{this._id}}</td>
-            <td>{{this.product.title}}</td>
-            <td>{{this.product.description}}</td>
-            <td>${{this.product.price}}</td>
-            <td>{{this.product.code}}</td>            
-          
-        </tr>
-      {{/each}}
-      
+      <tr>
+        {{#each cart.products}}
+        <td>{{this.product.code}}</td>     
+        <td>{{this.product.title}}</td>
+        <td>{{this.product.description}}</td>
+        <td>{{this.quantity}}</td>
+        <td>${{this.product.price}}</td>
+      </tr>
+      {{/each}} 
     </tbody>
   </table>
-</div>
-<br/>  
+  <div class="centrado" style="margin-top:20px">
+    <button class="btn" id="purchase-btn" name="logout-btn">Finalizar Compra</button>
+  </div> 
+</div> 
+ </body>
+<script>
 
 
+  let logoutButton = document.getElementById("logout-btn")
+  let volverButton = document.getElementById("volver-btn")
+  let purchaseButton = document.getElementById("purchase-btn")
+
+
+  volverButton.addEventListener("click", (evt) => {
+      return window.location.replace('/products')    
+  })
+
+   logoutButton.addEventListener("click", (evt) => {
+    fetch('http://localhost:8080/api/sessions/logout', {method: 'post'})
+    .then( res => {
+      return window.location.replace('/login')
+    })
+  })
+
+  purchaseButton.addEventListener("click", (evt) => { 
+  let cartId = document.getElementById("cart-id").innerText.split(" ")[3]
+
+  fetch('http://localhost:8080/api/carts/' + cartId + '/purchase', { method: 'post' })
+  .then(async (response) => {
+      let res=await response.json();      
+      let ticketId=res.result.ticket._id;
+      return window.location.replace('/ticket/' + ticketId) 
+  })
+  .catch(error => {
+    console.error('Error:', error);
+  });
+
+
+  });
+</script>

@@ -41,6 +41,5 @@ const loggerDev = winston.createLogger({
 // Ahora, a partir de un Middleware, vamos a colocar en el objeto req del logger
 export const addLogger = (req, res, next) => {
   req.logger = config.ENVIRONMENT === "PRODUCTION" ? loggerProd : loggerDev;
-  // req.logger.http(`${req.method} en ${req.url}`)
   next();
 }

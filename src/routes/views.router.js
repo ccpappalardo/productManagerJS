@@ -1,30 +1,14 @@
 import { Router } from "express"; 
 import ViewsController from "../controllers/views.controllers.js" 
 import passport from 'passport';
+import { multipleAuthMiddleware } from "./middlewares/roles.middleware.js";
 
  
 const router= Router();
   
 const viewController=new ViewsController();
-/*
-router.get('/', async (req,res)=>{
-    const productos= await productosManager.getProducts(req.query.limit);
-    res.render('home', {
-      products: productos,
-      style:"style.css"
-    })
-})*/
-
- 
-/*router.get('/', async (req,res)=>{
-    const productos= await productosManager.getProducts(req.query.limit);
-    res.render('profile', {
-      user: req.session.user
-    });
-})*/
 
 router.get('/', passport.authenticate('jwt', {session: false}), async (req, res) => {
-  //const productos= await productosManager.getProducts(req.query.limit);
   res.render('profile', {
       user: req.user
   });
@@ -44,20 +28,21 @@ router.get('/products', passport.authenticate('jwt', {session: false}),async (re
 
 router.get('/products/:id',async (req,res)=>{ 
   const id = req.params.id;
+  let user=req.user;
   let result=await viewController.getProductByIdController(id);
   res.render('product',result) 
 })
 
-/*
-router.get('*', async(res,send)=>{
-  res.status(404).send("No existe la pagina");
-})
-*/
-router.get('/carts/:id',async (req,res)=>{ 
+
+router.get('/carts/:id', passport.authenticate('jwt', {session: false}), async (req,res)=>{ 
     const id = req.params.id;
   try{
+    let user=req.user; 
     const cart = await viewController.getAllProductsFromCartController(id);
-    res.render('cart',cart) 
+    res.render('cart',
+     {cart:cart,
+      cartId:id,
+      user:user}) 
   }catch (error) {
     console.error(error);
     res.status(400).send(error.message); // Envía el mensaje de error al cliente de Postman
@@ -68,7 +53,6 @@ router.get('/carts/:id',async (req,res)=>{
  
 router.get('/realtimeproducts', async (req, res) => {
     const productos=await viewController.getProductsController(req,res,req.query.limit)
-    //const productos= await productosManager.getProducts(req.query.limit);
     res.render('realTimeProducts', { products: productos, style: "style.css", title: "Productos" })
 
   });
@@ -101,10 +85,9 @@ router.get('/', passport.authenticate("jwt",{session: false}), (req, res) => {
 
 router.get('/resetPassword',passport.authenticate("jwtRequestPassword",{failureRedirect:'requestResetPassword',session: false}),(req,res)=>{
   res.render('resetPassword');
-})
+})  
 
 router.get('/requestResetPassword',(req,res)=>{
-  console.log("req resetpass pero de view controller")
   res.render('requestResetPassword');
 })
 
@@ -117,5 +100,26 @@ router.get("/mockingproducts", async (req, res) => {
 router.get("/documents", async (req, res) => {
   res.render('documents');
 });
-  
+ 
+router.get("/admin", 
+passport.authenticate("jwt",{session: false}),
+multipleAuthMiddleware(["admin"],{failureRedirect:'requestResetPassword'}), (req, res) => {
+  viewController.getUsersController(req,res); 
+}) 
+
+
+router.get("/ticket/:id",
+passport.authenticate("jwt",{session: false}), (req, res) => {
+
+  const id = req.params.id;
+ 
+  try{ 
+     viewController.getTicket(id,res,req);
+  }catch (error) {
+    console.error(error);
+    res.status(400).send(error.message); // Envía el mensaje de error al cliente de Postman
+  }
+   
+})  
+
 export default router;

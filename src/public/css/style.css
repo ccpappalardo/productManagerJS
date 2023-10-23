@@ -7,31 +7,112 @@ body {
   padding: 50px;
   background-color: #fff;
 }
+h1 {
+  color: #3e2b47;
+  text-transform: uppercase;
+  text-align: center;
+}
+h2 {
+  color: #472b31;
+  text-transform: uppercase;
+  text-align: center;
+}
 
-.table {
+.centrado {
+  text-align: center;
+}
+/* Estilos para la tabla */
+table {
   width: 100%;
   border-collapse: collapse;
-  margin-top: 20px;
 }
 
-.table th {
-  font-size: 0.8rem;
-  font-weight: 600;
-  padding: 12px 15px;
-  text-align: left;
+/* Estilos para las celdas de encabezado */
+th {
+  background-color: #f2f2f2;
+  color: #333;
+  font-weight: bold;
+  padding: 8px;
+  border: 1px solid #ccc;
+}
+
+/* Estilos para las celdas de datos */
+td {
+  padding: 8px;
+  border: 1px solid #ccc;
+}
+
+/* Estilos para filas alternas */
+tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+/* Estilos generales del formulario */
+form {
+  width: 400px;
+  margin: 0 auto;
+}
+
+/* Estilos para los campos del formulario */
+form input,
+form select,
+form textarea {
+  display: block;
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+/* Estilos para las etiquetas de los campos */
+form label {
   text-transform: uppercase;
 }
-.table td {
-  font-size: 0.9rem;
-  padding: 12px 15px;
-  text-align: left;
+
+/* Estilos para el botón de envío */
+.btn {
+  background-color: black;
+  color: white;
+  text-transform: uppercase;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
 }
-.table td:first-child {
-  font-weight: 600;
+
+.btn:hover {
+  background-color: #424742;
 }
-.table td:nth-child(3) {
-  font-weight: 600;
+
+/* Estilos para el botón de envío */
+.btn-tabla {
+  background-color: black;
+  color: white;
+  text-transform: uppercase;
+  padding: 5px 10px;
+  margin: 1px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
 }
-.table td:last-child {
-  text-align: left;
+
+.btn-tabla:hover {
+  background-color: #424742;
+}
+
+/* Estilos para enlaces */
+a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* Estilos para elementos <div> */
+div {
+  padding: 5px;
+  margin-bottom: 5px;
 }

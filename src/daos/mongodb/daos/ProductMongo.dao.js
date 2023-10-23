@@ -119,8 +119,6 @@ export default class ProductDAO{
             const nuevaCantidad=element.stock-cantidad;
             const filter = { _id: element._id };
             const update = { stock: nuevaCantidad };
-            //console.log(nuevaCantidad);
-            //console.log(filter);
             let result = await productsModel.findOneAndUpdate(filter, update);
        
             return result

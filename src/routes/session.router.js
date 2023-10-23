@@ -19,20 +19,17 @@ router.post(
     res.send({ status: "success", message: "usuario  registrado" });
   }
 );
-
-
+ 
 router.get("/failregister",
 async (req, res) => {
-    const result=sessionController.registerFailController();
-    res.send({result})
+   sessionController.registerFailController();
 });
 
 
 router.post("/login",
   passport.authenticate("login", { session: false, failureRedirect:'/faillogin'}),
   async (req, res) => {
-   await sessionController.loginController(req,res)    
-   //res.send({ status: "success", message: "usuario  logueado " });
+   await sessionController.loginController(req,res) 
   }
 ); 
 
@@ -118,12 +115,21 @@ multipleAuthMiddleware(["admin"]),
 })
 
 
-//ruta que devuelve todos los Usuarios
+//ruta que elimina todos los usuarios inactivos y los elimina
 router.delete("/",
 passportCall("jwt",{ session: false }),
 multipleAuthMiddleware(["admin"]),
   async (req, res, next) => {
     await sessionController.deleteUsersInactivosController(req,res);
 })
+
+
+router.delete("/delete/:uid",
+passportCall("jwt",{ session: false }),
+multipleAuthMiddleware(["admin"]),
+  async (req, res, next) => { 
+    await sessionController.deleteUserController(req,res);
+})
+
 
 export default router
