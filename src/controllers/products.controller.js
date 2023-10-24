@@ -2,7 +2,7 @@ import ProductService from "../services/products.service.js";
 import socketServer, { productManager } from "../app.js";  
 import { ErrorEnum } from "../services/enum/error.enum.js";
 import { generateErrorInfo } from "../services/info.js";
-import CustomError from "../services/Error/CustomError.class.js";
+import CustomError from "../services/error/CustomError.class.js";
 import { config } from "dotenv";
 import SessionService from "../services/session.service.js";
 

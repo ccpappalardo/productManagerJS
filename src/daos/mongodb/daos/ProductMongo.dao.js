@@ -1,7 +1,7 @@
 import mongoose from "mongoose" 
 import { productsModel } from "../models/products.model.js"
 import config from "../../../config.js";
-import CustomError from "../../../services/Error/CustomError.class.js";
+import CustomError from "../../../services/error/CustomError.class.js";
 import { generateErrorInfo } from "../../../services/info.js";
 import e from "express";
 export default class ProductDAO{

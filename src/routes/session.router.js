@@ -3,7 +3,7 @@ import { authorization, passportCall} from "../../src/utils.js";
 import SessionController from "../controllers/session.controllers.js";
 import passport from "passport"; 
 import { ErrorEnum } from "../services/enum/error.enum.js";
-import CustomError from "../services/Error/CustomError.class.js";
+import CustomError from "../services/error/CustomError.class.js";
 import { generateErrorInfo } from "../services/info.js";
 import uploaderMulter from "../services/middleware/multer.middleware.js";
 import { multipleAuthMiddleware } from "./middlewares/roles.middleware.js";
