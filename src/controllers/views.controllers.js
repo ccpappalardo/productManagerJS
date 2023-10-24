@@ -34,8 +34,8 @@ async getProductsPaginadosController(req,res){
   let limite=req.query.limit;
   let products = await this.viewService.getProductsPaginadosService(limite,page); 
 
-  products.prevLink = products.hasPrevPage?`http://localhost:8080/products?page=${products.prevPage}&limit=${products.limit}`:'';
-  products.nextLink = products.hasNextPage?`http://localhost:8080/products?page=${products.nextPage}&limit=${products.limit}`:'';
+  products.prevLink = products.hasPrevPage?`https://productmanagerjs-production.up.railway.app/products?page=${products.prevPage}&limit=${products.limit}`:'';
+  products.nextLink = products.hasNextPage?`https://productmanagerjs-production.up.railway.app/products?page=${products.nextPage}&limit=${products.limit}`:'';
   return products;
 
 }

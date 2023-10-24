@@ -124,7 +124,7 @@ async resetPasswordController(req,res){
       let html = `<h1>Correo de Recuperación de Contraseña - ${email}</h1>`
       html = html.concat(
         `<div><h1>Restaura tu contraseña haciendo click en el siguiente link</h1> 
-      http://localhost:8080/resetPassword?token=${tokenReset}</div>`);
+        https://productmanagerjs-production.up.railway.app/resetPassword?token=${tokenReset}</div>`);
      let asunto="Correo de Recuperación de Contraseña";
      const result=this.sessionService.enviarCorreo(email,asunto,html,res);
       return res.status(200).send({status: "success", result: result});
