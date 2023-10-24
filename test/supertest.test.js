@@ -1,6 +1,6 @@
 import chai from "chai";
 import supertest from "supertest";
-import config from "../src/config";
+import config from "../src/config.js";
 
 const expect = chai.expect;
 const requester = supertest("http://localhost:"+config.PORT);
