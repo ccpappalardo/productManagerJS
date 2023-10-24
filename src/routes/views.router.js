@@ -8,7 +8,7 @@ const router= Router();
   
 const viewController=new ViewsController();
 
-router.get('/', passport.authenticate('jwt', {session: false}), async (req, res) => {
+router.get('/', passport.authenticate('jwt', {failureRedirect:'login',session: false}), async (req, res) => {
   res.render('profile', {
       user: req.user
   });
