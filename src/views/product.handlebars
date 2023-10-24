@@ -40,7 +40,7 @@
     let cartId = document.getElementById("cart-id").innerText.split(" ")[3] // TODO: Es muy feo, cambiar
 
     try {     
-      const response = await fetch('http://localhost:8080/api/carts/'+cartId+'/products/' + productId, {
+      const response = await fetch('productmanagerjs-production.up.railway.app/api/carts/'+cartId+'/products/' + productId, {
         method: 'post'
       });
     } 

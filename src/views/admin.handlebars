@@ -41,7 +41,7 @@
   })
 
    logoutButton.addEventListener("click", (evt) => {
-    fetch('http://localhost:8080/api/sessions/logout', {method: 'post'})
+    fetch('productmanagerjs-production.up.railway.app/api/sessions/logout', {method: 'post'})
     .then( res => {
       return window.location.replace('/login')
     })
@@ -51,7 +51,7 @@
     let userId = button.id;
 
     try {     
-      const response = await fetch('http://localhost:8080/api/sessions/premium/' + userId, {
+      const response = await fetch('productmanagerjs-production.up.railway.app/api/sessions/premium/' + userId, {
         method: 'post'
       }).then(async (result)=>{
         const data = await result.json();
@@ -94,7 +94,7 @@
     let userId = button.id;
  
     try {  
-      const response = await fetch('http://localhost:8080/api/sessions/delete/' + userId, {
+      const response = await fetch('productmanagerjs-production.up.railway.app/api/sessions/delete/' + userId, {
         method: 'delete'
       }).then(async (result)=>{ 
         const data = await result.json();
