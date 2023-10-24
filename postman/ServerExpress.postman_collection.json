@@ -11,7 +11,7 @@
 			"name": "products",
 			"item": [
 				{
-					"name": "/api/products",
+					"name": "/api/products - OBTIENE PRODUCTOS",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -39,7 +39,7 @@
 					"response": []
 				},
 				{
-					"name": "/api/products/id",
+					"name": "/api/products/id - PRODUCTO X ID",
 					"request": {
 						"method": "GET",
 						"header": [],
@@ -59,13 +59,13 @@
 					"response": []
 				},
 				{
-					"name": "/api/products",
+					"name": "/api/products - AGREGAR PRODUCTO",
 					"request": {
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n\"ObjectId\": \"6bbcaf3a49ffbbbb2b09d946\",\r\n\"title\": \"Awesome Frozen Keyboard\",\r\n\"description\": \"The slim & simple Maple Gaming Keyboard from Dev Byte comes with a sleek body and 7- Color RGB LED Back-lighting for smart functionality\",\r\n\"code\": 124,\r\n\"category\": \"Grocery\",\r\n\"price\": \"158.00\",\r\n\"stock\": \"0\",\r\n\"owner\": \"ccpappalardo@gmail.com\"\r\n}",
+							"raw": "{\r\n\"ObjectId\": \"27b3adef7daa59c41aded645\",\r\n\"title\": \"Elegant Rubber Towels\",\r\n\"description\": \"New range of formal shirts are designed keeping you in mind. With fits and styling that will make you stand apart\",\r\n\"code\": 2041,\r\n\"category\": \"Music\",\r\n\"price\": \"129.00\",\r\n\"stock\": \"5\"\r\n},\r\n{\r\n\"ObjectId\": \"fecae4c0e1b82ebfbbb403e7\",\r\n\"title\": \"Elegant Steel Fish\",\r\n\"description\": \"Ergonomic executive chair upholstered in bonded black leather and PVC padded seat and back for all-day comfort and support\",\r\n\"code\": 4850,\r\n\"category\": \"Beauty\",\r\n\"price\": \"274.00\",\r\n\"stock\": \"4\"\r\n},\r\n{\r\n\"ObjectId\": \"7e0f0be3fd0bb55d00c7cda9\",\r\n\"title\": \"Generic Frozen Shirt\",\r\n\"description\": \"The slim & simple Maple Gaming Keyboard from Dev Byte comes with a sleek body and 7- Color RGB LED Back-lighting for smart functionality\",\r\n\"code\": 8974,\r\n\"category\": \"Toys\",\r\n\"price\": \"539.00\",\r\n\"stock\": \"0\"\r\n},\r\n{\r\n\"ObjectId\": \"e3c1db8bfae96c339492b59e\",\r\n\"title\": \"Elegant Plastic Chair\",\r\n\"description\": \"The automobile layout consists of a front-engine design, with transaxle-type transmissions mounted at the rear of the engine and four wheel drive\",\r\n\"code\": 5469,\r\n\"category\": \"Clothing\",\r\n\"price\": \"219.00\",\r\n\"stock\": \"9\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -88,7 +88,7 @@
 					"response": []
 				},
 				{
-					"name": "/api/products/",
+					"name": "/api/products/id - EDITAR PRODUCTO",
 					"request": {
 						"method": "PUT",
 						"header": [],
@@ -108,7 +108,7 @@
 					"response": []
 				},
 				{
-					"name": "/api/products/",
+					"name": "/api/products/id - ELIMINA X ID",
 					"request": {
 						"method": "DELETE",
 						"header": [],
@@ -133,7 +133,7 @@
 			"name": "carts",
 			"item": [
 				{
-					"name": "/api/carts",
+					"name": "/api/carts - TODOS LOS CARRITOS",
 					"request": {
 						"method": "GET",
 						"header": [],
@@ -152,7 +152,7 @@
 					"response": []
 				},
 				{
-					"name": "/api/carts/id",
+					"name": "/api/carts/id - CART X ID",
 					"request": {
 						"method": "GET",
 						"header": [],
@@ -171,7 +171,7 @@
 					"response": []
 				},
 				{
-					"name": "/api/carts",
+					"name": "/api/carts - CREAR CARRITO VACIO",
 					"request": {
 						"method": "POST",
 						"header": [],
@@ -199,7 +199,7 @@
 					"response": []
 				},
 				{
-					"name": "/api/carts/cid/product/pid",
+					"name": "/api/carts/cid/product/pid - AGREGAR PRODUCTO EN CARRITO",
 					"request": {
 						"method": "POST",
 						"header": [],
@@ -240,7 +240,7 @@
 					"response": []
 				},
 				{
-					"name": "/api/carts/cid/purchase",
+					"name": "/api/carts/cid/purchase - GENERAR TICKET DE COMPRA",
 					"request": {
 						"method": "POST",
 						"header": [],
@@ -261,7 +261,7 @@
 					"response": []
 				},
 				{
-					"name": "/api/carts/cid/products/pid",
+					"name": "/api/carts/cid/products/pid - ELIMINAR PRODUCTO DEL CARRITO",
 					"request": {
 						"method": "DELETE",
 						"header": [],
@@ -283,7 +283,7 @@
 					"response": []
 				},
 				{
-					"name": "/api/carts/cid",
+					"name": "/api/carts/cid - ELIMINAR CARRITO",
 					"request": {
 						"method": "DELETE",
 						"header": [],
@@ -299,7 +299,7 @@
 					"response": []
 				},
 				{
-					"name": "/api/carts/id",
+					"name": "/api/carts/id - ACTUALIZAR CANTIDAD",
 					"request": {
 						"method": "PUT",
 						"header": [],
@@ -328,7 +328,7 @@
 					"response": []
 				},
 				{
-					"name": "/api/carts/cid/product/pid",
+					"name": "/api/carts/cid/product/pid - ACTUALIZAR CANTIDAD",
 					"request": {
 						"method": "PUT",
 						"header": [],
@@ -446,6 +446,43 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "/admin",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/admin",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"admin"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ticket/id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/ticket/652e728e78a731eac0aa01f5",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"ticket",
+								"652e728e78a731eac0aa01f5"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -453,7 +490,7 @@
 			"name": "sessions",
 			"item": [
 				{
-					"name": "/api/login",
+					"name": "/api/login - LOGIN",
 					"request": {
 						"method": "POST",
 						"header": [],
@@ -482,7 +519,7 @@
 					"response": []
 				},
 				{
-					"name": "/current",
+					"name": "/current - OBTIENE USER ACTUAL",
 					"request": {
 						"method": "GET",
 						"header": [],
@@ -503,9 +540,9 @@
 					"response": []
 				},
 				{
-					"name": "/logout",
+					"name": "/logout - CIERRA SESION",
 					"request": {
-						"method": "GET",
+						"method": "POST",
 						"header": [],
 						"url": {
 							"raw": "http://localhost:8080/api/sessions/logout",
@@ -524,7 +561,7 @@
 					"response": []
 				},
 				{
-					"name": "/id",
+					"name": "/id - OBTIENE USER X ID",
 					"request": {
 						"method": "GET",
 						"header": [],
@@ -544,35 +581,7 @@
 					"response": []
 				},
 				{
-					"name": "postprofe",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"lastName\": \"nnnn\",\r\n    \"firstName\": \"aaa\",\r\n    \"age\": \"25\",\r\n    \"email\": \"adminCoder@coder.com\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "localhost:8080/api/sessions",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"api",
-								"sessions"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "/premium/:uid",
+					"name": "/premium/:uid - CAMBIAR ROL",
 					"request": {
 						"method": "POST",
 						"header": [],
@@ -600,7 +609,7 @@
 					"response": []
 				},
 				{
-					"name": "/:uid/documents",
+					"name": "/:uid/documents - SUBE ARCHIVOS X ID",
 					"request": {
 						"method": "POST",
 						"header": [],
@@ -636,6 +645,66 @@
 									"key": "uid",
 									"value": ""
 								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/api/sessions/ - TODOS LOS USUARIOS",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/sessions/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"sessions",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/api/sessions/:id - ELIMINA USER X ID",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/sessions/",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"sessions",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/api/sessions - ELIMINA USER INACTIVOS",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/sessions",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"sessions"
 							]
 						}
 					},
