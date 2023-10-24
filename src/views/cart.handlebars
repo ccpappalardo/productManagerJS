@@ -56,7 +56,7 @@
   })
 
    logoutButton.addEventListener("click", (evt) => {
-    fetch('productmanagerjs-production.up.railway.app/api/sessions/logout', {method: 'post'})
+    fetch('/api/sessions/logout', {method: 'post'})
     .then( res => {
       return window.location.replace('/login')
     })
@@ -65,7 +65,7 @@
   purchaseButton.addEventListener("click", (evt) => { 
   let cartId = document.getElementById("cart-id").innerText.split(" ")[3]
 
-  fetch('productmanagerjs-production.up.railway.app/api/carts/' + cartId + '/purchase', { method: 'post' })
+  fetch('/api/carts/' + cartId + '/purchase', { method: 'post' })
   .then(async (response) => {
       let res=await response.json();      
       let ticketId=res.result.ticket._id;

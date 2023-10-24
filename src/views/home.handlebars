@@ -81,7 +81,7 @@
   let cartButton=document.getElementById("cart-btn");
    
    logoutButton.addEventListener("click", (evt) => {
-    fetch('productmanagerjs-production.up.railway.app/api/sessions/logout', {method: 'post'})
+    fetch('/api/sessions/logout', {method: 'post'})
     .then( res => {
       return window.location.replace('/login')
     })
@@ -89,7 +89,7 @@
 
   
   adminButton.addEventListener("click", (evt) => {
-    fetch('productmanagerjs-production.up.railway.app/api/sessions/admin', {method: 'post'})
+    fetch('/api/sessions/admin', {method: 'post'})
     .then( res => {
       return window.location.replace('/admin')
     })
@@ -114,7 +114,7 @@
     let cartId = document.getElementById("cart-id").innerText.split(" ")[3] 
     
     try {
-      const response = await fetch('productmanagerjs-production.up.railway.app/api/carts/'+cartId+'/products/' + productId, {
+      const response = await fetch('/api/carts/'+cartId+'/products/' + productId, {
         method: 'post'
       }).then(async (result)=>{
         const data = await result.json();
