@@ -1,8 +1,9 @@
 import mongoose from "mongoose" 
 import { productsModel } from "../models/products.model.js"
 import config from "../../../config.js";
-import CustomError from "../../../services/Error/CustomError.class.js";
+//import CustomError from "../../../services/Error/CustomError.class.js";
 import { generateErrorInfo } from "../../../services/info.js";
+import e from "express";
 export default class ProductDAO{
     
     connection=mongoose.connect(config.MONGO_URL);
@@ -15,12 +16,14 @@ export default class ProductDAO{
         let result=await productsModel.create(product);
         return result
         }catch(error){ 
-            CustomError.createError({
+            return e;
+            /*CustomError.createError({
                 name: "El codigo del producto está duplicado",
                 cause: generateErrorInfo(product),
                 message: "El producto no pudo ser creado",
                 code: ErrorEnum.PRODUCT_ALREADY_EXIST,
-              }); 
+              }); */
+
         }
     }
    
